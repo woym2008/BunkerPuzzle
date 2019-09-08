@@ -97,7 +97,17 @@ namespace Bunker.Module
 
             return null;
         }
-        
+        public T GetModule<T>() where T : LogicModule
+        {
+            var name = typeof(T).ToString();
+            if (_modules.ContainsKey(name))
+            {
+                return _modules[name] as T;
+            }
+
+            return default(T);
+        }
+
         public void SendMessage(string target, string msg, params object[] datas)
         {
             if(_modules.ContainsKey(target))
@@ -115,7 +125,7 @@ namespace Bunker.Module
             }
         }
         //-----------------------------------------
-        string _domain;
+        string _domain = "Bunker.Game";
         public void SetDomain(string str)
         {
             _domain = str;
@@ -129,10 +139,12 @@ namespace Bunker.Module
         public LogicModule CreateModule(string name)
         {
             LogicModule module = null;
-            Type type = Type.GetType(string.Format("{0}.{1}", _domain, name));
-            if(type != null)
+            //Type type = Type.GetType(string.Format("{0}.{1}", _domain, name));
+            Type type = Type.GetType(name);
+            if (type != null)
             {
-                module = Activator.CreateInstance(type) as LogicModule;
+                var m = Activator.CreateInstance(type);
+                module = m as LogicModule;
             }
 
             _modules.Add(name, module);

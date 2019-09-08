@@ -16,27 +16,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Bunker.Process;
 
-public class TitleProcess : BasicProcess
+namespace Bunker.Game
 {
-    public override void Create()
+    public class TitleProcess : BasicProcess
     {
-        base.Create();
-        //加载资源
-    }
+        public override void Create()
+        {
+            base.Create();
+            //加载资源
+        }
 
-    public override void StartProcess(params object[] args)
-    {
-        base.StartProcess(args);
-        //显示ui
-    }
+        public override void StartProcess(params object[] args)
+        {
+            base.StartProcess(args);
+            //显示ui
 
-    public override void EndProcess()
-    {
-        base.EndProcess();
-    }
+            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+        }
 
-    public override void Release()
-    {
-        base.Release();
+        public override void EndProcess()
+        {
+            base.EndProcess();
+        }
+
+        public override void Release()
+        {
+            base.Release();
+        }
     }
 }
+

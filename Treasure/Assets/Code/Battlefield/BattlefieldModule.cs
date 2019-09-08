@@ -6,7 +6,13 @@ namespace Bunker.Game
 { 
     public class BattlefieldModule : LogicModule
     {
-        BattlefieldModule(string name) :base(name)
+        GridField _field;
+
+        public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())
+        {
+            
+        }
+        public BattlefieldModule(string name) :base(name)
         {
 
         }
@@ -23,6 +29,9 @@ namespace Bunker.Game
         public override void OnStart()
         {
             base.OnStart();
+
+            _field = new GridField();
+            _field.Load("Level_1");
         }
 
         public override void OnStop()

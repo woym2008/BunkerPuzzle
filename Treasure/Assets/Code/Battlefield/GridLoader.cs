@@ -9,8 +9,14 @@ namespace Bunker.Game
     {
         static string _domain = "Bunker.Game";
 
+        static Transform _rootNode;
+
         public static void LoadGrid(string name, out IGridObject[,] reslist)
         {
+            if(_rootNode == null)
+            {
+                _rootNode = new GameObject("TileRoot").transform;
+            }
             var map = Resources.Load<MapData>(string.Format("{0}/{1}", "Map", name));
 
             reslist = new IGridObject[map.column, map.row];
@@ -34,7 +40,7 @@ namespace Bunker.Game
             var grid = Activator.CreateInstance(type) as BaseGrid;
 
             grid.CreateGrid(name,GridField.ZeroPos ,x, y);
-
+            grid.Node.transform.parent = _rootNode;
             return grid;
         }
     }

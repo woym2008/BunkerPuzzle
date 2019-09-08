@@ -1,24 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Bunker.Module;
 
 namespace Bunker.Game
 {
     public class TouchGridObject : MonoBehaviour
     {
-        public int X => throw new System.NotImplementedException();
-
-        public int Y => throw new System.NotImplementedException();
-
-        public bool CanMove()
+        private void Awake()
         {
-            throw new System.NotImplementedException();
+
         }
 
-        public void PressGrid()
+        private void Start()
         {
-            //Input.GetKeyDown
 
-            throw new System.NotImplementedException();
+        }
+
+        private void OnEnable()
+        {
+            var inputmodule = ModuleManager.getInstance.GetModule("BattlefieldInputModule") as BattlefieldInputModule;
+            inputmodule.onPressClick += OnClick;
+            inputmodule.onReleaseClick += OnRelease;
+        }
+
+        private void OnDisable()
+        {
+            var inputmodule = ModuleManager.getInstance.GetModule("BattlefieldInputModule") as BattlefieldInputModule;
+            inputmodule.onPressClick -= OnClick;
+            inputmodule.onReleaseClick -= OnRelease;
+        }
+
+        public void OnClick(Vector3 clickpos)
+        {
+
+        }
+
+        public void OnRelease()
+        {
+            ;
         }
     }
 }

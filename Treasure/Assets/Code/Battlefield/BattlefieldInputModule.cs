@@ -5,11 +5,17 @@ using Bunker.Module;
 
 namespace Bunker.Game
 {
+    public delegate void InputClickEvent(Vector3 presspos);
+    public delegate void InputReleaseEvent();
     public class BattlefieldInputModule : LogicModule
     {
-        Action PressClick;
-        Action ReleaseClick;
+        public event InputClickEvent onPressClick;
+        public event InputReleaseEvent onReleaseClick;
 
+        public BattlefieldInputModule() : base(typeof(BattlefieldInputModule).ToString())
+        {
+
+        }
         BattlefieldInputModule(string name) : base(name)
         {
 
@@ -43,24 +49,30 @@ namespace Bunker.Game
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PressClick?.Invoke();
+                Vector3 mousepos = Input.mousePosition;
+                var pos = Camera.main.ScreenToWorldPoint(mousepos);
+
+                onPressClick?.Invoke(pos);
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                ReleaseClick?.Invoke();
+                onReleaseClick?.Invoke();
             }
 
             if (Input.touchCount > 0)
             {
                 var touch = Input.GetTouch(0);
+
+                var pos = Camera.main.ScreenToWorldPoint(touch.position);
+
                 if (touch.phase == TouchPhase.Began)
                 {
-                    PressClick?.Invoke();
+                    onPressClick?.Invoke(pos);
                 }
                 else if (touch.phase == TouchPhase.Ended)
                 {
-                    ReleaseClick?.Invoke();
+                    onReleaseClick?.Invoke();
                 }
             }
 

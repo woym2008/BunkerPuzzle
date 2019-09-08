@@ -26,6 +26,13 @@ namespace Bunker.Game
         protected Vector3 _zeropos;
 
         protected GameObject _object;
+        public GameObject Node
+        {
+            get
+            {
+                return _object;
+            }
+        }
 
         string _name;
 

@@ -24,7 +24,7 @@ namespace Bunker.Module
 
         LogicModule()
         {
-
+        
         }
 
         internal LogicModule(string name)

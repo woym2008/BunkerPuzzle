@@ -10,7 +10,7 @@ public class Entrance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Init();
     }
 
     // Update is called once per frame
@@ -23,6 +23,7 @@ public class Entrance : MonoBehaviour
     {
         ModuleManager.getInstance.CreateModule<BattlefieldModule>();
         ModuleManager.getInstance.CreateModule<BattlefieldInputModule>();
+        ModuleManager.getInstance.CreateModule<BattlefieldCameraModule>();
 
         ProcessManager.getInstance.Switch<TitleProcess>();
     }

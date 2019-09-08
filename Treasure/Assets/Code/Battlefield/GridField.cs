@@ -26,7 +26,7 @@ namespace Bunker.Game
         Up,
         Down
     }
-    public class GridField : MonoBehaviour
+    public class GridField //: MonoBehaviour
     {
         public IGridObject[,] _grids;
 
@@ -56,6 +56,12 @@ namespace Bunker.Game
         void Update()
         {
 
+        }
+
+        public void Load(string name)
+        {
+            _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
+            GridLoader.LoadGrid("Level_1", out _grids);
         }
 
         public void Move(MoveDirect dir, int gridx, int gridy, int offsetValue)

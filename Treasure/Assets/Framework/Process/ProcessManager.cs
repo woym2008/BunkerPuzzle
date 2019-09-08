@@ -26,7 +26,7 @@ namespace Bunker.Process
         BasicProcess _currectProcess = null;
         public void Switch<T>(params object[] args) where T : BasicProcess
         {
-            if(_processes != null)
+            if(_processes == null)
             {
                 _processes = new Dictionary<string, BasicProcess>();
             }
@@ -53,8 +53,9 @@ namespace Bunker.Process
             BasicProcess process = null;
             if (!_processes.ContainsKey(name))
             {
-                process = Activator.CreateInstance(Type.GetType(string.Format("{0}.{1}", domain, name))) as BasicProcess;
-                if(process == null)
+                //process = Activator.CreateInstance(Type.GetType(string.Format("{0}.{1}", domain, name))) as BasicProcess;
+                process = Activator.CreateInstance(Type.GetType(name)) as BasicProcess;
+                if (process == null)
                 {
                     Debug.LogError("Not Find Process: " + name);
                 }

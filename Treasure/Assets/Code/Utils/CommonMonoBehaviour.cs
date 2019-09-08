@@ -7,7 +7,7 @@ public class CommonMonoBehaviour : MonoBehaviour
     public event OnUpdate onupdate;
     private void Awake()
     {
-
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
