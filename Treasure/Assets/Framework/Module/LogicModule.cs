@@ -74,7 +74,16 @@ namespace Bunker.Module
         {
             ;
         }
-        
+
+        virtual public void OnStart()
+        {
+
+        }
+
+        virtual public void OnStop()
+        {
+
+        }
     }
 }
 

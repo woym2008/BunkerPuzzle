@@ -14,31 +14,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bunker.Process;
 
-namespace Bunker.Process
+public class TitleProcess : BasicProcess
 {
-    public class TitleProcess : BasicProcess
+    public override void Create()
     {
-        public override void Create()
-        {
-            base.Create();
-            //加载资源
-        }
+        base.Create();
+        //加载资源
+    }
 
-        public override void StartProcess(params object[] args)
-        {
-            base.StartProcess(args);
-            //显示ui
-        }
+    public override void StartProcess(params object[] args)
+    {
+        base.StartProcess(args);
+        //显示ui
+    }
 
-        public override void EndProcess()
-        {
-            base.EndProcess();
-        }
+    public override void EndProcess()
+    {
+        base.EndProcess();
+    }
 
-        public override void Release()
-        {
-            base.Release();
-        }
+    public override void Release()
+    {
+        base.Release();
     }
 }

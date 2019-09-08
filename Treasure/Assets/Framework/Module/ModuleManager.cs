@@ -200,6 +200,26 @@ namespace Bunker.Module
             _modules.Clear();
         }
         //-----------------------------------------
+        public void StartModule<T>() where T : LogicModule
+        {
+            var module = GetModule(typeof(T).ToString());
+
+            if(module != null)
+            {
+                module.OnStart();
+            }
+        }
+
+        public void StopModule<T>() where T : LogicModule
+        {
+            var module = GetModule(typeof(T).ToString());
+
+            if (module != null)
+            {
+                module.OnStop();
+            }
+        }
+        //-----------------------------------------
 
     }
 }

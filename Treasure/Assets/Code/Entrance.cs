@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Bunker.Game;
 using Bunker.Module;
+using Bunker.Process;
 using UnityEngine;
 
 public class Entrance : MonoBehaviour
@@ -20,5 +22,8 @@ public class Entrance : MonoBehaviour
     private void Init()
     {
         ModuleManager.getInstance.CreateModule<BattlefieldModule>();
+        ModuleManager.getInstance.CreateModule<BattlefieldInputModule>();
+
+        ProcessManager.getInstance.Switch<TitleProcess>();
     }
 }
