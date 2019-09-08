@@ -14,7 +14,8 @@ using System.Collections.Generic;
 //*************************
 //******************(10,10)
 //------------------------------
-//grid[horizontal][vertical]
+//grid[row][column]
+//grid[列][行]
 //
 //------------------------------
 namespace Bunker.Game
@@ -83,13 +84,13 @@ namespace Bunker.Game
                 case MoveDirect.Up:
                     {
                         GetVerticalLine(gridx, out var datas);
-                        MoveHorizontal(datas, -offsetValue);
+                        MoveVertical(datas, -offsetValue);
                     }
                     break;
                 case MoveDirect.Down:
                     {
                         GetVerticalLine(gridx, out var datas);
-                        MoveHorizontal(datas, offsetValue);
+                        MoveVertical(datas, offsetValue);
                     }
                     break;
 
@@ -103,17 +104,22 @@ namespace Bunker.Game
             {
                 int x = datas[i].X;
                 int y = datas[i].Y;
-                int targety = y + offset;
+                int row_value = y + offset;
                 int lengthLine = _grids.GetLength(1);
-                if (targety < 0)
+                if (row_value < 0)
                 {
-                    targety = lengthLine + targety;
+                    row_value = lengthLine + row_value;
                 }
-                if (targety >= lengthLine)
+                if (row_value >= lengthLine)
                 {
-                    targety = targety - lengthLine;
+                    row_value = row_value - lengthLine;
                 }
-                _grids[x, targety] = datas[i];
+                datas[i].UpdateGrid(x, row_value);
+            }
+            foreach (var g in datas)
+            {
+                //列，行
+                _grids[g.Y, g.X] = g;
             }
         }
         private void MoveHorizontal(IGridObject[] datas, int offset)
@@ -123,35 +129,42 @@ namespace Bunker.Game
             {
                 int x = datas[i].X;
                 int y = datas[i].Y;
-                int targetx = x + offset;
+                int column_value = x + offset;
                 int lengthLine = _grids.GetLength(0);
-                if (targetx < 0)
+                if (column_value < 0)
                 {
-                    targetx = targetx + lengthLine;
+                    column_value = column_value + lengthLine;
                 }
-                _grids[x, y + offset] = datas[i];
-                if (targetx >= lengthLine)
+                if (column_value >= lengthLine)
                 {
-                    targetx = targetx - lengthLine;
+                    column_value = column_value - lengthLine;
                 }
-                _grids[targetx, y] = datas[i];
+                //_grids[targetx, y] = datas[i];
+
+                datas[i].UpdateGrid(column_value, y);
+                Debug.Log("mh: " + datas[i].X);
+            }
+            foreach(var g in datas)
+            {
+                //列，行
+                _grids[g.Y, g.X] = g;
             }
         }
 
-        private void GetAroundGrids(int x, int y, out IGridObject[] datas)
+        private void GetAroundGrids(int column_value, int row_value, out IGridObject[] datas)
         {
-            if (x >= _grids.GetLength(0) || y >= _grids.GetLength(1))
+            if (row_value >= _grids.GetLength(0) || column_value >= _grids.GetLength(1))
             {
                 datas = null;
                 return;
             }
 
             List<IGridObject> selects = new List<IGridObject>();
-            var centerGrid = _grids[x, y];
-            var up = GetGrid(x, y - 1);
-            var down = GetGrid(x, y + 1);
-            var left = GetGrid(x - 1, y);
-            var right = GetGrid(x + 1, y);
+            var centerGrid = _grids[row_value, column_value];
+            var up = GetGrid(column_value, row_value - 1);
+            var down = GetGrid(column_value, row_value + 1);
+            var left = GetGrid(column_value - 1, row_value);
+            var right = GetGrid(column_value + 1, row_value);
             if (up != null)
             {
                 selects.Add(up);
@@ -171,26 +184,26 @@ namespace Bunker.Game
             datas = selects.ToArray();
         }
 
-        private IGridObject GetGrid(int x, int y)
+        private IGridObject GetGrid(int column_value, int row_value)
         {
-            if (x >= _grids.GetLength(0) || y >= _grids.GetLength(1) || x < 0 || y < 0)
+            if (column_value >= _grids.GetLength(0) || row_value >= _grids.GetLength(1) || column_value < 0 || row_value < 0)
             {
                 return null;
             }
 
-            return _grids[x, y];
+            return _grids[row_value, column_value];
         }
 
         private bool GetVerticalLine(int number, out IGridObject[] datas)
         {
-            if (number >= _grids.GetLength(1))
+            if (number >= _grids.GetLength(0))
             {
                 datas = null;
                 return false;
             }
 
             List<IGridObject> gs = new List<IGridObject>();
-            for (int i = 0; i < _grids.GetLength(1); ++i)
+            for (int i = 0; i < _grids.GetLength(0); ++i)
             {
 
                 gs.Add(_grids[i, number]);
@@ -202,14 +215,14 @@ namespace Bunker.Game
 
         private bool GetHorizontalLine(int number, out IGridObject[] datas)
         {
-            if (number >= _grids.GetLength(0))
+            if (number >= _grids.GetLength(1))
             {
                 datas = null;
                 return false;
             }
 
             List<IGridObject> gs = new List<IGridObject>();
-            for (int i = 0; i < _grids.GetLength(0); ++i)
+            for (int i = 0; i < _grids.GetLength(1); ++i)
             {
                 gs.Add(_grids[number, i]);
             }

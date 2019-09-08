@@ -6,7 +6,9 @@ public static class Constant
     public static string[] Tiles =
     {
         "NormalTile",
-        "BlockTile"
+        "BlockTile",
+        "LeftDirectTile",
+        "UpDirectTile"
     };
     public static int[] TilesIndex =
     {

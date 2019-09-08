@@ -29,7 +29,7 @@ namespace Bunker.Game
 
                     var resname = Constant.Tiles[tiledata];
                     var grid = CreateGrid(resname, j, i);
-                    reslist[j,i] = grid;
+                    reslist[i,j] = grid;
                 }
             }
         }

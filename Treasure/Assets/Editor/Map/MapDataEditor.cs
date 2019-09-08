@@ -21,6 +21,7 @@ public class MapDataEditor : Editor
         Debug.Log("enter MapDataEditor onenable" + mapdata.row);
     }
 
+    List<int> _tempList = new List<int>();
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -29,6 +30,7 @@ public class MapDataEditor : Editor
         EditorGUILayout.BeginVertical();
         EditorGUILayout.Space();
 
+        bool ischange = false;
         //addmaptile = EditorGUILayout.Toggle("AddMapTile",addmaptile);
         //if(addmaptile)
         {
@@ -51,6 +53,8 @@ public class MapDataEditor : Editor
                 mapdata.data = new int[row * column];
                 mapdata.row = row;
                 mapdata.column = column;
+
+                ischange = true;
             }
             //mapdata.row = row;
             //mapdata.column = column;
@@ -58,6 +62,13 @@ public class MapDataEditor : Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
+
+            _tempList.Clear();
+            for (int i=0;i<Constant.Tiles.Length; ++i)
+            {
+                _tempList.Add(i);
+            }
+            var tilescountarray = _tempList.ToArray();
 
             for (int i = 0; i < mapdata.row; ++i)
             {
@@ -68,10 +79,17 @@ public class MapDataEditor : Editor
 
                     var index = mapdata.data[i * column + j];
 
-                    mapdata.data[i * column + j] = EditorGUILayout.IntPopup(index, Constant.Tiles, Constant.TilesIndex);
+                    var selectdata = EditorGUILayout.IntPopup(index, Constant.Tiles, tilescountarray);
+                    var oridata = mapdata.data[i * column + j];
+                    if (selectdata != oridata)
+                    {
+                        mapdata.data[i * column + j] = selectdata;
+                        ischange = true;
+                    }
                 }
                 EditorGUILayout.EndHorizontal();
             }
+
         }
         //Debug.Log("enter MapDataEditor OnInspectorGUI");
 
@@ -95,6 +113,12 @@ public class MapDataEditor : Editor
         }
 
         EditorGUILayout.EndVertical();
+
+
+        if (ischange)
+        {
+            EditorUtility.SetDirty(this.target);
+        }
 
         serializedObject.ApplyModifiedProperties();
 

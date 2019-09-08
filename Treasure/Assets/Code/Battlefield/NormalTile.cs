@@ -15,9 +15,9 @@ namespace Bunker.Game
             return base.CanMove();
         }
 
-        public override void PressGrid()
+        public override void UpdateGrid(int x, int y)
         {
-            base.PressGrid();
+            base.UpdateGrid(x, y);
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Bunker.Module;
 
 namespace Bunker.Game
 {
-    public class LeftDirectTile : InputTile
+    public class UpDirectTile : InputTile
     {
         protected override void OnClick()
         {
@@ -12,8 +11,7 @@ namespace Bunker.Game
 
             Debug.Log("OnClick");
 
-            _battlefield.Field.Move(MoveDirect.Left, X, Y, 1);
+            _battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
         }
     }
 }
-

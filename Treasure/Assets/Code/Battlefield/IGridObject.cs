@@ -16,9 +16,9 @@ namespace Bunker.Game
 
         bool CanMove();
 
-        void PressGrid();
+        void UpdateGrid(int x, int y);
 
-        void SetPos(int x, int y);
+        //void SetPos(int x, int y);
     }
 }
 

@@ -6,8 +6,8 @@ namespace Bunker.Game
 {
     public abstract class InputTile : BaseGrid
     {
-        BattlefieldModule _battlefield;
-        BattlefieldInputModule _inputModule;
+        protected BattlefieldModule _battlefield;
+        protected BattlefieldInputModule _inputModule;
         public override void Init()
         {
             base.Init();
@@ -25,9 +25,9 @@ namespace Bunker.Game
             return base.CanMove();
         }
 
-        public override void PressGrid()
+        public override void UpdateGrid(int x, int y)
         {
-            base.PressGrid();
+            base.UpdateGrid(x, y);
         }
 
         void OnInputClick(Vector3 clickpos)
@@ -46,11 +46,12 @@ namespace Bunker.Game
         private bool CheckInTile(Vector3 pos)
         {
             Vector2 size = Constant.TileSize;
-            var max_x = _zeropos.x + size.x;
-            var max_y = _zeropos.y + size.y;
+            //var thispos = new Vector3( Y*Constant.TileSize.y  + X * Constant.TileSize.x;
+            var max_x = _object.transform.position.x + size.x * 0.5f;
+            var max_y = _object.transform.position.y + size.y * 0.5f;
 
-            var min_x = _zeropos.y - size.x;
-            var min_y = _zeropos.y - size.y;
+            var min_x = _object.transform.position.x - size.x * 0.5f;
+            var min_y = _object.transform.position.y - size.y * 0.5f;
 
             if (pos.x < max_x && pos.x > min_x && pos.y < max_y && pos.y > min_y)
             {

@@ -6,7 +6,14 @@ namespace Bunker.Game
 { 
     public class BattlefieldModule : LogicModule
     {
-        GridField _field;
+        private GridField _field;
+        public GridField Field
+        {
+            get
+            {
+                return _field;
+            }
+        }
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())
         {

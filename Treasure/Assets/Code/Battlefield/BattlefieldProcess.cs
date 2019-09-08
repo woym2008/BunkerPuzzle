@@ -11,6 +11,8 @@ namespace Bunker.Game
         CommonMonoBehaviour _battleLogicObject;
 
         BattlefieldModule _battleModule;
+        BattlefieldInputModule _battleInputModule;
+
         public override void Create()
         {
             base.Create();
@@ -47,7 +49,10 @@ namespace Bunker.Game
 
         private void Update(float dt)
         {
-
+            if(_battleInputModule != null)
+            {
+                _battleInputModule.Update(dt);
+            }
         }
 
         IEnumerator LoadBattleScene()
@@ -68,6 +73,8 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
+
+            _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
         }
     }
 }

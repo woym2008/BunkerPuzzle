@@ -12,6 +12,8 @@ namespace Bunker.Game
         public event InputClickEvent onPressClick;
         public event InputReleaseEvent onReleaseClick;
 
+        Camera _inputcam;
+
         public BattlefieldInputModule() : base(typeof(BattlefieldInputModule).ToString())
         {
 
@@ -33,11 +35,15 @@ namespace Bunker.Game
         public override void OnStart()
         {
             base.OnStart();
+
+            _inputcam = null;
         }
 
         public override void OnStop()
         {
             base.OnStop();
+
+            _inputcam = null;
         }
 
         protected override void OnModuleMessage(string msg, object[] args)
@@ -45,12 +51,16 @@ namespace Bunker.Game
             base.OnModuleMessage(msg, args);
         }
 
-        private void Update(float dt)
+        public void Update(float dt)
         {
+            if(_inputcam == null)
+            {
+                _inputcam = ModuleManager.getInstance.GetModule<BattlefieldCameraModule>().GameCam;
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 Vector3 mousepos = Input.mousePosition;
-                var pos = Camera.main.ScreenToWorldPoint(mousepos);
+                var pos = _inputcam.ScreenToWorldPoint(mousepos);
 
                 onPressClick?.Invoke(pos);
             }

@@ -58,7 +58,7 @@ namespace Bunker.Game
 
         }
 
-        public void SetPos(int x, int y)
+        private void SetPos(int x, int y)
         {
             _x = x;
             _y = y;
@@ -69,8 +69,14 @@ namespace Bunker.Game
             return true;
         }
 
-        virtual public void PressGrid()
+        virtual public void UpdateGrid(int x, int y)
         {
+            if(_object != null)
+            {
+                SetPos(x, y);
+                var selfpos = _zeropos + new Vector3(_x * Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
+                _object.transform.position = selfpos;
+            }
         }
     }
 }
