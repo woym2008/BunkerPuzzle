@@ -20,6 +20,7 @@ abstract public class UIPanel
     public void OnInit(string name)
     {
         var obj = GameObject.Instantiate(Resources.Load("UI/" + name)) as GameObject;
+        obj.name = name;
         _transform = obj.transform;
         OnBegin();
     }
