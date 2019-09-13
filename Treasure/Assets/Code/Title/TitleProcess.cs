@@ -37,7 +37,8 @@ namespace Bunker.Game
         {
             base.StartProcess(args);
             //显示ui
-            _titleLogicObject = MonoBehaviourHelper.CreateObject();
+            if(_titleLogicObject == null)
+                _titleLogicObject = MonoBehaviourHelper.CreateObject();
             _titleLogicObject.gameObject.name = "MainMenuRoot";
             _titleLogicObject.StartCoroutine(LoadMainMenuScene());
             //

@@ -25,6 +25,8 @@ public class Entrance : MonoBehaviour
         ModuleManager.getInstance.CreateModule<BattlefieldInputModule>();
         ModuleManager.getInstance.CreateModule<BattlefieldCameraModule>();
         ModuleManager.getInstance.CreateModule<TitleModule>();
+        ModuleManager.getInstance.CreateModule<BattleUIModule>();
+
         
 
 

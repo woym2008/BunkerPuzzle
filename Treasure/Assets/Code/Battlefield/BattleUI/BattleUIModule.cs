@@ -4,13 +4,13 @@ using Bunker.Module;
 
 namespace Bunker.Game
 {
-    public class TitleModule : LogicModule
+    public class BattleUIModule : LogicModule
     {
-        public TitleModule() : base(typeof(TitleModule).ToString())
+        public BattleUIModule() : base(typeof(BattleUIModule).ToString())
         {
             
         }
-        public TitleModule(string name) :base(name)
+        public BattleUIModule(string name) :base(name)
         {
 
         }
@@ -46,5 +46,5 @@ namespace Bunker.Game
         {
 
         }
-    }
+    }    
 }
