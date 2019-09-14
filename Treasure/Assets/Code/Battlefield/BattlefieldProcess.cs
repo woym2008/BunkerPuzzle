@@ -13,6 +13,8 @@ namespace Bunker.Game
         BattlefieldModule _battleModule;
         BattlefieldInputModule _battleInputModule;
 
+        BattleUIModule  _battleUIModule;
+
         public override void Create()
         {
             base.Create();
@@ -53,6 +55,11 @@ namespace Bunker.Game
             {
                 _battleInputModule.Update(dt);
             }
+
+            if(_battleUIModule != null)
+            {
+                _battleUIModule.Update(dt);
+            }
         }
 
         IEnumerator LoadBattleScene()
@@ -73,8 +80,11 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
+            ModuleManager.getInstance.StartModule<BattleUIModule>();
+
 
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
+            _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
         }
     }
 }
