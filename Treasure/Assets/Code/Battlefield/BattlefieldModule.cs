@@ -53,7 +53,7 @@ namespace Bunker.Game
 
         public void Update(float dt)
         {
-
+            //Field?.EliminationUpdate();
         }
     }
 }

@@ -86,6 +86,7 @@ namespace Bunker.Game
                 }
             }
 
+            InputTile.sInputCount = 0;
         }
     }
 }

@@ -19,6 +19,11 @@ namespace Bunker.Game
         {
             base.UpdateGrid(x, y);
         }
+
+        public override string GetGridType()
+        {
+            return this.GetType().ToString();
+        }
     }
 }
 

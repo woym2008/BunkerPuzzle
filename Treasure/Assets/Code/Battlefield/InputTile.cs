@@ -8,6 +8,9 @@ namespace Bunker.Game
     {
         protected BattlefieldModule _battlefield;
         protected BattlefieldInputModule _inputModule;
+
+        public static int sInputCount = 0;
+
         public override void Init()
         {
             base.Init();
@@ -40,7 +43,12 @@ namespace Bunker.Game
 
         virtual protected void OnClick()
         {
+            InputTile.sInputCount++;
+        }
 
+        protected bool CanClick()
+        {
+            return InputTile.sInputCount > 1 ? false : true;
         }
 
         private bool CheckInTile(Vector3 pos)

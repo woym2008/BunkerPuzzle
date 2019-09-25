@@ -18,6 +18,14 @@ namespace Bunker.Game
 
         void UpdateGrid(int x, int y);
 
+        string GetGridType();
+
+        bool CanElimination();
+
+        void Elimination();
+
+        void Delete();
+
         //void SetPos(int x, int y);
     }
 }

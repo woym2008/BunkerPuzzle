@@ -22,7 +22,7 @@ namespace Bunker.Process
     public class ProcessManager : ServicesModule<ProcessManager>
     {
         Dictionary<string, BasicProcess> _processes;
-        string domain = "Limo.Process";
+        //string domain = "Limo.Process";
         BasicProcess _currectProcess = null;
         public void Switch<T>(params object[] args) where T : BasicProcess
         {

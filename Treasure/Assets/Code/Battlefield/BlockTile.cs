@@ -19,5 +19,15 @@ namespace Bunker.Game
         {
             base.UpdateGrid(x, y);
         }
+
+        public override bool CanElimination()
+        {
+            return true;
+        }
+
+        public override string GetGridType()
+        {
+            return this.GetType().ToString();
+        }
     }
 }

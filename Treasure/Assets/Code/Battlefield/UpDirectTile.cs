@@ -9,9 +9,15 @@ namespace Bunker.Game
         {
             base.OnClick();
 
-            Debug.Log("OnClick");
+            if (CanClick())
+            {
+                Debug.Log("OnClick");
 
-            _battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
+                _battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
+
+                _battlefield.Field.EliminationUpdate();
+            }
+
         }
     }
 }

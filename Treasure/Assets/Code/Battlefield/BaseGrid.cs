@@ -36,6 +36,13 @@ namespace Bunker.Game
 
         string _name;
 
+        private bool _isUpdated = false;
+
+        ~BaseGrid()
+        {
+            //OnDestroy();
+        }
+
 
         public void CreateGrid(string name, Vector3 zeropos, int x = 0, int y = 0)
         {
@@ -51,6 +58,20 @@ namespace Bunker.Game
             _object.transform.position = selfpos;
 
             Init();
+        }
+
+        public void Delete()
+        {
+            OnDestroy();
+        }
+
+        public void OnDestroy()
+        {
+            if(_object != null)
+            {
+                GameObject.Destroy(_object);
+                _object = null;
+            }
         }
 
         public virtual void Init()
@@ -77,6 +98,21 @@ namespace Bunker.Game
                 var selfpos = _zeropos + new Vector3(_x * Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
                 _object.transform.position = selfpos;
             }
+        }
+
+        virtual public string GetGridType()
+        {
+            return "";
+        }
+
+        virtual public bool CanElimination()
+        {
+            return false;
+        }
+
+        virtual public void Elimination()
+        {
+
         }
     }
 }
