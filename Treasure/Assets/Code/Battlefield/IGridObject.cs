@@ -16,6 +16,9 @@ namespace Bunker.Game
 
         bool CanMove();
 
+        void MoveTo(int x, int y, float movetime);
+        void CopyMoveTo(int startX, int startY, int endX, int endY, float movetime);
+
         void UpdateGrid(int x, int y);
 
         string GetGridType();

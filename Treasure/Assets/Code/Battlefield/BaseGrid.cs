@@ -26,6 +26,8 @@ namespace Bunker.Game
         protected Vector3 _zeropos;
 
         protected GameObject _object;
+        protected GameObject _copyobject;
+
         public GameObject Node
         {
             get
@@ -90,13 +92,43 @@ namespace Bunker.Game
             return true;
         }
 
+        virtual public void MoveTo(int x, int y, float movetime)
+        {
+            if(_object != null)
+            {
+                var targetpos = _zeropos + new Vector3(x * Constant.TileSize.x, -y * Constant.TileSize.y, 0);
+
+                var gridctrl = _object.gameObject.GetComponent<GridMotionController>();
+                gridctrl?.MoveToPosition(targetpos,movetime);
+            }
+        }
+        virtual public void CopyMoveTo(int startX, int startY, int endX, int endY, float movetime)
+        {
+            if (_object != null)
+            {
+                var currentpos = _zeropos + new Vector3(startX * Constant.TileSize.x, -startY * Constant.TileSize.y, 0);
+                var targetpos = _zeropos + new Vector3(endX * Constant.TileSize.x, -endY * Constant.TileSize.y, 0);
+
+                _copyobject = GameObject.Instantiate(_object) as GameObject;
+
+                var gridctrl = _copyobject.gameObject.GetComponent<GridMotionController>();
+                gridctrl.transform.position = currentpos;
+                gridctrl?.MoveToPosition(targetpos, movetime);
+            }
+        }
+
         virtual public void UpdateGrid(int x, int y)
         {
             if(_object != null)
             {
                 SetPos(x, y);
-                var selfpos = _zeropos + new Vector3(_x * Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
+                var selfpos = _zeropos + new Vector3(x * Constant.TileSize.x, -y * Constant.TileSize.y, 0);
                 _object.transform.position = selfpos;
+            }
+            if(_copyobject != null)
+            {
+                GameObject.Destroy(_copyobject);
+                _copyobject = null;
             }
         }
 
@@ -114,6 +146,7 @@ namespace Bunker.Game
         {
 
         }
+
     }
 }
 

@@ -15,8 +15,6 @@ namespace Bunker.Game
                 Debug.Log("OnClick");
 
                 _battlefield.Field.Move(MoveDirect.Left, X, Y, 1);
-
-                _battlefield.Field.EliminationUpdate();
             }
 
         }
