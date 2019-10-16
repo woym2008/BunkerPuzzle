@@ -13,7 +13,8 @@ namespace Bunker.Game
             {
                 Debug.Log("OnClick");
 
-                _battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
+                //_battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
+                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Up, X, Y, 1);
             }
 
         }

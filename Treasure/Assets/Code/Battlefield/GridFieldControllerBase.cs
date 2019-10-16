@@ -11,11 +11,16 @@ namespace Bunker.Game
         {
         }
 
+        abstract public string ControllerType
+        {
+            get;
+        }
+
         public void SetGridField(GridField gf)
         {
             _gridfield = gf;
         }
-
+        /*
         virtual public void Update(float dt)
         {
 
@@ -29,7 +34,17 @@ namespace Bunker.Game
         virtual public bool CanMove()
         {
             return false;
+        }*/
+        //---------------------------------
+        virtual public void Excute(params object[] objs)
+        {
+            ;
         }
+        virtual public bool IsFinish()
+        {
+            return false;
+        }
+        //---------------------------------
     }
 }
 

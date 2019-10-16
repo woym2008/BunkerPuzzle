@@ -12,17 +12,46 @@ namespace Bunker.Game
 
         CommonMonoBehaviour _updateObject;
 
+        bool _isMoving = false;
+
         public GridFieldController_Moving()
         {
             _enableTimeCount = false;
         }
 
+        override public string ControllerType
+        {
+            get
+            {
+                return "Moving";
+            }
+        }
+        /*
         public override void Update(float dt)
         {
             base.Update(dt);
+        }*/
+        //-------------------------------------------------------------------------------------
+        public override bool IsFinish()
+        {
+            return !_isMoving;
         }
 
-        override public void Move(MoveDirect dir, int gridx, int gridy, int offsetValue)
+        public override void Excute(params object[] objs)
+        {
+            base.Excute(objs);
+
+            _isMoving = true;
+
+            MoveDirect dir = (MoveDirect)objs[0];
+            int gridx = (int)objs[1];
+            int gridy = (int)objs[2];
+            int offsetValue = (int)objs[3];
+
+            Move(dir, gridx, gridy, offsetValue);
+        }
+        //-------------------------------------------------------------------------------------
+        private void Move(MoveDirect dir, int gridx, int gridy, int offsetValue)
         {
             switch (dir)
             {
@@ -121,7 +150,9 @@ namespace Bunker.Game
 
             EliminationUpdate();
 
-            _gridfield.SwitchController<GridFieldController_Idle>();
+            _isMoving = false;
+
+            //_gridfield.SwitchController<GridFieldController_Idle>();
         }
 
         IEnumerator WaitforUpdateVertical(IGridObject[] datas, int offset, float time)
@@ -132,7 +163,8 @@ namespace Bunker.Game
 
             EliminationUpdate();
 
-            _gridfield.SwitchController<GridFieldController_Idle>();
+            _isMoving = false;
+            //_gridfield.SwitchController<GridFieldController_Idle>();
         }
         //-------------------------------------------------------------------------------------
         private void MoveVertical(IGridObject[] datas, int offset)

@@ -5,6 +5,14 @@ namespace Bunker.Game
 {
     public class GridFieldController_Idle : GridFieldControllerBase
     {
+        override public string ControllerType
+        {
+            get
+            {
+                return "Idle";
+            }
+        }
+        /*
         override public void Move(MoveDirect dir, int gridx, int gridy, int offsetValue)
         {
             GridFieldController_Moving gfc = _gridfield.SwitchController<GridFieldController_Moving>();
@@ -16,6 +24,6 @@ namespace Bunker.Game
         {
             return true;
         }
-
+        */
     }
 }

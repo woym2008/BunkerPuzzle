@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Bunker.Module;
+using System;
 
 namespace Bunker.Game
 { 
@@ -54,6 +55,25 @@ namespace Bunker.Game
         public void Update(float dt)
         {
             //Field?.EliminationUpdate();
+        }
+
+        GridFieldControllerBase _currentController;
+        public void UseController<T>(params object[] datas) where T : GridFieldControllerBase
+        {
+            if(_currentController != null)
+            {
+                if(!_currentController.IsFinish())
+                {
+                    return;
+                }
+            }
+            var controller = Activator.CreateInstance(typeof(T)) as T;
+
+            controller.SetGridField(_field);
+
+            controller.Excute(datas);
+
+            _currentController = controller;
         }
     }
 }

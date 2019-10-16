@@ -32,6 +32,11 @@ namespace Bunker.Game
         Up,
         Down
     }
+    public struct GridPos
+    {
+        public int x;
+        public int y;
+    }
     public class GridField //: MonoBehaviour
     {
         //-------------------------------------
@@ -87,7 +92,8 @@ namespace Bunker.Game
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
             GridLoader.LoadGrid("Level_1", out _grids);
         }
-
+        //---------------------------------------------------------------------
+        /*
         public void Move(MoveDirect dir, int gridx, int gridy, int offsetValue)
         {
             if(_gridFieldController == null)
@@ -99,7 +105,7 @@ namespace Bunker.Game
             {
                 _gridFieldController.Move(dir, gridx, gridy, offsetValue);
             }
-            /*
+            /////
             switch (dir)
             {
                 case MoveDirect.Left:
@@ -128,7 +134,11 @@ namespace Bunker.Game
                     break;
 
             }
-            */
+            /////
+        }*/
+        public void DestroyGrids(List<GridPos> gridpoints)
+        {
+            ;
         }
         //---------------------------------------------------------------------
 
