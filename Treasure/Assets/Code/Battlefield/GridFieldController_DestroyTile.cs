@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Bunker.Game;
 
 namespace Bunker.Game
@@ -28,9 +30,25 @@ namespace Bunker.Game
 
             _isWorking = true;
 
-            GridPos[] points = (GridPos[])objs[0];
+            IGridObject[] points = (IGridObject[])objs[0];
 
+            MonoBehaviourHelper.StartCoroutine(WaitforDestroyTile(points));
             //消灭
+
+            //_isWorking = false;
+        }
+
+        IEnumerator WaitforDestroyTile(IGridObject[] datas)
+        {
+            //create effect
+
+            var tempgrids = new List<IGridObject>();
+            foreach(var g in datas)
+            {
+                tempgrids.Add(g);
+            }
+            _gridfield.EliminationGrids(tempgrids);
+            yield return new WaitForSeconds(2.0f);
 
             _isWorking = false;
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using Bunker.Module;
 
@@ -30,7 +31,7 @@ namespace Bunker.Game
             inputmodule.onReleaseClick -= OnRelease;
         }
 
-        public void OnClick(Vector3 clickpos)
+        public void OnClick(Vector3 clickpos, InputState state, Action<object> onclick)
         {
 
         }

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Bunker.Module;
 
 namespace Bunker.Game
@@ -33,11 +35,17 @@ namespace Bunker.Game
             base.UpdateGrid(x, y);
         }
 
-        void OnInputClick(Vector3 clickpos)
+        void OnInputClick(Vector3 clickpos, InputState state, Action<object> onClick)
         {
             if (CheckInTile(clickpos))
             {
-                OnClick();
+                if (state == InputState.Normal)
+                {
+                    OnClick();
+                }
+
+                //onClick?.Invoke(string.Format("x:{0},y:{1}",_x,_y));
+                onClick?.Invoke(this);
             }
         }
 
