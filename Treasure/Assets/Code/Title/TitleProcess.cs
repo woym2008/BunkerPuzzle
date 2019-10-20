@@ -30,7 +30,7 @@ namespace Bunker.Game
 
         private void Update(float dt)
         {
-
+            //if(_titleModule != null) _titleModule.Update(dt);
         }
 
         public override void StartProcess(params object[] args)
@@ -49,16 +49,20 @@ namespace Bunker.Game
         {
             yield return 0;
 
-            var back = SceneManager.LoadSceneAsync("MainMenu");
-            while(!back.isDone)
+            //var back = SceneManager.LoadSceneAsync("MainMenu");
+            var back = SceneManager.LoadSceneAsync("MainMenu2D");
+
+            while (!back.isDone)
             {
                 yield return 0;
             }
 
-            _titleLogicObject.onupdate += Update;
 
             _titleModule = ModuleManager.getInstance.GetModule<TitleModule>();
             ModuleManager.getInstance.StartModule<TitleModule>();
+
+            _titleLogicObject.onupdate += _titleModule.Update;
+
         }
 
         public override void EndProcess()
