@@ -9,6 +9,9 @@ namespace Bunker.Game
     public class BattleUIModule : LogicModule
     {
         BattleUIPanel   _UIPanel;
+        int _progress = 50;
+
+        //
         Dictionary<string, BattleMissionNode> _Missionlist = new Dictionary<string, BattleMissionNode>();
         Dictionary<string, Sprite> _MissionIconlist = new Dictionary<string, Sprite>();
         //
@@ -73,6 +76,16 @@ namespace Bunker.Game
             if(Input.GetKeyDown(KeyCode.Alpha0)){
                 CreateMissionItem("IconSet_1",8);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                _progress -= 5;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _progress += 5;
+            }
+            _UIPanel.SetProgressNum(_progress);
+
         }
         //////
         public void CreateItem<T>() where T : BattleItem, new()

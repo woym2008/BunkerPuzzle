@@ -6,7 +6,7 @@ namespace Bunker.Game
 {
     public class GridFieldController_Moving : GridFieldControllerBase
     {
-        const float MoveOneGridTime = 10.0f;
+        const float MoveOneGridTime = 1.0f;
 
         bool _enableTimeCount = false;
 
