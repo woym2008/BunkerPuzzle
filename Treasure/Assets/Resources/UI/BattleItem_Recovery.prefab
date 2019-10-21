@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8912458512774703958}
   - component: {fileID: 3153233941050747546}
   m_Layer: 5
-  m_Name: Item_2
+  m_Name: BattleItem_Recovery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8912458512774703959
 CanvasRenderer:
@@ -111,7 +111,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 8912458512774703958}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []

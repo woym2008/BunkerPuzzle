@@ -14,19 +14,48 @@ namespace Bunker.Game
         Transform _MissionPanel;
         //
         Text    _levelText;
+        //
+        Transform _ProgressBar;
+        int _ProgressNum;
+        public int ProgressNum
+        {
+            get
+            {
+                return _ProgressNum;
+            }
+        }
+        //
         public override void OnBegin()
         {
             _ItemPanel = _transform.Find("Left_Bar/ScrollRectPanel/Viewport/ItemPanel");
             _MissionPanel = _transform.Find("Right_Bar/Mission/Panel");
-            _levelText = _transform.Find("Right_Bar/Level").GetComponent<Text>();
+            _levelText = _transform.Find("Right_Bar/Level_BG/Level").GetComponent<Text>();
+            _ProgressBar = _transform.Find("Right_Bar/ProgressBar");
         }
         //
         public void AddItem(GameObject item){
             item.transform.parent = _ItemPanel;
+            item.transform.localScale = Vector3.one;
         }
 
         public void AddMissionItem(GameObject item){
             item.transform.parent = _MissionPanel;
+            item.transform.localScale = Vector3.one;
+
+        }
+        /* 0~100 */
+        public void SetProgressNum(float n)
+        {
+            n = Mathf.Clamp(n, 0, 100);
+            _ProgressNum = Mathf.FloorToInt(n / 100 * 7);
+            for (int i = 1;i <= 7;++i)
+            {
+                _ProgressBar.Find("N" + i).GetComponent<Image>().enabled = false;
+                if (i < _ProgressNum)
+                {
+                    _ProgressBar.Find("N" + i).GetComponent<Image>().enabled = true;
+                }
+            }         
         }
     }
 }

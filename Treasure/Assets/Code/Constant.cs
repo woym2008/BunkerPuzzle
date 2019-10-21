@@ -17,5 +17,5 @@ public static class Constant
     };
 
     public static Vector2 TileSize =
-        new Vector2(1,1);
+        new Vector2(0.2f,0.2f);
 }
