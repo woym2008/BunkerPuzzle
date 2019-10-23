@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 8427920527851930345}
   - component: {fileID: 132851969018594086}
   - component: {fileID: 3339108927014710217}
+  - component: {fileID: 989335525608273593}
   m_Layer: 0
   m_Name: liquid_cube_0
   m_TagString: Untagged
@@ -149,7 +150,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3339108927014710217
 Animator:
@@ -170,3 +171,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &989335525608273593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9131842542132004089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1578821b1eb9f48f58bf1c6deac7e623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

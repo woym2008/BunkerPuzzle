@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1714843354118718993}
   - component: {fileID: 215762257443516252}
   - component: {fileID: 3685559291896478685}
+  - component: {fileID: 3056722512606443650}
   m_Layer: 0
   m_Name: up_cube_0
   m_TagString: Untagged
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3685559291896478685
 Animator:
@@ -99,6 +100,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3056722512606443650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653835773374407862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1578821b1eb9f48f58bf1c6deac7e623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6690862749254346454
 GameObject:
   m_ObjectHideFlags: 0
