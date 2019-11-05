@@ -38,7 +38,7 @@ namespace Bunker.Game
             loopInfo.transform.localPosition += Vector3.left * Time.deltaTime * loopSpeed;
             if(loopInfo.transform.localPosition.x < -220)
             {
-                loopInfo.transform.localPosition.Set(60, loopInfo.transform.localPosition.y, loopInfo.transform.localPosition.z);
+                loopInfo.transform.localPosition = new Vector3(60, loopInfo.transform.localPosition.y, loopInfo.transform.localPosition.z);
             }
         }
 
