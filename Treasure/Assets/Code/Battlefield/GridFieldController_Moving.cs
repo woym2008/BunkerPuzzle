@@ -64,7 +64,7 @@ namespace Bunker.Game
                 case MoveDirect.Right:
                     {
                         GetHorizontalLine(gridy, out var datas);
-                        MoveHorizontal_Animation(datas, offsetValue);
+                        MoveHorizontal_Animation(datas, -offsetValue);
                     }
                     break;
                 case MoveDirect.Up:
@@ -76,7 +76,7 @@ namespace Bunker.Game
                 case MoveDirect.Down:
                     {
                         GetVerticalLine(gridx, out var datas);
-                        MoveVertical_Animation(datas, offsetValue);
+                        MoveVertical_Animation(datas, -offsetValue);
                     }
                     break;
 
