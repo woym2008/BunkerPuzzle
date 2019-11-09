@@ -43,14 +43,14 @@ namespace Bunker.Game
                     sm.transform.parent = _rootNode;
 
                     sm.gameObject.transform.localScale = new Vector3(
-                    (float)map.column * 1.5f,
-                    (float)map.row * 1.5f, 
+                    (float)map.column,
+                    (float)map.row + 1, 
                     0.0f
                         );
 
                     sm.transform.position = GridField.ZeroPos + new Vector3(
-                    Constant.TileSize.x * ((float)map.column * 0.5f),
-                    -Constant.TileSize.y * ((float)map.row * 0.5f),
+                    Constant.TileSize.x * (map.column * 0.5f) - Constant.TileSize.x * 0.5f,
+                    -Constant.TileSize.y * (map.row * 0.5f) + Constant.TileSize.y * 1.0f,
                     0
                         );
 

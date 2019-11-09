@@ -301,9 +301,10 @@ namespace Bunker.Game
                 {
                     List<IGridObject> tempGridList = new List<IGridObject>();
                     var grid = _gridfield.Grids[j, i];
-
-                    Debug.Log("grid update: " + i + j);
-                    Debug.Log("grid update: " + grid.X + grid.Y);
+                    //modify by wwh : this is update the sortorder!
+                    (grid as BaseGrid).UpdateSortingOrder();
+                    //Debug.Log("grid update: " + i + j);
+                   // Debug.Log("grid update: " + grid.X + grid.Y);
                     if (grid.CanElimination())
                     {
                         tempGridList.Add(grid);

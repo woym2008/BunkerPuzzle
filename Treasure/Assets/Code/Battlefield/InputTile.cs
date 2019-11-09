@@ -62,14 +62,21 @@ namespace Bunker.Game
         private bool CheckInTile(Vector3 pos)
         {
             Vector2 size = Constant.TileSize;
-            //var thispos = new Vector3( Y*Constant.TileSize.y  + X * Constant.TileSize.x;
+
             var max_x = _object.transform.position.x + size.x * 0.5f;
             var max_y = _object.transform.position.y + size.y * 0.5f;
 
             var min_x = _object.transform.position.x - size.x * 0.5f;
             var min_y = _object.transform.position.y - size.y * 0.5f;
 
-            if (pos.x < max_x && pos.x > min_x && pos.y < max_y && pos.y > min_y)
+            //modify by wwh
+            // if there has BoxCollider2D ,the bounding test first!
+            var col = _object.GetComponent<BoxCollider2D>();
+            if (col != null)
+            {
+                return col.OverlapPoint(new Vector2(pos.x, pos.y));
+            }
+            else if (pos.x < max_x && pos.x > min_x && pos.y < max_y && pos.y > min_y)
             {
                 return true;
             }
