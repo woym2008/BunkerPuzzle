@@ -85,6 +85,8 @@ namespace Bunker.Game
 
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
+
+            _battleLogicObject.onupdate += _battleModule.Update;
         }
     }
 }

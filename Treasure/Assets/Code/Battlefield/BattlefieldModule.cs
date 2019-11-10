@@ -2,6 +2,7 @@
 using System.Collections;
 using Bunker.Module;
 using System;
+using Bunker.Process;
 
 namespace Bunker.Game
 { 
@@ -56,6 +57,10 @@ namespace Bunker.Game
         {
             //Field?.EliminationUpdate();
             //if(Input.mou)
+            if(Field.IsAllGridsElimination())
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>();
+            }
         }
 
         GridFieldControllerBase _currentController;
@@ -75,6 +80,12 @@ namespace Bunker.Game
             controller.Excute(datas);
 
             _currentController = controller;
+        }
+
+        public void RestartLevel()
+        {
+            Debug.LogError("RestartLevel");
+            _field.RestartLevel();
         }
     }
 }

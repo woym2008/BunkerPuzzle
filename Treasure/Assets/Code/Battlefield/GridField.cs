@@ -64,6 +64,8 @@ namespace Bunker.Game
             }
         }
 
+        string _currectLevel = "";
+
         // Use this for initialization
         void Start()
         {
@@ -89,8 +91,20 @@ namespace Bunker.Game
         //---------------------------------------------------------------------
         public void Load(string name)
         {
+            _currectLevel = name;
+
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            GridLoader.LoadGrid("Level_1", out _grids);
+            GridLoader.LoadGrid(_currectLevel, out _grids);
+        }
+
+        public void RestartLevel()
+        {
+            if(_currectLevel != null)
+            {
+
+                _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
+                GridLoader.LoadGrid(_currectLevel, out _grids);
+            }
         }
         //---------------------------------------------------------------------
         /*
@@ -338,6 +352,20 @@ namespace Bunker.Game
                 var newg = GridLoader.CreateGrid("NormalTile", x, y);
                 SetGrid(x,y, newg);
             }
+        }
+
+        //通过检测grids中有没有可消除grid，来判断是否都消除完了
+        public bool IsAllGridsElimination()
+        {
+            foreach(var g in _grids)
+            {
+                if(g.CanElimination())
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
