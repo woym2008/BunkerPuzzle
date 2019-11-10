@@ -132,7 +132,7 @@ namespace Bunker.Game
                 if (row_value >= lengthLine)
                 {
                     var copytarget = row_value - lengthLine;
-                    var copyori = copytarget + offset;
+                    var copyori = copytarget - offset;
 
                     datas[i].CopyMoveTo(x, copyori, x, copytarget, movetime);
                 }

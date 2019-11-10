@@ -40,10 +40,12 @@ namespace Bunker.Game
 
         public override void EndProcess()
         {
-            _battleLogicObject.onupdate -= _battleModule.Update;
+            //_battleLogicObject.onupdate -= _battleModule.Update;
             ModuleManager.getInstance.StopModule<BattlefieldModule>();
             ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
+
+            _battleLogicObject.onupdate -= Update;
 
             base.EndProcess();
 
@@ -59,6 +61,11 @@ namespace Bunker.Game
             if(_battleUIModule != null)
             {
                 _battleUIModule.Update(dt);
+            }
+
+            if(_battleModule != null)
+            {
+                _battleModule.Update(dt);
             }
         }
 
@@ -86,7 +93,7 @@ namespace Bunker.Game
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
 
-            _battleLogicObject.onupdate += _battleModule.Update;
+            //_battleLogicObject.onupdate += _battleModule.Update;
         }
     }
 }
