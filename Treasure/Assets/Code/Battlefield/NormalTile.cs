@@ -24,6 +24,7 @@ namespace Bunker.Game
         {
             return this.GetType().ToString();
         }
+
     }
 }
 

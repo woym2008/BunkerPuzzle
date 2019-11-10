@@ -41,11 +41,9 @@ namespace Bunker.Game
         public override void EndProcess()
         {
             //_battleLogicObject.onupdate -= _battleModule.Update;
-            ModuleManager.getInstance.StopModule<BattlefieldModule>();
-            ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();
-            ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
+            _battleLogicObject.StopCoroutine(RemoveScene());
 
-            _battleLogicObject.onupdate -= Update;
+            GameObject.Destroy(_battleLogicObject);
 
             base.EndProcess();
 
@@ -69,6 +67,22 @@ namespace Bunker.Game
             }
         }
 
+        IEnumerator RemoveScene()
+        {
+            var back = SceneManager.UnloadSceneAsync("Battlefield");
+            while (!back.isDone)
+            {
+                yield return 0;
+            }
+            ModuleManager.getInstance.StopModule<BattlefieldModule>();
+            ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();
+            ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
+
+            _battleLogicObject.onupdate -= Update;
+
+
+        }
+
         IEnumerator LoadBattleScene()
         {
             yield return 0;
@@ -82,7 +96,7 @@ namespace Bunker.Game
             _battleLogicObject.onupdate += Update;
 
             //
-            _battleModule = ModuleManager.getInstance.GetModule("BattlefieldModule") as BattlefieldModule;
+            _battleModule = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             //_battleLogicObject.onupdate += _battleModule.Update;
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();

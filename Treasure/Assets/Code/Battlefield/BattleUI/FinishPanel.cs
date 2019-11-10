@@ -12,16 +12,18 @@ namespace Bunker.Game
 
         public override void OnBegin()
         {
-            _resetBtn = _transform.Find("ResetBtn").GetComponent<Button>();
-            _nextBtn = _transform.Find("NextBtn").GetComponent<Button>();
+            _resetBtn = _transform.Find("Root/ResetBtn").GetComponent<Button>();
+            _nextBtn = _transform.Find("Root/NextBtn").GetComponent<Button>();
 
-
+            _resetBtn.onClick.AddListener(OnClickReset);
         }
 
         private void OnClickReset()
         {
             Debug.LogError("OnClickReset");
-            ModuleManager.getInstance.SendMessage("BattleModule", "RestartLevel");
+            ModuleManager.getInstance.SendMessage("Bunker.Game.BattlefieldModule", "RestartLevel");
+
+            UIModule.getInstance.Close<FinishPanel>();
         }
 
         private void OnClickNext()

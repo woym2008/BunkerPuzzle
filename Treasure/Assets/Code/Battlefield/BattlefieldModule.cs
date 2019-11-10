@@ -85,6 +85,8 @@ namespace Bunker.Game
 
         public void RestartLevel()
         {
+            UIModule.getInstance.ClearAll();
+            ProcessManager.getInstance.Switch<BattlefieldProcess>();
             Debug.LogError("RestartLevel");
             _field.RestartLevel();
         }
