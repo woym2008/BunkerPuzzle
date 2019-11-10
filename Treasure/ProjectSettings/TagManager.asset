@@ -15,7 +15,7 @@ TagManager:
   - 
   - PostProcessing
   - 
-  - 
+  - BattleFiledSort
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BattleFiledSort
+    uniqueID: 3803598479
     locked: 0

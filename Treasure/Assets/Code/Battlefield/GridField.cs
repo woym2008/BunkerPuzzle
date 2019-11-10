@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 //------------------------------
 //(0,0)********************
@@ -65,7 +66,9 @@ namespace Bunker.Game
         }
 
         string _currectLevel = "";
-
+        //-------------------------------------
+        public Action<int> OnElimination;
+        //-------------------------------------
         // Use this for initialization
         void Start()
         {
@@ -201,7 +204,8 @@ namespace Bunker.Game
             if(_grids != null)
             {
                 //1 up
-                bool bUpOK = true;
+                //bool bUpOK = true;
+                bool bUpOK = false;
                 var gridUp = GetGrid(grid.X, grid.Y + 1);
                 if (gridUp == null)
                 {
@@ -209,16 +213,21 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    if (gridUp.GetGridType() != grid.GetGridType() || !gridUp.CanElimination())
+                    //if (gridUp.GetGridType() != grid.GetGridType() || !gridUp.CanElimination())
+                    //{
+                    //    bUpOK = false;
+                    //}
+                    if (grid.CanEliminationByOther(gridUp.GetGridType()) && gridUp.CanElimination())
                     {
-                        bUpOK = false;
+                        bUpOK = true;
                     }
                 }
 
 
 
                 //2 down
-                bool bDownOK = true;
+                //bool bDownOK = true;
+                bool bDownOK = false;
                 var gridDown = GetGrid(grid.X, grid.Y - 1);
                 if (gridDown == null)
                 {
@@ -226,15 +235,20 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    if (gridDown.GetGridType() != grid.GetGridType() || !gridDown.CanElimination())
+                    //if (gridDown.GetGridType() != grid.GetGridType() || !gridDown.CanElimination())
+                    //{
+                    //    bDownOK = false;
+                    //}
+                    if (grid.CanEliminationByOther(gridDown.GetGridType()) && gridDown.CanElimination())
                     {
-                        bDownOK = false;
+                        bDownOK = true;
                     }
                 }
 
 
                 //3 left
-                bool bLeftOK = true;
+                //bool bLeftOK = true;
+                bool bLeftOK = false;
                 var gridLeft = GetGrid(grid.X - 1, grid.Y);
                 if (gridLeft == null)
                 {
@@ -242,7 +256,11 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    if (gridLeft.GetGridType() != grid.GetGridType() || !gridLeft.CanElimination())
+                    //if (gridLeft.GetGridType() != grid.GetGridType() || !gridLeft.CanElimination())
+                    //{
+                    //    bLeftOK = false;
+                    //}
+                    if (grid.CanEliminationByOther(gridLeft.GetGridType()) && gridLeft.CanElimination())
                     {
                         bLeftOK = false;
                     }
@@ -250,7 +268,8 @@ namespace Bunker.Game
 
 
                 //4 right
-                bool bRightOK = true;
+                //bool bRightOK = true;
+                bool bRightOK = false;
                 var gridRight = GetGrid(grid.X + 1, grid.Y);
                 if (gridRight == null)
                 {
@@ -258,9 +277,13 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    if (gridRight.GetGridType() != grid.GetGridType() || !gridRight.CanElimination())
+                    //if (gridRight.GetGridType() != grid.GetGridType() || !gridRight.CanElimination())
+                    //{
+                    //    bRightOK = false;
+                    //}
+                    if(grid.CanEliminationByOther(gridRight.GetGridType()) && gridRight.CanElimination())
                     {
-                        bRightOK = false;
+                        bRightOK = true;
                     }
                 }
 
@@ -351,7 +374,11 @@ namespace Bunker.Game
                 RemoveGrid(x, y);
                 var newg = GridLoader.CreateGrid("NormalTile", x, y);
                 SetGrid(x,y, newg);
+
+                g.OnEliminationed();
             }
+
+            OnElimination?.Invoke(elimiGrids.Count);
         }
 
         //通过检测grids中有没有可消除grid，来判断是否都消除完了

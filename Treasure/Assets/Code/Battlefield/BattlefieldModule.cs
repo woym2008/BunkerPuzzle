@@ -41,6 +41,7 @@ namespace Bunker.Game
 
             _field = new GridField();
             _field.Load("Level_1");
+            _field.OnElimination = OnElimination;
         }
 
         public override void OnStop()
@@ -86,6 +87,15 @@ namespace Bunker.Game
         {
             Debug.LogError("RestartLevel");
             _field.RestartLevel();
+        }
+
+        /// <summary>
+        /// gridfiled 消除块后的回调
+        /// </summary>
+        /// <param name="num">Number.</param>
+        void OnElimination(int num)
+        {
+            Debug.LogFormat("一共消除了{0}个块",num);
         }
     }
 }
