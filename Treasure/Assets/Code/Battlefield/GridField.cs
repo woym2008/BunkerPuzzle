@@ -189,6 +189,30 @@ namespace Bunker.Game
             _grids[row_value, column_value] = null;
         }
 
+        public BaseGrid FindGrid(string gridType)
+        {
+            for (int i = 0;i< _grids.GetLength(0);++i)
+            {
+                for (int j = 0; j < _grids.GetLength(1); ++j)
+                {
+                    var g = _grids[i, j];
+                    if (g.GetGridType() == gridType)
+                    {
+                        return g as BaseGrid;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public bool CanWalk(int x,int y)
+        {
+            var igo = GetGrid(x,y);
+            if (igo == null) return false;
+            if (igo.GetGridType() == "Bunker.Game.NormalTile") return true;
+            return false;
+        } 
+
         //---------------------------------------------------------------------
 
         public enum CheckEliminationType
