@@ -209,7 +209,8 @@ namespace Bunker.Game
         {
             var igo = GetGrid(x,y);
             if (igo == null) return false;
-            if (igo.GetGridType() == "Bunker.Game.NormalTile") return true;
+            if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
+                igo.GetGridType() == "Bunker.Game.GemTile") return true;
             return false;
         } 
 

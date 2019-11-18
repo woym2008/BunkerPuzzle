@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Bunker.Module;
 
 namespace Bunker.Game
 {
@@ -35,6 +36,20 @@ namespace Bunker.Game
         public override bool IsFinish()
         {
             return !_isMoving;
+        }
+        public void OnFinishMovingAnmia()
+        {
+            //不知道在这里写这样的代码合适么？
+            Debug.Log(" -- OnFinishMovingAnmia --");
+            var btm = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
+            if(btm != null)
+            {
+                if (btm.IsPlayerTurn())
+                {
+                    btm.NextTurn();
+                }
+            }
+
         }
 
         public override void Excute(params object[] objs)
@@ -153,6 +168,7 @@ namespace Bunker.Game
             _isMoving = false;
 
             //_gridfield.SwitchController<GridFieldController_Idle>();
+            OnFinishMovingAnmia();
         }
 
         IEnumerator WaitforUpdateVertical(IGridObject[] datas, int offset, float time)
@@ -165,6 +181,8 @@ namespace Bunker.Game
 
             _isMoving = false;
             //_gridfield.SwitchController<GridFieldController_Idle>();
+            OnFinishMovingAnmia();
+
         }
         //-------------------------------------------------------------------------------------
         private void MoveVertical(IGridObject[] datas, int offset)

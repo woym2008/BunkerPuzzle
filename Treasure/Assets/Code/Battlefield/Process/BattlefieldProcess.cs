@@ -14,6 +14,8 @@ namespace Bunker.Game
         BattlefieldInputModule _battleInputModule;
 
         BattleUIModule  _battleUIModule;
+        RobotManagerModule _robotManagerModule;
+        BattleTurnsModule _battleTurnsModule;
 
         public override void Create()
         {
@@ -65,6 +67,16 @@ namespace Bunker.Game
             {
                 _battleModule.Update(dt);
             }
+
+            if (_robotManagerModule != null)
+            {
+                _robotManagerModule.Update(dt);
+            }
+
+            if (_battleTurnsModule != null)
+            {
+                _battleTurnsModule.Update(dt);
+            }
         }
 
         IEnumerator RemoveScene()
@@ -77,6 +89,9 @@ namespace Bunker.Game
             ModuleManager.getInstance.StopModule<BattlefieldModule>();
             ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
+            ModuleManager.getInstance.StopModule<RobotManagerModule>();
+            ModuleManager.getInstance.StopModule<BattleTurnsModule>();
+
 
             _battleLogicObject.onupdate -= Update;
 
@@ -97,17 +112,25 @@ namespace Bunker.Game
 
             //
             _battleModule = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            //_battleLogicObject.onupdate += _battleModule.Update;
+
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
             ModuleManager.getInstance.StartModule<BattleUIModule>();
+            ModuleManager.getInstance.StartModule<RobotManagerModule>();
+            ModuleManager.getInstance.StartModule<BattleTurnsModule>();
+
+            
+
 
 
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
+            _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
+            _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
+            //
+            _battleTurnsModule.NextTurn();
 
-            //_battleLogicObject.onupdate += _battleModule.Update;
         }
     }
 }

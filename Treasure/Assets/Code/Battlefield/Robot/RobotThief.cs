@@ -17,7 +17,7 @@ namespace Bunker.Game
         public override Vector3Int FindWay()
         {
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var igo = m.Field.FindGrid("TO FILL NAME");
+            var igo = m.Field.FindGrid("Bunker.Game.GemTile");
             if (igo != null)
             {
                 var wp = igo.Node.transform.position;

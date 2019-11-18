@@ -59,6 +59,12 @@ namespace Bunker.Game
         {
             return state;
         }
+
+        public void SetToGird(BaseGrid grid)
+        {
+            transform.parent = grid.Node.transform;
+            transform.localPosition = Vector3.zero;
+        }
         //这个非常简单，只需要向目的地靠近就好
         /// <summary>
         /// 

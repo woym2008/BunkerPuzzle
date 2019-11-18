@@ -27,6 +27,8 @@ namespace Bunker.Game
 
         InputState _state = InputState.Normal;
 
+        public bool locked = false;
+
         public BattlefieldInputModule() : base(typeof(BattlefieldInputModule).ToString())
         {
 
@@ -72,32 +74,35 @@ namespace Bunker.Game
             {
                 _inputcam = ModuleManager.getInstance.GetModule<BattlefieldCameraModule>().GameCam;
             }
-            if (Input.GetMouseButtonDown(0))
+            if (!locked)
             {
-                Vector3 mousepos = Input.mousePosition;
-                var pos = _inputcam.ScreenToWorldPoint(mousepos);
-
-                onPressClick?.Invoke(pos, _state, OnClickObject);
-            }
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                onReleaseClick?.Invoke();
-            }
-
-            if (Input.touchCount > 0)
-            {
-                var touch = Input.GetTouch(0);
-
-                var pos = Camera.main.ScreenToWorldPoint(touch.position);
-
-                if (touch.phase == TouchPhase.Began)
+                if (Input.GetMouseButtonDown(0))
                 {
+                    Vector3 mousepos = Input.mousePosition;
+                    var pos = _inputcam.ScreenToWorldPoint(mousepos);
+
                     onPressClick?.Invoke(pos, _state, OnClickObject);
                 }
-                else if (touch.phase == TouchPhase.Ended)
+
+                if (Input.GetMouseButtonDown(1))
                 {
                     onReleaseClick?.Invoke();
+                }
+
+                if (Input.touchCount > 0)
+                {
+                    var touch = Input.GetTouch(0);
+
+                    var pos = Camera.main.ScreenToWorldPoint(touch.position);
+
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        onPressClick?.Invoke(pos, _state, OnClickObject);
+                    }
+                    else if (touch.phase == TouchPhase.Ended)
+                    {
+                        onReleaseClick?.Invoke();
+                    }
                 }
             }
 

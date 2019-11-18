@@ -33,9 +33,14 @@ namespace Bunker.Game
         public override void OnStart()
         {
             base.OnStart();
+            //TODO create robot at Special Tile from BattleField!
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var robot = CreateRobot<RobotThief>();
+            robot.SetToGird(m.Field.GetGrid(7, 0) as BaseGrid);
         }
         public override void OnStop()
         {
+            RemoveRobots();
             base.OnStop();
         }
         public void Update(float dt)
@@ -43,16 +48,16 @@ namespace Bunker.Game
 
         }
         ///------------
-        public void CreateRobot<T>() where T : RobotBase, new()
+        public T CreateRobot<T>() where T : RobotBase, new()
         {
             var bot_name = typeof(T).Name;
-            var go = GameObject.Instantiate(Resources.Load("Robot/" + bot_name)) as GameObject;
-            go.name = bot_name;
+            var go = GameObject.Instantiate(Resources.Load("Prefabs/Robot/" + bot_name)) as GameObject;
             var bot = go.AddComponent<T>();
             bot.OnInit();
             _RobotList.Add(bot);
+            return bot;
         }
-        public void RemoveRobot()
+        public void RemoveRobots()
         {
             foreach(var bot in _RobotList)
             {
@@ -66,13 +71,19 @@ namespace Bunker.Game
             if (!robotTurn)
             {
                 robotTurn = true;
-                _CurRobotIter = _RobotList.GetEnumerator();
+
                 foreach (var bot in _RobotList)
                 {
                     bot.OnPrepareMove();
                 }
-                //
-                _CurRobotIter.Current.OnStartMove();
+
+                _CurRobotIter = _RobotList.GetEnumerator();
+                _CurRobotIter.MoveNext();
+
+                if (_CurRobotIter.Current != null)
+                {
+                    _CurRobotIter.Current.OnStartMove();
+                }
             }
 
         }
@@ -86,6 +97,7 @@ namespace Bunker.Game
         }
         public void NextRobot()
         {
+            Debug.Log("NextRobot...");
             if (_CurRobotIter.MoveNext())
             {
                 _CurRobotIter.Current.OnStartMove();
