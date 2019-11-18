@@ -10,7 +10,8 @@ public static class Constant
         "LeftDirectTile",
         "UpDirectTile",
         "DownDirectTile",
-        "RightDirectTile"
+        "RightDirectTile",
+        "GemTile"
     };
     public static int[] TilesIndex =
     {
