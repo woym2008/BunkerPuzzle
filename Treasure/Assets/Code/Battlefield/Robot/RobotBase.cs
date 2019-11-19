@@ -20,33 +20,41 @@ namespace Bunker.Game
 
         //
         private int _moveStep;
-        private Vector3Int _dir;
+        protected Vector3Int _dir;
+        protected Vector2Int _pos;
+        protected BaseGrid _curNode;
+
 
         public virtual void OnInit()
         {
 
         }
 
-        public void OnPrepareMove()
-        {
-            if (state == IDLE)
-            {
-                state = PREPARE;
-                _moveStep = moveStepMax; 
-                _dir = FindWay();
-            }
+        public virtual void OnPrepareMove()
+        {          
+            state = PREPARE;
+            _moveStep = moveStepMax; 
+            _dir = FindWay();        
         }
 
         public virtual void OnStartMove()
         {
             state = WALK;
-            transform.DOMove(transform.position + _dir, unitTime).OnComplete(OnFinishMove);
+            if(_dir == Vector3Int.zero)
+            {
+                OnFinishMove();
+            }
+            else
+            {
+                transform.DOMove(transform.position + _dir, unitTime).OnComplete(OnFinishMove);
+            }
         }
 
         public virtual void OnFinishMove()
         {
             state = END;
             _moveStep = 0;
+            
             ModuleManager.getInstance.SendMessage("Bunker.Game.RobotManagerModule", "NextRobot");
         }
 
@@ -62,6 +70,8 @@ namespace Bunker.Game
 
         public void SetToGird(BaseGrid grid)
         {
+            _curNode = grid;
+            _pos = new Vector2Int(grid.X, grid.Y);
             transform.parent = grid.Node.transform;
             transform.localPosition = Vector3.zero;
         }

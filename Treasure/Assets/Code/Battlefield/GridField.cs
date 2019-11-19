@@ -158,6 +158,14 @@ namespace Bunker.Game
             ;
         }
         //---------------------------------------------------------------------
+        //add by wwh / Oh no!Just Test!
+        public IGridObject GetGrid(Vector3 pos)
+        {
+            pos = pos - ZeroPos;
+            var x = pos.x / Constant.TileSize.x;
+            var y = pos.y / Constant.TileSize.y * -1;
+            return GetGrid(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
+        }
 
         public IGridObject GetGrid(int column_value, int row_value)
         {
@@ -187,6 +195,17 @@ namespace Bunker.Game
             Debug.LogWarning("Delete Grid: " + row_value + "," + column_value);
             _grids[row_value, column_value].Delete();
             _grids[row_value, column_value] = null;
+        }
+
+        public Vector2Int ClampGridPos(int x,int y)
+        {
+            int nx = x, ny = y;
+            if (x >= _grids.GetLength(0)) nx = 0;
+            if (y >= _grids.GetLength(1)) nx = 0;
+            if (x < 0) nx = _grids.GetLength(0) - 1;
+            if (y < 0) ny = _grids.GetLength(1) - 1;
+
+            return new Vector2Int(nx, ny);
         }
 
         public BaseGrid FindGrid(string gridType)

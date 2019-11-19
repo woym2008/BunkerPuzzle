@@ -9,8 +9,33 @@ namespace Bunker.Game
     public class RobotThief : RobotBase
     {
         Vector3Int[] DirList = { Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left };
+        public override void OnPrepareMove()
+        {
+            //update cur tile
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var g = m.Field.GetGrid(transform.position) as BaseGrid;
+            if (g != null)
+            {
+                SetToGird(g);
+
+            }
+            else
+            {
+                Debug.Log("RobotThief OnPrepareMove ERROR!");
+            }
+            //
+            base.OnPrepareMove();
+        }
         public override void OnFinishMove()
         {
+            //recalc new grid XY
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            _pos = m.Field.ClampGridPos(_pos.x + _dir.x , _pos.y - _dir.y); // here need use -
+            var g = m.Field.GetGrid(_pos.x, _pos.y) as BaseGrid;
+            this.transform.parent = g.Node.transform;
+            //set order
+            var sr = this.GetComponentInChildren<SpriteRenderer>();
+            sr.sortingOrder = g.Y+1;
             base.OnFinishMove();
         }
 
@@ -40,7 +65,7 @@ namespace Bunker.Game
                 {
                     var idx = startIdx + i;
                     if (idx >= DirList.Length) idx -= DirList.Length;
-                    if (m.Field.CanWalk(igo.X + DirList[idx].x , igo.Y + DirList[idx].y))
+                    if (m.Field.CanWalk(_curNode.X + DirList[idx].x , _curNode.Y - DirList[idx].y))
                     {
                         return DirList[idx];
                     }
