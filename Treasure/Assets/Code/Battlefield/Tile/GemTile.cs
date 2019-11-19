@@ -22,7 +22,7 @@ namespace Bunker.Game
 
         public override bool CanElimination()
         {
-            return true;
+            return false;
         }
 
         public override string GetGridType()

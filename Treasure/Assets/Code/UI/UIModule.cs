@@ -52,8 +52,8 @@ namespace Bunker.Module
             {
                 _UIlist[uiname].OnClose();
             }
-
-            _backstack.Pop();
+            if(_backstack.Count > 0)
+                _backstack.Pop();
         }
 
         public void Back()
