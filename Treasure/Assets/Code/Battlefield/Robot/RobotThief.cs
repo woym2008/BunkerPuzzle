@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Bunker.Module;
-using System;
-using Bunker.Process;
+
 
 namespace Bunker.Game
 {
     public class RobotThief : RobotBase
     {
         Vector3Int[] DirList = { Vector3Int.up, Vector3Int.down, Vector3Int.right, Vector3Int.left };
+        List<KeyValuePair<float, int>> weightDir = new List<KeyValuePair<float, int>>();
+
         public override void OnPrepareMove()
         {
             //update cur tile
@@ -17,7 +19,8 @@ namespace Bunker.Game
             if (g != null)
             {
                 SetToGird(g);
-
+                var sr = this.GetComponentInChildren<SpriteRenderer>();
+                sr.sortingOrder = g.Y * 2 + 3;
             }
             else
             {
@@ -35,7 +38,7 @@ namespace Bunker.Game
             this.transform.parent = g.Node.transform;
             //set order
             var sr = this.GetComponentInChildren<SpriteRenderer>();
-            sr.sortingOrder = g.Y+1;
+            sr.sortingOrder = g.Y * 2 + 1;
             base.OnFinishMove();
         }
 
@@ -49,28 +52,31 @@ namespace Bunker.Game
                 //首先确定一个方向
                 var dx = wp.x - transform.position.x;
                 var dy = wp.y - transform.position.y;
-                int startIdx = -1;
-                if (Mathf.Abs(dx) > Mathf.Abs(dy))
+                
+                for (int i = 0; i < DirList.Length; ++i)
                 {
-                    if (dx > 0) startIdx = 2;
-                    else startIdx = 3;
-                }
-                else
-                {
-                    if (dy > 0) startIdx = 0;
-                    else startIdx = 1;
-                }
-                //循环判断是否可行
-                for (int i = 0;i< DirList.Length;++i)
-                {
-                    var idx = startIdx + i;
-                    if (idx >= DirList.Length) idx -= DirList.Length;
-                    if (m.Field.CanWalk(_curNode.X + DirList[idx].x , _curNode.Y - DirList[idx].y))
-                    {
-                        return DirList[idx];
-                    }
+                    weightDir.Add(new KeyValuePair<float, int>(Vector3.Dot(new Vector3(dx,dy,0),DirList[i]),i));
                 }
 
+                weightDir.Sort((left, right) =>
+                {
+                    if (left.Key > right.Key)
+                        return -1;
+                    else if (left.Key == right.Key)
+                        return 0;
+                    else
+                        return 1;
+                });
+
+                //循环判断是否可行
+                for (int i = 0; i < weightDir.Count; ++i)
+                {
+                    var dir = DirList[weightDir[i].Value];
+                    if (m.Field.CanWalk(_curNode.X + dir.x, _curNode.Y - dir.y))
+                    {
+                        return dir;
+                    }
+                }
             }
             return Vector3Int.zero;
         }

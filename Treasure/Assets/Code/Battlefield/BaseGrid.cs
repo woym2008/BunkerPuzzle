@@ -88,7 +88,7 @@ namespace Bunker.Game
             {
                 var kid = _object.transform.GetChild(0);
                 var sr = kid.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = _y;
+                sr.sortingOrder = _y * 2;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Bunker.Game
 
                 var gridctrl = _copyobject.gameObject.GetComponent<GridMotionController>();
                 gridctrl.transform.position = currentpos;
-                gridctrl.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = startY;
+                gridctrl.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = startY * 2;
                 gridctrl?.MoveToPosition(targetpos, movetime);
             }
         }
