@@ -1,15 +1,10 @@
 fileFormatVersion: 2
-guid: bfe7c5954773d654daa98610bb8264a6
+guid: f74fe54dfa73a22468a0ebbd07eb4183
 TextureImporter:
   fileIDToRecycleName:
-    21300000: screen_cube_0
-    21300002: screen_cube_1
-    21300004: screen_cube_2
-    21300006: screen_cube_3
-    21300008: screen_cube_4
-    21300010: screen_cube_5
-    21300012: screen_cube_6
-    21300014: screen_cube_7
+    21300000: robot_start_0
+    21300002: robot_start_1
+    21300004: robot_start_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -103,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: screen_cube_0
+      name: robot_start_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,19 +112,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1715d6ab3a2670946b60e5fa59c53b52
+      spriteID: 1244841c173c10644bca546881400d57
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: screen_cube_1
+      name: robot_start_1
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 16
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,19 +132,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9763fd8120747a045a76d3bd4753c523
+      spriteID: 9d4ec741e8fcb7f4dbd37ef4ab48d448
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: screen_cube_2
+      name: robot_start_2
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 16
-        height: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,107 +152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d25333d405405b444be823eb0b2fc117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: screen_cube_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c30d862ad51992b4dba7e01311b502a4
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: screen_cube_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b6dd8d465ff82849a97aaa04d6c6659
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: screen_cube_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28901be205ddf0e43a39f20f221db531
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: screen_cube_6
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 074c5436fd299ac45816cbdd359132c2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: screen_cube_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b0115ed8eb5c0747abc5059793e9c28
+      spriteID: d43d84fb646c8b14598f0a471cb68a3b
       vertices: []
       indices: 
       edges: []
@@ -265,7 +160,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: dec36bc732a9b5a4db275db5dd48f365
+    spriteID: 16aef0fe4d1459a4193cf796c121a6ec
     vertices: []
     indices: 
     edges: []

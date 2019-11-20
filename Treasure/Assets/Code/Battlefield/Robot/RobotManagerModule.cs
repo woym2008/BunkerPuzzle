@@ -35,8 +35,9 @@ namespace Bunker.Game
             base.OnStart();
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var g = m.Field.FindGrid("Bunker.Game.RobotStartTile");
             var robot = CreateRobot<RobotThief>();
-            robot.SetToGird(m.Field.GetGrid(7, 0) as BaseGrid);
+            robot.SetToGird(g);
         }
         public override void OnStop()
         {

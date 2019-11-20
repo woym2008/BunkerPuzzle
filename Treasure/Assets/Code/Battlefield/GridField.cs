@@ -229,7 +229,8 @@ namespace Bunker.Game
             var igo = GetGrid(x,y);
             if (igo == null) return false;
             if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
-                igo.GetGridType() == "Bunker.Game.GemTile") return true;
+                igo.GetGridType() == "Bunker.Game.GemTile" ||
+                igo.GetGridType() == "Bunker.Game.RobotStartTile") return true;
             return false;
         } 
 

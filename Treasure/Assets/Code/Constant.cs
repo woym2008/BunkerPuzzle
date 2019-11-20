@@ -11,7 +11,9 @@ public static class Constant
         "UpDirectTile",
         "DownDirectTile",
         "RightDirectTile",
-        "GemTile"
+        "GemTile",
+        "RobotStartTile",
+
     };
     public static int[] TilesIndex =
     {
