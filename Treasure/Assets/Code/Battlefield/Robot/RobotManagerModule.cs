@@ -36,6 +36,7 @@ namespace Bunker.Game
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var g = m.Field.FindGrid("Bunker.Game.RobotStartTile");
+            Debug.LogError("OnStart");
             var robot = CreateRobot<RobotThief>();
             robot.SetToGird(g);
         }
@@ -56,11 +57,13 @@ namespace Bunker.Game
             var bot = go.AddComponent<T>();
             bot.OnInit();
             _RobotList.Add(bot);
+            Debug.Log("_RobotList count" + _RobotList.Count);
             return bot;
         }
         public void RemoveRobots()
         {
-            foreach(var bot in _RobotList)
+            Debug.LogError("RemoveRobots");
+            foreach (var bot in _RobotList)
             {
                 GameObject.Destroy(bot.gameObject);
             }

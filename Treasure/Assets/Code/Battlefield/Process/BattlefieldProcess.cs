@@ -42,10 +42,11 @@ namespace Bunker.Game
 
         public override void EndProcess()
         {
+            Debug.LogError(this);
             //_battleLogicObject.onupdate -= _battleModule.Update;
-            _battleLogicObject.StopCoroutine(RemoveScene());
+            _battleLogicObject.StartCoroutine(RemoveScene());
 
-            GameObject.Destroy(_battleLogicObject);
+
 
             base.EndProcess();
 
@@ -81,21 +82,28 @@ namespace Bunker.Game
 
         IEnumerator RemoveScene()
         {
-            var back = SceneManager.UnloadSceneAsync("Battlefield");
-            while (!back.isDone)
-            {
-                yield return 0;
-            }
+
+            //yield return new WaitForSeconds(.10f);
+
+            Debug.LogError("RemoveScene");
+
             ModuleManager.getInstance.StopModule<BattlefieldModule>();
             ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
             ModuleManager.getInstance.StopModule<RobotManagerModule>();
             ModuleManager.getInstance.StopModule<BattleTurnsModule>();
 
+            //var back = SceneManager.UnloadSceneAsync("Battlefield");
+            //while (!back.isDone)
+            //{
+            //    yield return 0;
+            //}
 
             _battleLogicObject.onupdate -= Update;
 
+            GameObject.Destroy(_battleLogicObject);
 
+            yield return 0;
         }
 
         IEnumerator LoadBattleScene()
@@ -112,10 +120,10 @@ namespace Bunker.Game
 
             //
             _battleModule = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-
-            ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
+            ModuleManager.getInstance.StartModule<BattlefieldModule>();
+
             ModuleManager.getInstance.StartModule<BattleUIModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();

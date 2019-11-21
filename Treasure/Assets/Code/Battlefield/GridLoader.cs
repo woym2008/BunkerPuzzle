@@ -13,7 +13,10 @@ namespace Bunker.Game
 
         public static void LoadGrid(string name, out IGridObject[,] reslist)
         {
-            if(_rootNode == null)
+            //------------------------
+
+            //------------------------
+            if (_rootNode == null)
             {
                 _rootNode = new GameObject("TileRoot").transform;
             }

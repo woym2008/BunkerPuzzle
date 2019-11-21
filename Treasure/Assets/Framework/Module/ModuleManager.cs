@@ -224,6 +224,7 @@ namespace Bunker.Module
         {
             var module = GetModule(typeof(T).ToString());
 
+            Debug.LogError(module);
             if (module != null)
             {
                 module.OnStop();

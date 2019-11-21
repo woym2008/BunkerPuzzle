@@ -37,6 +37,37 @@ namespace Bunker.Game
         {
 
         }
+        public void Rest()
+        {
+            if(onPressClick != null)
+            {
+                Delegate[] dels = onPressClick.GetInvocationList();
+                foreach (Delegate del in dels)
+                {
+                    onPressClick -= del as InputClickEvent;
+                }
+            }
+
+            if(onReleaseClick != null)
+            {
+                Delegate[] dels_reles = onReleaseClick.GetInvocationList();
+                foreach (Delegate del in dels_reles)
+                {
+                    onReleaseClick -= del as InputReleaseEvent;
+                }
+            }
+
+            if (onClickedTile != null)
+            {
+                Delegate[] dels_clicked = onClickedTile.GetInvocationList();
+                foreach (Delegate del in dels_clicked)
+                {
+                    onClickedTile -= del as ClickedTileEvent;
+                }
+
+            }
+
+        }
         public override void Create()
         {
             base.Create();

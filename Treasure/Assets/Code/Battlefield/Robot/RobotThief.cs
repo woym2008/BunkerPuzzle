@@ -15,6 +15,7 @@ namespace Bunker.Game
         {
             //update cur tile
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            Debug.Log(transform);
             var g = m.Field.GetGrid(transform.position) as BaseGrid;
             if (g != null)
             {

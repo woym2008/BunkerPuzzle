@@ -87,8 +87,13 @@ namespace Bunker.Game
         {
             UIModule.getInstance.ClearAll();
             ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            var battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
+            if(battleInputModule != null)
+            {
+                battleInputModule.Rest();
+            }
             Debug.LogError("RestartLevel");
-            _field.RestartLevel();
+            //_field.RestartLevel();
         }
 
         /// <summary>

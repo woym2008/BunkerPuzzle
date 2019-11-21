@@ -94,6 +94,7 @@ namespace Bunker.Game
         //---------------------------------------------------------------------
         public void Load(string name)
         {
+
             _currectLevel = name;
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
@@ -102,9 +103,24 @@ namespace Bunker.Game
 
         public void RestartLevel()
         {
+            Debug.LogError("RestartLevel 1");
             if(_currectLevel != null)
             {
-
+                Debug.LogError("RestartLevel 2");
+                if (_grids != null)
+                {
+                    Debug.LogError("RestartLevel 3");
+                    for (int i = 0; i < _grids.GetLength(0); ++i)
+                    {
+                        Debug.LogError("RestartLevel 4");
+                        for (int j = 0; j < _grids.GetLength(1); ++j)
+                        {
+                            Debug.LogError("RestartLevel 5");
+                            var g = _grids[i, j];
+                            g.Delete();
+                        }
+                    }
+                }
                 _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
                 GridLoader.LoadGrid(_currectLevel, out _grids);
             }
@@ -429,13 +445,25 @@ namespace Bunker.Game
         //通过检测grids中有没有可消除grid，来判断是否都消除完了
         public bool IsAllGridsElimination()
         {
-            foreach(var g in _grids)
+            for (int i = 0; i < _grids.GetLength(0); ++i)
+            {
+                for (int j = 0; j < _grids.GetLength(1); ++j)
+                {
+                    var g = _grids[i, j];
+                    if (g.CanElimination())
+                    {
+                        return false;
+                    }
+                }
+            }
+            /*
+            foreach (var g in _grids)
             {
                 if(g.CanElimination())
                 {
                     return false;
                 }
-            }
+            }*/
 
             return true;
         }

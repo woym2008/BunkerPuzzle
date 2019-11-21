@@ -67,7 +67,7 @@ namespace Bunker.Game
             OnDestroy();
         }
 
-        public void OnDestroy()
+        public virtual void OnDestroy()
         {
             if(_object != null)
             {

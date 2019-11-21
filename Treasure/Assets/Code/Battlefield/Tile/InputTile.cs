@@ -25,6 +25,14 @@ namespace Bunker.Game
             //
         }
 
+        public override void OnDestroy()
+        {
+            Debug.LogWarning("destroy InputTile");
+            _inputModule.onPressClick -= OnInputClick;
+
+            base.OnDestroy();
+        }
+
         public override bool CanMove()
         {
             return base.CanMove();
