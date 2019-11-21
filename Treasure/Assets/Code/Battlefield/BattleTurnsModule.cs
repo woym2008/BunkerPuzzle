@@ -30,6 +30,7 @@ namespace Bunker.Game
 
         public override void OnStop()
         {
+            _CurTurn = null;
             base.OnStop();
         }
 

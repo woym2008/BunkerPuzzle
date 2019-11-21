@@ -20,7 +20,6 @@ namespace Bunker.Game
 
         private void OnClickReset()
         {
-            Debug.LogError("OnClickReset");
             ModuleManager.getInstance.SendMessage("Bunker.Game.BattlefieldModule", "RestartLevel");
 
             UIModule.getInstance.Close<FinishPanel>();

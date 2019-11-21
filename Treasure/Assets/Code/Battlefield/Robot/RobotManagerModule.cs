@@ -36,13 +36,16 @@ namespace Bunker.Game
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var g = m.Field.FindGrid("Bunker.Game.RobotStartTile");
-            Debug.LogError("OnStart");
+
             var robot = CreateRobot<RobotThief>();
             robot.SetToGird(g);
         }
         public override void OnStop()
         {
             RemoveRobots();
+            //这个值也要初始化，否则下次游戏就只能进行一个回合
+            robotTurn = false;
+
             base.OnStop();
         }
         public void Update(float dt)
@@ -62,7 +65,6 @@ namespace Bunker.Game
         }
         public void RemoveRobots()
         {
-            Debug.LogError("RemoveRobots");
             foreach (var bot in _RobotList)
             {
                 GameObject.Destroy(bot.gameObject);

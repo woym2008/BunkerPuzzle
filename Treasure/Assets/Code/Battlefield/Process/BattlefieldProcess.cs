@@ -42,7 +42,6 @@ namespace Bunker.Game
 
         public override void EndProcess()
         {
-            Debug.LogError(this);
             //_battleLogicObject.onupdate -= _battleModule.Update;
             _battleLogicObject.StartCoroutine(RemoveScene());
 
@@ -84,8 +83,6 @@ namespace Bunker.Game
         {
 
             //yield return new WaitForSeconds(.10f);
-
-            Debug.LogError("RemoveScene");
 
             ModuleManager.getInstance.StopModule<BattlefieldModule>();
             ModuleManager.getInstance.StopModule<BattlefieldCameraModule>();

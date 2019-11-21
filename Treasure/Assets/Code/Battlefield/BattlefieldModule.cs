@@ -86,13 +86,14 @@ namespace Bunker.Game
         public void RestartLevel()
         {
             UIModule.getInstance.ClearAll();
-            ProcessManager.getInstance.Switch<BattlefieldProcess>();
             var battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
-            if(battleInputModule != null)
+            if (battleInputModule != null)
             {
                 battleInputModule.Rest();
             }
-            Debug.LogError("RestartLevel");
+
+            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+
             //_field.RestartLevel();
         }
 
