@@ -16,6 +16,11 @@ namespace Bunker.Game
                 return _field;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        int _curLevel = 1;
+
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())
         {
@@ -40,7 +45,7 @@ namespace Bunker.Game
             base.OnStart();
 
             _field = new GridField();
-            _field.Load("Level_1");
+            _field.Load("Level_" + _curLevel);
             _field.OnElimination = OnElimination;
         }
 
@@ -95,6 +100,21 @@ namespace Bunker.Game
             ProcessManager.getInstance.Switch<BattlefieldProcess>();
 
             //_field.RestartLevel();
+        }
+
+        public void NextLevel()
+        {
+            UIModule.getInstance.ClearAll();
+            var battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
+            if (battleInputModule != null)
+            {
+                battleInputModule.Rest();
+            }
+            //这里将关数累加
+            _curLevel++;
+            //
+            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            
         }
 
         /// <summary>

@@ -16,6 +16,8 @@ namespace Bunker.Game
             _nextBtn = _transform.Find("Root/NextBtn").GetComponent<Button>();
 
             _resetBtn.onClick.AddListener(OnClickReset);
+            _nextBtn.onClick.AddListener(OnClickNext);
+
         }
 
         private void OnClickReset()
@@ -27,7 +29,9 @@ namespace Bunker.Game
 
         private void OnClickNext()
         {
+            ModuleManager.getInstance.SendMessage("Bunker.Game.BattlefieldModule", "NextLevel");
 
+            UIModule.getInstance.Close<FinishPanel>();
         }
     }
 }
