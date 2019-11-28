@@ -40,7 +40,8 @@ namespace Bunker.Process
                 }
                 //----------------------------------------------------
                 //open new
-                process.StartProcess();
+                //add by wwh,Look here,there must be wanna pass the args param...
+                process.StartProcess(args);
 
                 _currectProcess = process;
             }

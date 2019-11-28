@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Bunker.Module;
+using Bunker.Process;
 
 
 namespace Bunker.Game
@@ -32,6 +33,7 @@ namespace Bunker.Game
         }
         public override void OnFinishMove()
         {
+
             //recalc new grid XY
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _pos = m.Field.ClampGridPos(_pos.x + _dir.x , _pos.y - _dir.y); // here need use -
@@ -40,6 +42,13 @@ namespace Bunker.Game
             //set order
             var sr = this.GetComponentInChildren<SpriteRenderer>();
             sr.sortingOrder = g.Y * 2 + 1;
+            //we check wheather the robot is catched the gemTile
+            if (g is GemTile)
+            {
+                //Game Over
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_LOSE);
+            }
+            //
             base.OnFinishMove();
         }
 

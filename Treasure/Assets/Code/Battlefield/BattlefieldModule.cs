@@ -65,7 +65,7 @@ namespace Bunker.Game
             //if(Input.mou)
             if(Field.IsAllGridsElimination())
             {
-                ProcessManager.getInstance.Switch<EndMenuProcess>();
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
             }
         }
 
