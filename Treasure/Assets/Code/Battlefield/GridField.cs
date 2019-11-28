@@ -65,6 +65,7 @@ namespace Bunker.Game
             }
         }
 
+        string _currectArea = "";
         string _currectLevel = "";
         //-------------------------------------
         public Action<int> OnElimination;
@@ -75,7 +76,7 @@ namespace Bunker.Game
             //test
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            GridLoader.LoadGrid("Level_1", out _grids);
+            GridLoader.LoadGrid("Area_1","Level_1", out _grids);
         }
 
         // Update is called once per frame
@@ -92,37 +93,32 @@ namespace Bunker.Game
             return _gridFieldController as T;
         }
         //---------------------------------------------------------------------
-        public void Load(string name)
+        public void Load(string areaName, string levelName)
         {
-
-            _currectLevel = name;
+            _currectArea = areaName;
+            _currectLevel = levelName;
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            GridLoader.LoadGrid(_currectLevel, out _grids);
+            GridLoader.LoadGrid(_currectArea, _currectLevel, out _grids);
         }
 
         public void RestartLevel()
         {
-            Debug.LogError("RestartLevel 1");
-            if(_currectLevel != null)
+            if(_currectLevel != null && _currectArea != null)
             {
-                Debug.LogError("RestartLevel 2");
                 if (_grids != null)
                 {
-                    Debug.LogError("RestartLevel 3");
                     for (int i = 0; i < _grids.GetLength(0); ++i)
                     {
-                        Debug.LogError("RestartLevel 4");
                         for (int j = 0; j < _grids.GetLength(1); ++j)
                         {
-                            Debug.LogError("RestartLevel 5");
                             var g = _grids[i, j];
                             g.Delete();
                         }
                     }
                 }
                 _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-                GridLoader.LoadGrid(_currectLevel, out _grids);
+                GridLoader.LoadGrid(_currectArea,_currectLevel, out _grids);
             }
         }
         //---------------------------------------------------------------------

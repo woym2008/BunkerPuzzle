@@ -11,7 +11,7 @@ namespace Bunker.Game
 
         static Transform _rootNode;
 
-        public static void LoadGrid(string name, out IGridObject[,] reslist)
+        public static void LoadGrid(string areaName, string levelName, out IGridObject[,] reslist)
         {
             //------------------------
 
@@ -20,7 +20,7 @@ namespace Bunker.Game
             {
                 _rootNode = new GameObject("TileRoot").transform;
             }
-            var map = Resources.Load<MapData>(string.Format("{0}/{1}", "Map", name));
+            var map = Resources.Load<MapData>(string.Format("{0}/{1}/{2}", "Map", areaName, levelName));
 
             reslist = new IGridObject[map.column, map.row];
 

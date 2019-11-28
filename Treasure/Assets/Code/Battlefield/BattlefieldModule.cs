@@ -20,6 +20,7 @@ namespace Bunker.Game
         /// 
         /// </summary>
         int _curLevel = 1;
+        int _areaIndex = 1;
 
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())
@@ -45,7 +46,9 @@ namespace Bunker.Game
             base.OnStart();
 
             _field = new GridField();
-            _field.Load("Level_" + _curLevel);
+            var areastr = string.Format("Area_{0}",_areaIndex);
+            var levelstr = string.Format("Level_{0}", _curLevel);
+            _field.Load(areastr, levelstr);
             _field.OnElimination = OnElimination;
         }
 
@@ -115,6 +118,21 @@ namespace Bunker.Game
             //
             ProcessManager.getInstance.Switch<BattlefieldProcess>();
             
+        }
+
+        public void SelectLevel(int areaIndex, int levelIndex)
+        {
+            UIModule.getInstance.ClearAll();
+            var battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
+            if (battleInputModule != null)
+            {
+                battleInputModule.Rest();
+            }
+            //
+            _areaIndex = areaIndex;
+            _curLevel = levelIndex;
+            //
+            ProcessManager.getInstance.Switch<BattlefieldProcess>();
         }
 
         /// <summary>
