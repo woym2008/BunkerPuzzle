@@ -18,6 +18,9 @@ public class MapData : ScriptableObject
     //在编辑器和游戏加载地图文件的时候都先加载tile配置表
     [SerializeField]
     public string tilename;
+    //这里保存着编辑的missions
+    [SerializeField]
+    public MissionData mission;
 
     //提供一个访问接口，可以用二维下标来方便的获取数据
     public int this[int r,int c]

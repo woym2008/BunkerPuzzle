@@ -66,9 +66,20 @@ namespace Bunker.Game
         {
             //Field?.EliminationUpdate();
             //if(Input.mou)
+            /*
             if(Field.IsAllGridsElimination())
             {
                 ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
+            }
+            */
+            //这里来更新，查看任务是否完成
+            if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Success)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
+            }
+            else if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Failure)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_LOSE);
             }
         }
 

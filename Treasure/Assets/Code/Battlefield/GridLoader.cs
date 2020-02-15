@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System;
+using Bunker.Module;
 
 namespace Bunker.Game
 {
@@ -59,6 +60,27 @@ namespace Bunker.Game
 
 
                 }
+            }
+            //Create Mission Data
+            var md = map.mission;
+            MissionManager.getInstance.LoadMissionData(md);
+            //Create UI Mission Item
+            foreach (var pair in md.Missions)
+            {
+                var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
+                    MissionDataHelper.MCT_2_SpriteNames(pair.Key), 
+                    pair.Value);
+                MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
+                MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
+            }
+            foreach (var pair in md.ProtectMissions)
+            {
+                var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
+                    MissionDataHelper.MCT_2_SpriteNames(pair.Key),
+                    pair.Value);
+                MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
+                MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
+
             }
         }
 

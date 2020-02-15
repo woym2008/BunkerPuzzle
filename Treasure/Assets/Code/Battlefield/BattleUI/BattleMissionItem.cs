@@ -18,8 +18,9 @@ namespace Bunker.Game
             _Num = GetComponentInChildren<Text>();
             _Icon = GetComponentInChildren<Image>();
         }
-        public void OnChange(string itemName , int n){
-            _Num.text = itemName + n.ToString();
+        public void OnChange(string itemName , int n ,int max){
+            //这里先注释掉itemname
+            _Num.text = /*itemName + */n.ToString() + '/' + max.ToString();
         }
 
         public void SetIcon(Sprite texture){

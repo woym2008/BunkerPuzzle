@@ -42,6 +42,8 @@ namespace Bunker.Game
         }
         public override void OnStop()
         {
+            Debug.Log("RobotManagerModule OnStop");
+            //
             RemoveRobots();
             //这个值也要初始化，否则下次游戏就只能进行一个回合
             robotTurn = false;

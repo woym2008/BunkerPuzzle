@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7183886865855628931}
   - component: {fileID: 724520189162077948}
   m_Layer: 0
-  m_Name: BlockTile
+  m_Name: SignalLightTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 3339108927014710217}
   - component: {fileID: 989335525608273593}
   m_Layer: 0
-  m_Name: liquid_cube_0
+  m_Name: signal_light_cube_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f089408d577809e49b73f9aaaba10763, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a94c6302baf6a8c4eb09d60c34e95839, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,7 +163,7 @@ Animator:
   m_GameObject: {fileID: 9131842542132004089}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f34c9be00e19a3a438e6c15e0d712df7, type: 2}
+  m_Controller: {fileID: 9100000, guid: de0b27f5b0e26de45a2e3250e28f3b05, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

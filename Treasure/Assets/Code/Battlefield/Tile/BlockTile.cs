@@ -29,5 +29,11 @@ namespace Bunker.Game
         {
             return this.GetType().ToString();
         }
+
+        public override void OnEliminationed()
+        {
+            Debug.LogFormat("我是{0}块，我被消除了,任务系统会完成一些东西", GetGridType());
+            MissionManager.getInstance.Collect(MissionCollectionType.Liquid);
+        }
     }
 }

@@ -11,6 +11,9 @@ public static class Constant
         "UpDirectTile",
         "DownDirectTile",
         "RightDirectTile",
+        "SignalLightTile",
+        "WedgeLeftTile",
+        "WedgeRightTile",
         "GemTile",
         "RobotStartTile",
 
