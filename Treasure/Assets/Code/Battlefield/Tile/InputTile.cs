@@ -60,6 +60,8 @@ namespace Bunker.Game
         virtual protected void OnClick()
         {
             InputTile.sInputCount++;
+            //这里插入一个步数的消耗
+            MissionManager.getInstance.ConsumeStep();
         }
 
         protected bool CanClick()

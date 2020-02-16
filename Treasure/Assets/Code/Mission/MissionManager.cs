@@ -8,6 +8,8 @@ using Bunker.Module;
 namespace Bunker.Game
 {
     public delegate void MissionChangeDelegate(string name, int n,int max);
+    public delegate void StepChangeDelegate(int n);
+
     public class MissionManager : ServicesModule<MissionManager>
     {
         public const int Mission_Success = 1;
@@ -17,6 +19,7 @@ namespace Bunker.Game
 
         MissionData missionData = new MissionData();
         MissionData curMissionData = new MissionData();
+        StepChangeDelegate stepChangeCallback;
 
         public MissionData OriginalMission { get { return missionData; } }
         public MissionData CurrentMission { get { return curMissionData; } }
@@ -67,6 +70,11 @@ namespace Bunker.Game
                 return true;
             }
             return false;
+        }
+
+        public void RegisterStepChanageDelegate(StepChangeDelegate cb)
+        {
+            stepChangeCallback = cb;
         }
 
         public void InvokeMissionDelegate(MissionCollectionType mct)
@@ -131,11 +139,13 @@ namespace Bunker.Game
         public void ConsumeStep()
         {
             curMissionData.MaxSteps -= 1;
+            stepChangeCallback?.Invoke(curMissionData.MaxSteps);
         }
 
         public void RegainStep()
         {
             curMissionData.MaxSteps += 1;
+            stepChangeCallback?.Invoke(curMissionData.MaxSteps);
         }
 
         public int GetMissionsState()
