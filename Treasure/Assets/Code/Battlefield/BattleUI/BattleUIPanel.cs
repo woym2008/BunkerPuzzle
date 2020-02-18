@@ -34,12 +34,12 @@ namespace Bunker.Game
         }
         //
         public void AddItem(GameObject item){
-            item.transform.parent = _ItemPanel;
+            item.transform.SetParent(_ItemPanel);
             item.transform.localScale = Vector3.one;
         }
 
         public void AddMissionItem(GameObject item){
-            item.transform.parent = _MissionPanel;
+            item.transform.SetParent(_MissionPanel);
             item.transform.localScale = Vector3.one;
 
         }

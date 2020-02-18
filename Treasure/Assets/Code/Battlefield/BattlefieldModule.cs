@@ -84,13 +84,13 @@ namespace Bunker.Game
         }
 
         GridFieldControllerBase _currentController;
-        public void UseController<T>(params object[] datas) where T : GridFieldControllerBase
+        public bool UseController<T>(params object[] datas) where T : GridFieldControllerBase
         {
             if(_currentController != null)
             {
                 if(!_currentController.IsFinish())
                 {
-                    return;
+                    return false;
                 }
             }
             var controller = Activator.CreateInstance(typeof(T)) as T;
@@ -100,6 +100,8 @@ namespace Bunker.Game
             controller.Excute(datas);
 
             _currentController = controller;
+
+            return true;
         }
 
         public void RestartLevel()

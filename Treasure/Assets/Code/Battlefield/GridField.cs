@@ -174,9 +174,9 @@ namespace Bunker.Game
         public IGridObject GetGrid(Vector3 pos)
         {
             pos = pos - ZeroPos;
-            var x = pos.x / Constant.TileSize.x;
-            var y = pos.y / Constant.TileSize.y * -1;
-            return GetGrid(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
+            var x = (pos.x - Constant.TileSize.x * 0.5f) / Constant.TileSize.x;
+            var y = (pos.y + Constant.TileSize.y * 0.5f) / Constant.TileSize.y * -1;
+            return GetGrid(Mathf.CeilToInt(x), Mathf.CeilToInt(y));
         }
 
         public IGridObject GetGrid(int column_value, int row_value)

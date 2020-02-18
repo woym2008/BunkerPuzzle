@@ -21,7 +21,7 @@ namespace Bunker.Game
 
         public override bool IsFinish()
         {
-            return base.IsFinish();
+            return !_isWorking;
         }
 
         public override void Excute(params object[] objs)
@@ -30,7 +30,9 @@ namespace Bunker.Game
 
             _isWorking = true;
 
-            IGridObject[] points = (IGridObject[])objs[0];
+            var obj = objs[0];
+
+            IGridObject[] points = (IGridObject[])objs;
 
             MonoBehaviourHelper.StartCoroutine(WaitforDestroyTile(points));
             //消灭
@@ -50,7 +52,7 @@ namespace Bunker.Game
             _gridfield.EliminationGrids(tempgrids);
             yield return new WaitForSeconds(2.0f);
 
-            _isWorking = false;
+            _isWorking = false;           
         }
     }
 }
