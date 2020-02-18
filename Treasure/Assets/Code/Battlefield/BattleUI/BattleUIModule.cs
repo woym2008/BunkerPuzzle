@@ -77,13 +77,13 @@ namespace Bunker.Game
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                _progress -= 5;
+                //_progress -= 5;
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                _progress += 5;
+                //_progress += 5;
             }
-            _UIPanel.SetProgressNum(_progress);
+
 
         }
         //////
@@ -105,6 +105,11 @@ namespace Bunker.Game
             item.SetIcon(_MissionIconlist[res_name]);
             _UIPanel.AddMissionItem(go);
             return item;
+        }
+
+        public BattleUIPanel GetBattleUIPanel()
+        {
+            return _UIPanel;
         }
     }   
 

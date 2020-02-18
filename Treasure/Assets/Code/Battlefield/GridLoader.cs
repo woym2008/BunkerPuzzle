@@ -80,8 +80,10 @@ namespace Bunker.Game
                     pair.Value);
                 MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
                 MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
-
             }
+            MissionManager.getInstance.RegisterStepChanageDelegate(
+                ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
+            
         }
 
         public static BaseGrid CreateGrid(string name, int x, int y)

@@ -8,7 +8,7 @@ using Bunker.Module;
 namespace Bunker.Game
 {
     public delegate void MissionChangeDelegate(string name, int n,int max);
-    public delegate void StepChangeDelegate(int n);
+    public delegate void StepChangeDelegate(float n);
 
     public class MissionManager : ServicesModule<MissionManager>
     {
@@ -35,6 +35,7 @@ namespace Bunker.Game
             MissionChangeDelegateDict.Clear();
             missionData.Reset(); 
             curMissionData.Reset();
+            stepChangeCallback = null;
             //复制两份，一份用来保存原始标准，一份用来记录当前情况
             missionData.MaxSteps = md.MaxSteps;
             foreach (var mp in md.Missions)
@@ -139,13 +140,13 @@ namespace Bunker.Game
         public void ConsumeStep()
         {
             curMissionData.MaxSteps -= 1;
-            stepChangeCallback?.Invoke(curMissionData.MaxSteps);
+            stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
         }
 
         public void RegainStep()
         {
             curMissionData.MaxSteps += 1;
-            stepChangeCallback?.Invoke(curMissionData.MaxSteps);
+            stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
         }
 
         public int GetMissionsState()
@@ -170,7 +171,7 @@ namespace Bunker.Game
                 }
             }
 
-            if (curMissionData.MaxSteps == 0)
+            if (curMissionData.MaxSteps <= 0)
             {
                 return Mission_Failure;
             }

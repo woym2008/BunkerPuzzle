@@ -43,11 +43,11 @@ namespace Bunker.Game
             item.transform.localScale = Vector3.one;
 
         }
-        /* 0~100 */
+        /* 0~1 */
         public void SetProgressNum(float n)
         {
-            n = Mathf.Clamp(n, 0, 100);
-            _ProgressNum = Mathf.FloorToInt(n / 100 * 7);
+            n = Mathf.Clamp(n, 0, 1);
+            _ProgressNum = Mathf.CeilToInt(n * 7);
             for (int i = 1;i <= 7;++i)
             {
                 _ProgressBar.Find("N" + i).GetComponent<Image>().enabled = false;
