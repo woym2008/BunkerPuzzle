@@ -270,11 +270,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridUp.GetGridType() != grid.GetGridType() || !gridUp.CanElimination())
-                    //{
-                    //    bUpOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridUp.GetGridType()) && gridUp.CanElimination())
+                    if (gridUp.CanElimination() && grid.CanEliminationByOther(gridUp.GetGridType(),0))
                     {
                         bUpOK = true;
                     }
@@ -292,11 +288,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridDown.GetGridType() != grid.GetGridType() || !gridDown.CanElimination())
-                    //{
-                    //    bDownOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridDown.GetGridType()) && gridDown.CanElimination())
+                    if (gridDown.CanElimination() && grid.CanEliminationByOther(gridDown.GetGridType(),1))
                     {
                         bDownOK = true;
                     }
@@ -313,11 +305,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridLeft.GetGridType() != grid.GetGridType() || !gridLeft.CanElimination())
-                    //{
-                    //    bLeftOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridLeft.GetGridType()) && gridLeft.CanElimination())
+                    if (gridLeft.CanElimination() && grid.CanEliminationByOther(gridLeft.GetGridType(),2) )
                     {
                         bLeftOK = false;
                     }
@@ -334,11 +322,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridRight.GetGridType() != grid.GetGridType() || !gridRight.CanElimination())
-                    //{
-                    //    bRightOK = false;
-                    //}
-                    if(grid.CanEliminationByOther(gridRight.GetGridType()) && gridRight.CanElimination())
+                    if(gridRight.CanElimination() && grid.CanEliminationByOther(gridRight.GetGridType(),3))
                     {
                         bRightOK = true;
                     }

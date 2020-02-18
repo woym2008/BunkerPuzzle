@@ -9,8 +9,6 @@ namespace Bunker.Game
     public class BattleUIModule : LogicModule
     {
         BattleUIPanel   _UIPanel;
-        int _progress = 50;
-
         //
         Dictionary<string, Sprite> _MissionIconlist = new Dictionary<string, Sprite>();
         //

@@ -83,7 +83,10 @@ namespace Bunker.Game
             }
             MissionManager.getInstance.RegisterStepChanageDelegate(
                 ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
-            
+            //清理一下item工场
+            BattleItemFactory.getInstance.Reset();
+
+
         }
 
         public static BaseGrid CreateGrid(string name, int x, int y)
