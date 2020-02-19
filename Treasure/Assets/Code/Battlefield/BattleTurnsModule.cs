@@ -23,6 +23,7 @@ namespace Bunker.Game
         public override void OnStart()
         {
             base.OnStart();
+            _CurTurn = null;
             _TurnQuene = new Queue<CTurn>();
             _TurnQuene.Enqueue(new PlayerTurn(this));
             _TurnQuene.Enqueue(new RobotTurn(this));
@@ -95,8 +96,7 @@ namespace Bunker.Game
         public override void OnEndTurn()
         {
             _battleFieldInputModule.locked = true;
-            //在玩家操作结束后再做判断
-            //这里来更新，查看任务是否完成
+            //在玩家操作结束后再做判断查看任务是否完成
             if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Success)
             {
                 ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);

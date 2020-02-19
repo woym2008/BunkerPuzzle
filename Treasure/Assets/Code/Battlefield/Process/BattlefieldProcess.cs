@@ -135,7 +135,7 @@ namespace Bunker.Game
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
-            //
+            //这里在切换关卡的时候，因为协程，会出现问题！
             _battleTurnsModule.NextTurn();
 
         }
