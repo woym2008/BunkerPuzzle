@@ -21,6 +21,13 @@ namespace Bunker.Game
         /// </summary>
         int _curLevel = 1;
         int _areaIndex = 1;
+        public int LevelNum
+        {
+            get
+            {
+                return _curLevel;
+            }
+        }
 
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())

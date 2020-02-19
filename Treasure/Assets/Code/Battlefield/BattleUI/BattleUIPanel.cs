@@ -33,6 +33,11 @@ namespace Bunker.Game
             _ProgressBar = _transform.Find("Right_Bar/ProgressBar");
         }
         //
+        public void SetLevelText(int num)
+        {
+            _levelText.text = num.ToString();
+        }
+        //
         public void AddItem(GameObject item){
             item.transform.SetParent(_ItemPanel);
             item.transform.localScale = Vector3.one;

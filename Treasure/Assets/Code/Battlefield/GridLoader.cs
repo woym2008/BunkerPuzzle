@@ -83,6 +83,10 @@ namespace Bunker.Game
             }
             MissionManager.getInstance.RegisterStepChanageDelegate(
                 ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
+            //UI level 的设置
+            ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetLevelText(
+                ModuleManager.getInstance.GetModule<BattlefieldModule>().LevelNum
+            );
             //清理一下item工场
             BattleItemFactory.getInstance.Reset();
 

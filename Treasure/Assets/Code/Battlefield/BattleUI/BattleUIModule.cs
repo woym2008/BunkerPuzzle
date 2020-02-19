@@ -81,8 +81,6 @@ namespace Bunker.Game
             {
                 //_progress += 5;
             }
-
-
         }
         //////
         public void CreateItem<T>() where T : BattleItem, new()
