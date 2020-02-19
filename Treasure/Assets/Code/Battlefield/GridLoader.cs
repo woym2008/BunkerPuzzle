@@ -22,9 +22,9 @@ namespace Bunker.Game
                 _rootNode = new GameObject("TileRoot").transform;
             }
             var map = Resources.Load<MapData>(string.Format("{0}/{1}/{2}", "Map", areaName, levelName));
-
+            
             reslist = new IGridObject[map.column, map.row];
-
+            
             for (int i = 0; i < map.row; ++i)
             {
                 for (int j = 0; j < map.column; ++j)
@@ -33,9 +33,10 @@ namespace Bunker.Game
 
                     var resname = Constant.Tiles[tiledata];
                     var grid = CreateGrid(resname, j, i);
-                    reslist[i,j] = grid;
+                    reslist[i,j] = grid; //---这里很奇怪，不应该是[j,i]?
                 }
             }
+            
 
             //create mask
             var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;

@@ -151,7 +151,7 @@ namespace Bunker.Game
 
         public int GetMissionsState()
         {
-            var ret = Mission_Processing;
+            var ret = Mission_Success;
 
             foreach (var md in curMissionData.ProtectMissions)
             {
@@ -164,14 +164,14 @@ namespace Bunker.Game
             for (var i = 0; i < curMissionData.Missions.Count; ++i)
             {
                 var mp = curMissionData.Missions[i];
-                if (mp.Value == OriginalMission.Missions[i].Value)
+                if (mp.Value != OriginalMission.Missions[i].Value)
                 {
-                    ret = Mission_Success;
+                    ret = Mission_Processing;
                     break;
                 }
             }
 
-            if (curMissionData.MaxSteps <= 0)
+            if (ret == Mission_Processing && curMissionData.MaxSteps <= 0)
             {
                 return Mission_Failure;
             }

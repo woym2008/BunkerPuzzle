@@ -36,9 +36,12 @@ namespace Bunker.Game
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var g = m.Field.FindGrid("Bunker.Game.RobotStartTile");
+            if (g!=null)
+            {
+                var robot = CreateRobot<RobotThief>();
+                robot.SetToGird(g);
+            }
 
-            var robot = CreateRobot<RobotThief>();
-            robot.SetToGird(g);
         }
         public override void OnStop()
         {
@@ -91,6 +94,10 @@ namespace Bunker.Game
                 if (_CurRobotIter.Current != null)
                 {
                     _CurRobotIter.Current.OnStartMove();
+                }
+                else
+                {
+                    EndRobotsTurn();
                 }
             }
 

@@ -95,6 +95,17 @@ namespace Bunker.Game
         public override void OnEndTurn()
         {
             _battleFieldInputModule.locked = true;
+            //在玩家操作结束后再做判断
+            //这里来更新，查看任务是否完成
+            if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Success)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
+            }
+            else if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Failure)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_LOSE);
+            }
+            //
             base.OnEndTurn();
         }
     }
