@@ -137,15 +137,15 @@ namespace Bunker.Game
             
         }
 
-        public void ConsumeStep()
+        public void ConsumeStep(int step = 1)
         {
-            curMissionData.MaxSteps -= 1;
+            curMissionData.MaxSteps -= step;
             stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
         }
 
-        public void RegainStep()
+        public void RegainStep(int step = 1)
         {
-            curMissionData.MaxSteps += 1;
+            curMissionData.MaxSteps += step;
             stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
         }
 
@@ -164,7 +164,7 @@ namespace Bunker.Game
             for (var i = 0; i < curMissionData.Missions.Count; ++i)
             {
                 var mp = curMissionData.Missions[i];
-                if (mp.Value != OriginalMission.Missions[i].Value)
+                if (mp.Value < OriginalMission.Missions[i].Value)
                 {
                     ret = Mission_Processing;
                     break;

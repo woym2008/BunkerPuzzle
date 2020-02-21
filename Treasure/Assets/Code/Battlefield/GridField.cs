@@ -76,6 +76,7 @@ namespace Bunker.Game
             //test
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
+            //just debug level
             GridLoader.LoadGrid("Area_1","Level_1", out _grids);
         }
 

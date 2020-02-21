@@ -19,7 +19,7 @@ namespace Bunker.Game
         /// <summary>
         /// 
         /// </summary>
-        int _curLevel = 1;
+        int _curLevel = Constant.debug_start_level;
         int _areaIndex = 1;
         public int LevelNum
         {

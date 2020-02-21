@@ -22,6 +22,7 @@ namespace Bunker.Game
         public override void OnUse(){
             base.OnUse();
             Debug.Log("Catch Fire!");
+            MissionManager.getInstance.RegainStep(5);
             Remove();
         }
     }
