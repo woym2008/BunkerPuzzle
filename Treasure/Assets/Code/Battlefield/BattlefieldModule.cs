@@ -111,7 +111,7 @@ namespace Bunker.Game
                 battleInputModule.Rest();
             }
 
-            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            ProcessManager.getInstance.Switch<BattlefieldProcess>(LevelManager.getInstance.CurLevel, LevelManager.getInstance.CurArea);
 
             //_field.RestartLevel();
         }
@@ -127,7 +127,9 @@ namespace Bunker.Game
             //这里将关数累加
             _curLevel++;
             //
-            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            string level = LevelManager.getInstance.GetNextLevel(_areaIndex, _curLevel.ToString());
+
+            ProcessManager.getInstance.Switch<BattlefieldProcess>(LevelManager.getInstance.CurLevel, LevelManager.getInstance.CurArea);
             
         }
 
@@ -142,6 +144,7 @@ namespace Bunker.Game
             //
             _areaIndex = areaIndex;
             _curLevel = levelIndex;
+            LevelManager.getInstance.SetCurrentLevel(_areaIndex,_curLevel);
             //
             //ProcessManager.getInstance.Switch<BattlefieldProcess>();
         }

@@ -37,6 +37,8 @@ namespace Bunker.Game
             foreach (var level in levels)
             {
                 var btn = GameObject.Instantiate(_btnPrefab).GetComponent<Button>();
+                var btnctrl = btn.gameObject.GetComponent<LevelBtnController>();
+                btnctrl.SetName(level);
                 string name = string.Format("{0}/{1}", buttonPathBase, level);
                 var sp = Resources.Load<Sprite>(name);
                 if(sp != null)

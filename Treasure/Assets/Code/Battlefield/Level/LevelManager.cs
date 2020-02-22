@@ -20,6 +20,9 @@ public class LevelManager : ServicesModule<LevelManager>
         get;
         set;
     }
+
+    public int CurArea;
+    public int CurLevel;
     //List
     public void LoadLevelFiles()
     {
@@ -33,20 +36,37 @@ public class LevelManager : ServicesModule<LevelManager>
 
         foreach (var l in _levelTable._rows)
         {
+            if(l._cols == null || l._cols.Count != 2)
+            {
+                break;
+            }
+            if (!l._cols.TryGetValue("level", out Col val))
+            {
+                break;
+            }
+
             var levelStr = l._cols["level"]._cellText;
             var areaStr = int.Parse(l._cols["area"]._cellText);
             Debug.Log("levelStr: " + levelStr);
             Debug.Log("areaStr: " + areaStr);
-            if(!_levels.ContainsKey(areaStr))
+            var lvs = levelStr.Split(';');
+            if (!_levels.ContainsKey(areaStr))
             {
                 _levels[areaStr] = new List<string>();
             }
             var ls = _levels[areaStr];
-            ls.Add(levelStr);
+            foreach(var lv in lvs)
+            {
+                ls.Add(lv);
+            }
+
         }
 
         LastLevel = 1;
         LastArea = 1;
+
+        CurArea = LastArea;
+        CurLevel = LastLevel;
     }
 
     public string[] GetAreaLevels(int areaID)
@@ -77,18 +97,31 @@ public class LevelManager : ServicesModule<LevelManager>
             {
                 if(i== curareaLevels.Length-1)
                 {
-                    var nextarealevel = GetNextLevel(areaID + 1, "");
+                    CurArea++;
+                    if(CurArea > LastArea)
+                    {
+                        LastArea = CurArea;
+                    }
+                    var nextarealevel = GetNextLevel(CurArea, "");
                     if(nextarealevel == "")
                     {
                         Debug.LogError("null level");
                     }
+                    CurLevel = int.Parse(nextarealevel);
                     return nextarealevel;
                 }
-                return curareaLevels[i+1];
+                CurLevel++;
+                return curareaLevels[CurLevel];
             }
         }
 
         return "";
+    }
+
+    public void SetCurrentLevel(int areaID, int levelID)
+    {
+        CurArea = areaID;
+        CurLevel = levelID;
     }
 
     public void Save()
