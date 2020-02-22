@@ -21,4 +21,4 @@ MonoBehaviour:
     - Key: 0
       Value: 8
     ProtectMissions: []
-    MaxSteps: 5
+    MaxSteps: 6
