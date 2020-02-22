@@ -30,7 +30,7 @@ public class Entrance : MonoBehaviour
         ModuleManager.getInstance.CreateModule<RobotManagerModule>();
         ModuleManager.getInstance.CreateModule<BattleTurnsModule>();
 
-
+        TableModule.getInstance.Start();
 
         ProcessManager.getInstance.Switch<TitleProcess>();
     }

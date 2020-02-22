@@ -132,7 +132,7 @@ namespace Bunker.Game
             _areaIndex = areaIndex;
             _curLevel = levelIndex;
             //
-            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            //ProcessManager.getInstance.Switch<BattlefieldProcess>();
         }
 
         /// <summary>

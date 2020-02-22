@@ -30,7 +30,8 @@ namespace Bunker.Game
 
         public void OnStartGameClick()
         {
-            ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            //ProcessManager.getInstance.Switch<BattlefieldProcess>();
+            ProcessManager.getInstance.Switch<SelectLevelProcess>();
         }
 
         public void LoopInfoRun()

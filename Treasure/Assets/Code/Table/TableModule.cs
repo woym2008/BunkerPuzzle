@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Bunker.Module;
+using System;
 
 public class TableModule : ServicesModule<TableModule>
 {
-    const string TablesPath = "Tables";
+    const string TablesPath = "Table";
 
-    Dictionary<string, CSVTable> _tables;
+    Dictionary<string, CSVTable> _tables = new Dictionary<string, CSVTable>();
 
     public override void Release()
     {
@@ -17,12 +18,14 @@ public class TableModule : ServicesModule<TableModule>
     public void Start()
     {
         var tables = Resources.LoadAll(TablesPath);
+        Debug.Log(tables);
         foreach(var table in tables)
         {
+            Debug.Log(table);
             TextAsset text = table as TextAsset;
 
             var newtable = new CSVTable();
-            var lineArray = text.text.Split("\r"[0]);
+            var lineArray = text.text.Split(new string[]{ "\r\n" }, StringSplitOptions.None);
             //title
             newtable.AddTitle(lineArray[0]);
             //datas
