@@ -27,7 +27,7 @@ namespace Bunker.Game
         }
 
         public virtual void Remove(){
-            transform.parent = null;
+            transform.SetParent(null);
             Destroy(this.gameObject);
         }
     }

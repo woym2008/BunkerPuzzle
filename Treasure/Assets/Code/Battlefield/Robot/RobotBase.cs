@@ -24,6 +24,11 @@ namespace Bunker.Game
         protected Vector2Int _pos;
         protected BaseGrid _curNode;
 
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
+
 
         public virtual void OnInit()
         {

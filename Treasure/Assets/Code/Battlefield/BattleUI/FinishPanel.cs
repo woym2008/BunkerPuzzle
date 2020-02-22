@@ -37,12 +37,16 @@ namespace Bunker.Game
                 _command_happy.SetActive(true);
                 _command_sad.SetActive(false);
                 _end_text.text = "Great!\nTake into next battle.";
+                _resetBtn.gameObject.SetActive(false);
+                _nextBtn.gameObject.SetActive(true);
             }
             else
             {
                 _command_happy.SetActive(false);
                 _command_sad.SetActive(true);
                 _end_text.text = "Oh Dame!\nYou must try to save us.";
+                _resetBtn.gameObject.SetActive(true);
+                _nextBtn.gameObject.SetActive(false);
             }
         }
 

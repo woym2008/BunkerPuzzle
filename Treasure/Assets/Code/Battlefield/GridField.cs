@@ -76,6 +76,7 @@ namespace Bunker.Game
             //test
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
+            //just debug level
             GridLoader.LoadGrid("Area_1","Level_1", out _grids);
         }
 
@@ -174,9 +175,9 @@ namespace Bunker.Game
         public IGridObject GetGrid(Vector3 pos)
         {
             pos = pos - ZeroPos;
-            var x = pos.x / Constant.TileSize.x;
-            var y = pos.y / Constant.TileSize.y * -1;
-            return GetGrid(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
+            var x = (pos.x - Constant.TileSize.x * 0.5f) / Constant.TileSize.x;
+            var y = (pos.y + Constant.TileSize.y * 0.5f) / Constant.TileSize.y * -1;
+            return GetGrid(Mathf.CeilToInt(x), Mathf.CeilToInt(y));
         }
 
         public IGridObject GetGrid(int column_value, int row_value)
@@ -213,7 +214,7 @@ namespace Bunker.Game
         {
             int nx = x, ny = y;
             if (x >= _grids.GetLength(0)) nx = 0;
-            if (y >= _grids.GetLength(1)) nx = 0;
+            if (y >= _grids.GetLength(1)) ny = 0;
             if (x < 0) nx = _grids.GetLength(0) - 1;
             if (y < 0) ny = _grids.GetLength(1) - 1;
 
@@ -270,11 +271,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridUp.GetGridType() != grid.GetGridType() || !gridUp.CanElimination())
-                    //{
-                    //    bUpOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridUp.GetGridType()) && gridUp.CanElimination())
+                    if (gridUp.CanElimination() && grid.CanEliminationByOther(gridUp.GetGridType(),0))
                     {
                         bUpOK = true;
                     }
@@ -292,11 +289,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridDown.GetGridType() != grid.GetGridType() || !gridDown.CanElimination())
-                    //{
-                    //    bDownOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridDown.GetGridType()) && gridDown.CanElimination())
+                    if (gridDown.CanElimination() && grid.CanEliminationByOther(gridDown.GetGridType(),1))
                     {
                         bDownOK = true;
                     }
@@ -313,11 +306,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridLeft.GetGridType() != grid.GetGridType() || !gridLeft.CanElimination())
-                    //{
-                    //    bLeftOK = false;
-                    //}
-                    if (grid.CanEliminationByOther(gridLeft.GetGridType()) && gridLeft.CanElimination())
+                    if (gridLeft.CanElimination() && grid.CanEliminationByOther(gridLeft.GetGridType(),2) )
                     {
                         bLeftOK = false;
                     }
@@ -334,11 +323,7 @@ namespace Bunker.Game
                 }
                 else
                 {
-                    //if (gridRight.GetGridType() != grid.GetGridType() || !gridRight.CanElimination())
-                    //{
-                    //    bRightOK = false;
-                    //}
-                    if(grid.CanEliminationByOther(gridRight.GetGridType()) && gridRight.CanElimination())
+                    if(gridRight.CanElimination() && grid.CanEliminationByOther(gridRight.GetGridType(),3))
                     {
                         bRightOK = true;
                     }

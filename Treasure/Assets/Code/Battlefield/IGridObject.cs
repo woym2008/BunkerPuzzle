@@ -52,7 +52,8 @@ namespace Bunker.Game
         /// </summary>
         /// <returns><c>true</c>, if elimination by other was caned, <c>false</c> otherwise.</returns>
         /// <param name="gridtype">传入的消除类型.</param>
-        bool CanEliminationByOther(string gridtype);
+        /// <param name="direct">传入的消除位置0,1,2,3分别为上下左右</param>
+        bool CanEliminationByOther(string gridtype,int direct);
         /// <summary>
         /// 执行消除
         /// </summary>

@@ -123,24 +123,23 @@ namespace Bunker.Game
             //
             _battleModule = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _battleModule.SelectLevel(area, level);
-            //-----------------
+
             ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
+            //UI mode 启动前置！
+            ModuleManager.getInstance.StartModule<BattleUIModule>();
+
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
 
-            ModuleManager.getInstance.StartModule<BattleUIModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();
-            //-----------------
 
-            _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
+
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
+            _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
-            //-----------------
 
-            //-----------------
-            //
             _battleTurnsModule.NextTurn();
 
         }

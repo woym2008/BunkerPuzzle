@@ -9,10 +9,7 @@ namespace Bunker.Game
     public class BattleUIModule : LogicModule
     {
         BattleUIPanel   _UIPanel;
-        int _progress = 50;
-
         //
-        Dictionary<string, BattleMissionNode> _Missionlist = new Dictionary<string, BattleMissionNode>();
         Dictionary<string, Sprite> _MissionIconlist = new Dictionary<string, Sprite>();
         //
         public BattleUIModule() : base(typeof(BattleUIModule).ToString())
@@ -71,21 +68,19 @@ namespace Bunker.Game
             }
             //
             if(Input.GetKeyDown(KeyCode.Alpha9)){
-                CreateMissionItem("IconSet_0",6);
+                //CreateMissionItem("IconSet_0",6);
             }
             if(Input.GetKeyDown(KeyCode.Alpha0)){
-                CreateMissionItem("IconSet_1",8);
+                //CreateMissionItem("IconSet_1",8);
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                _progress -= 5;
+                //_progress -= 5;
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                _progress += 5;
+                //_progress += 5;
             }
-            _UIPanel.SetProgressNum(_progress);
-
         }
         //////
         public void CreateItem<T>() where T : BattleItem, new()
@@ -98,21 +93,19 @@ namespace Bunker.Game
         }
 
         /* itemType是关卡中收集的一些东西，destNum是目标数量 */
-        public void CreateMissionItem(string itemType,int destNum)
+        public BattleMissionItem CreateMissionItem(string res_name,int destNum)
         {
-            if(!_Missionlist.ContainsKey(itemType)){
-                var go = GameObject.Instantiate(Resources.Load("UI/BattleMissionItem")) as GameObject;
-                var item = go.AddComponent<BattleMissionItem>();
-                item.OnInit();
-                item.SetIcon(_MissionIconlist[itemType]);
-                _UIPanel.AddMissionItem(go);
+            var go = GameObject.Instantiate(Resources.Load("UI/BattleMissionItem")) as GameObject;
+            var item = go.AddComponent<BattleMissionItem>();
+            item.OnInit();
+            item.SetIcon(_MissionIconlist[res_name]);
+            _UIPanel.AddMissionItem(go);
+            return item;
+        }
 
-                var mission =  new BattleMissionNode();
-                mission.Name = itemType;
-                mission.Num = destNum;
-                mission.Change = item.OnChange;
-                _Missionlist[itemType] = mission;
-            }
+        public BattleUIPanel GetBattleUIPanel()
+        {
+            return _UIPanel;
         }
     }   
 

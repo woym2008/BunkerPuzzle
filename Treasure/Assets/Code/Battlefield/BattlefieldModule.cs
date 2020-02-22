@@ -19,8 +19,15 @@ namespace Bunker.Game
         /// <summary>
         /// 
         /// </summary>
-        int _curLevel = 1;
+        int _curLevel = Constant.debug_start_level;
         int _areaIndex = 1;
+        public int LevelNum
+        {
+            get
+            {
+                return _curLevel;
+            }
+        }
 
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())
@@ -66,20 +73,22 @@ namespace Bunker.Game
         {
             //Field?.EliminationUpdate();
             //if(Input.mou)
+            /*
             if(Field.IsAllGridsElimination())
             {
                 ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
             }
+            */
         }
 
         GridFieldControllerBase _currentController;
-        public void UseController<T>(params object[] datas) where T : GridFieldControllerBase
+        public bool UseController<T>(params object[] datas) where T : GridFieldControllerBase
         {
             if(_currentController != null)
             {
                 if(!_currentController.IsFinish())
                 {
-                    return;
+                    return false;
                 }
             }
             var controller = Activator.CreateInstance(typeof(T)) as T;
@@ -89,6 +98,8 @@ namespace Bunker.Game
             controller.Excute(datas);
 
             _currentController = controller;
+
+            return true;
         }
 
         public void RestartLevel()

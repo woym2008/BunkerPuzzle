@@ -33,21 +33,26 @@ namespace Bunker.Game
             _ProgressBar = _transform.Find("Right_Bar/ProgressBar");
         }
         //
+        public void SetLevelText(int num)
+        {
+            _levelText.text = num.ToString();
+        }
+        //
         public void AddItem(GameObject item){
-            item.transform.parent = _ItemPanel;
+            item.transform.SetParent(_ItemPanel);
             item.transform.localScale = Vector3.one;
         }
 
         public void AddMissionItem(GameObject item){
-            item.transform.parent = _MissionPanel;
+            item.transform.SetParent(_MissionPanel);
             item.transform.localScale = Vector3.one;
 
         }
-        /* 0~100 */
+        /* 0~1 */
         public void SetProgressNum(float n)
         {
-            n = Mathf.Clamp(n, 0, 100);
-            _ProgressNum = Mathf.FloorToInt(n / 100 * 7);
+            n = Mathf.Clamp(n, 0, 1);
+            _ProgressNum = Mathf.CeilToInt(n * 7);
             for (int i = 1;i <= 7;++i)
             {
                 _ProgressBar.Find("N" + i).GetComponent<Image>().enabled = false;

@@ -164,10 +164,10 @@ namespace Bunker.Game
             Debug.LogFormat("我是{0}块，我被消除了", GetGridType());
         }
 
-        virtual public bool CanEliminationByOther(string gridtype)
+        virtual public bool CanEliminationByOther(string gridtype,int direct)
         {
             Debug.LogFormat("相邻的{0}块要消除，我的类型是{1}，判断能否消除", gridtype, GetGridType());
-            return true;
+            return (gridtype == GetGridType());
         }
     }
 }

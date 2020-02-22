@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System;
+using Bunker.Module;
 
 namespace Bunker.Game
 {
@@ -21,9 +22,9 @@ namespace Bunker.Game
                 _rootNode = new GameObject("TileRoot").transform;
             }
             var map = Resources.Load<MapData>(string.Format("{0}/{1}/{2}", "Map", areaName, levelName));
-
+            
             reslist = new IGridObject[map.column, map.row];
-
+            
             for (int i = 0; i < map.row; ++i)
             {
                 for (int j = 0; j < map.column; ++j)
@@ -32,9 +33,10 @@ namespace Bunker.Game
 
                     var resname = Constant.Tiles[tiledata];
                     var grid = CreateGrid(resname, j, i);
-                    reslist[i,j] = grid;
+                    reslist[i,j] = grid; //---这里很奇怪，不应该是[j,i]?
                 }
             }
+            
 
             //create mask
             var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;
@@ -60,6 +62,36 @@ namespace Bunker.Game
 
                 }
             }
+            //Create Mission Data
+            var md = map.mission;
+            MissionManager.getInstance.LoadMissionData(md);
+            //Create UI Mission Item
+            foreach (var pair in md.Missions)
+            {
+                var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
+                    MissionDataHelper.MCT_2_SpriteNames(pair.Key), 
+                    pair.Value);
+                MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
+                MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
+            }
+            foreach (var pair in md.ProtectMissions)
+            {
+                var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
+                    MissionDataHelper.MCT_2_SpriteNames(pair.Key),
+                    pair.Value);
+                MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
+                MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
+            }
+            MissionManager.getInstance.RegisterStepChanageDelegate(
+                ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
+            //UI level 的设置
+            ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetLevelText(
+                ModuleManager.getInstance.GetModule<BattlefieldModule>().LevelNum
+            );
+            //清理一下item工场
+            BattleItemFactory.getInstance.Reset();
+
+
         }
 
         public static BaseGrid CreateGrid(string name, int x, int y)

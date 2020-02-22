@@ -9,7 +9,23 @@ public class MapDataEditor : Editor
     MapData mapdata;
 
     //bool addmaptile;
-    
+
+    Rect PreviewMapRect = new Rect();
+
+    static Color[] tileColorDye = {
+        Color.black,
+        Color.blue,
+        Color.yellow,
+        Color.yellow,
+        Color.yellow,
+        Color.yellow,
+        Color.green,
+        Color.gray,
+        Color.gray,
+        Color.magenta,
+        Color.red
+    };
+
     private void OnEnable()
     {
         mapdata = (MapData)target;
@@ -91,28 +107,46 @@ public class MapDataEditor : Editor
             }
 
         }
-        //Debug.Log("enter MapDataEditor OnInspectorGUI");
-
-        //mapdata.datastr = EditorGUILayout.TextArea(mapdata.datastr);
-
-
-        for (int i=0;i< mapdata.row; ++i)
-        {
-            EditorGUILayout.BeginHorizontal();
-            for (int j = 0; j < mapdata.column; ++j)
-            {
-                //mapdata.data[i * column + j] = EditorGUILayout.IntField(mapdata.data[i* column + j]);
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-
-        //if (addmaptile)
-        {
-
-
-        }
 
         EditorGUILayout.EndVertical();
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("地图预览:");
+
+
+        Rect r = (Rect)EditorGUILayout.BeginVertical();
+
+        GUILayout.Box("", GUILayout.Width(200), GUILayout.Height(200));
+
+        PreviewMapRect.Set(r.x, r.y, 20, 20);
+        //EditorGUI.DrawRect(PreviewMapRect, Color.green);
+
+        for (int i = 0; i < mapdata.row; ++i)
+        {
+            for (int j = 0; j < mapdata.column; ++j)
+            {
+                var index = mapdata.data[i * mapdata.column + j];
+
+                PreviewMapRect.x = r.x + j * 20;
+                PreviewMapRect.y = r.y + i * 20;
+
+                EditorGUI.DrawRect(PreviewMapRect, tileColorDye[index]);
+
+                Debug.Log(PreviewMapRect);
+
+
+            }
+        }
+
+        Debug.Log(r);
+
+
+        EditorGUILayout.EndVertical();
+
+
+
+
 
 
         if (ischange)
