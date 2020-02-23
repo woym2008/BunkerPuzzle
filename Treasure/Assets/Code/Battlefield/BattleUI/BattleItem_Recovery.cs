@@ -12,6 +12,7 @@ namespace Bunker.Game
     public class BattleItem_Recovery : BattleItem {
         public override void OnInit(){
             base.OnInit();
+            BattleItemFactory.getInstance.RegistItemType<BattleItem_Recovery>();
         }
         public override void OnClick(){
             base.OnClick();
@@ -23,6 +24,12 @@ namespace Bunker.Game
             base.OnUse();
             Debug.Log("Catch Fire!");
             Remove();
+        }
+
+        public override void Remove()
+        {
+            BattleItemFactory.getInstance.ConsumeItem<BattleItem_Recovery>();
+            base.Remove();
         }
     }
     

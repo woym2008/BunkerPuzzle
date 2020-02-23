@@ -14,12 +14,19 @@ namespace Bunker.Game
     {
         public override void OnInit(){
             //base.OnInit();
+            BattleItemFactory.getInstance.RegistItemType<BattleItem_Lightning>();
+
         }
         public override void OnClick(){
             //base.OnClick();       
         }
         public override void OnUse(){
             base.OnUse();
+        }
+        public override void Remove()
+        {
+            BattleItemFactory.getInstance.ConsumeItem<BattleItem_Lightning>();
+            base.Remove();
         }
         //-------------------------------------------------------
         Vector3 offset;

@@ -133,13 +133,13 @@ public class MapDataEditor : Editor
 
                 EditorGUI.DrawRect(PreviewMapRect, tileColorDye[index]);
 
-                Debug.Log(PreviewMapRect);
+                //Debug.Log(PreviewMapRect);
 
 
             }
         }
 
-        Debug.Log(r);
+        //Debug.Log(r);
 
 
         EditorGUILayout.EndVertical();

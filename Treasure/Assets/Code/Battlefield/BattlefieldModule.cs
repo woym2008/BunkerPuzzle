@@ -28,6 +28,13 @@ namespace Bunker.Game
                 return _curLevel;
             }
         }
+        public int AreaNum
+        {
+            get
+            {
+                return _areaIndex;
+            }
+        }
 
 
         public BattlefieldModule() : base(typeof(BattlefieldModule).ToString())

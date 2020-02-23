@@ -41,7 +41,7 @@ namespace Bunker.Game
         public void AddItem(GameObject item){
             item.transform.SetParent(_ItemPanel);
             item.transform.localScale = Vector3.one;
-        }
+        }       
 
         public void AddMissionItem(GameObject item){
             item.transform.SetParent(_MissionPanel);

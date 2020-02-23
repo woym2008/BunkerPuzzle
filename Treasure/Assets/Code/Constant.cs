@@ -29,5 +29,7 @@ public static class Constant
         new Vector2(1f, 1f);
 
     public static int debug_start_level = 4;
+    //
+    public static bool save_items = true;
 
 }
