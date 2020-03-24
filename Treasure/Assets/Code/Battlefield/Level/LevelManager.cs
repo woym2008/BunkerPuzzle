@@ -23,6 +23,8 @@ public class LevelManager : ServicesModule<LevelManager>
 
     public int CurArea;
     public int CurLevel;
+    //
+    public int MaxArea { get; set; }
     //List
     public void LoadLevelFiles()
     {
@@ -59,7 +61,8 @@ public class LevelManager : ServicesModule<LevelManager>
             {
                 ls.Add(lv);
             }
-
+            //
+            MaxArea = areaStr;
         }
 
         LastLevel = 1;

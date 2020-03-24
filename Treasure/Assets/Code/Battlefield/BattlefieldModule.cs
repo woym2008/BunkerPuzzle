@@ -78,14 +78,6 @@ namespace Bunker.Game
 
         public void Update(float dt)
         {
-            //Field?.EliminationUpdate();
-            //if(Input.mou)
-            /*
-            if(Field.IsAllGridsElimination())
-            {
-                ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_WIN);
-            }
-            */
         }
 
         GridFieldControllerBase _currentController;
@@ -133,6 +125,8 @@ namespace Bunker.Game
             }
             //这里将关数累加
             _curLevel++;
+            //保存一下进度 --保存的调用放在关卡完成时，而非点击下一关的这里
+            //SaveLoader.getInstance.SaveGameCurProgress(_areaIndex, _curLevel);
             //
             string level = LevelManager.getInstance.GetNextLevel(_areaIndex, _curLevel.ToString());
 

@@ -140,6 +140,9 @@ namespace Bunker.Game
             _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
 
+            //这里尝试载入一下道具
+            SaveLoader.getInstance.LoadPlayerCurItems(area);
+
             _battleTurnsModule.NextTurn();
 
         }

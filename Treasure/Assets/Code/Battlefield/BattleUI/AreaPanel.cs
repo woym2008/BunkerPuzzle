@@ -60,6 +60,9 @@ namespace Bunker.Game
 
         void OpenArea(int areaID, string[] levels)
         {
+            int active_level = 0,cur_level = 0;
+            //载入进度
+            SaveLoader.getInstance.LoadGameCurProgress(areaID, ref active_level, ref cur_level);
             var areaframe = GameObject.Instantiate(_areaFrame);
             _currentArea = areaframe;
             _currentArea.SetActive(true);
@@ -68,6 +71,7 @@ namespace Bunker.Game
             {
                 var btn = GameObject.Instantiate(_btnPrefab).GetComponent<Button>();
                 var btnctrl = btn.gameObject.GetComponent<LevelBtnController>();
+                var lock_img = btn.transform.Find("Lock").GetComponent<Image>();
                 btnctrl.SetName(level);
                 string name = string.Format("{0}/{1}", buttonPathBase, level);
                 var sp = Resources.Load<Sprite>(name);
@@ -75,13 +79,23 @@ namespace Bunker.Game
                 {
                     btn.image.sprite = sp;
                 }
-
+                //
                 _levelButtons.Add(btn);
                 btn.transform.parent = areaframe.transform;
-
-                btn.onClick.AddListener(delegate { OnClickBtn(int.Parse(level), areaID); });
-
                 btn.gameObject.SetActive(true);
+                //
+                if (active_level > 0)
+                {
+                    active_level--;
+                    btn.onClick.AddListener(delegate { OnClickBtn(int.Parse(level), areaID); });
+                    btn.image.color = Color.white;
+                    lock_img.enabled = false;
+                }
+                else
+                {
+                    btn.image.color = Color.gray;
+                    lock_img.enabled = true;
+                }
             }
         }
 
