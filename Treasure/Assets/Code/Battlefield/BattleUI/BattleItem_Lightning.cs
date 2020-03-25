@@ -121,6 +121,14 @@ namespace Bunker.Game
             {
                 rt.position = offset + globalMousePos;
             }
+            //
+            var end_pt = Camera.main.ScreenToWorldPoint(eventData.position);
+            var _bf = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var _tile = _bf.Field.GetGrid(end_pt);
+            if (_tile != null && _tile.CanElimination())
+            {
+                Debug.Log("item selected a tile:" + _tile.GetGridType());
+            }
         }
 
     }

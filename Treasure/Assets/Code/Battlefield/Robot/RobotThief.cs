@@ -62,7 +62,9 @@ namespace Bunker.Game
                 //首先确定一个方向
                 var dx = wp.x - transform.position.x;
                 var dy = wp.y - transform.position.y;
-                
+                //
+                weightDir.Clear();
+                //
                 for (int i = 0; i < DirList.Length; ++i)
                 {
                     weightDir.Add(new KeyValuePair<float, int>(Vector3.Dot(new Vector3(dx,dy,0),DirList[i]),i));
