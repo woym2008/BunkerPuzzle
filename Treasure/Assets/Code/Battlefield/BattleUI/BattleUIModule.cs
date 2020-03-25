@@ -58,16 +58,16 @@ namespace Bunker.Game
         {
             //Test Here
             if(Input.GetKeyDown(KeyCode.I)){
-                CreateItem<BattleItem_Fire>();
+                BattleItemFactory.getInstance.CreateBattleItem<BattleItem_Fire>(1);
             }
             if(Input.GetKeyDown(KeyCode.O)){
-                CreateItem<BattleItem_Lightning>();
+                BattleItemFactory.getInstance.CreateBattleItem<BattleItem_Lightning>(1);
             }
-            if(Input.GetKeyDown(KeyCode.P)){
-                CreateItem<BattleItem_Recovery>();
+            if (Input.GetKeyDown(KeyCode.P)){
+                BattleItemFactory.getInstance.CreateBattleItem<BattleItem_Recovery>(1);
             }
             //
-            if(Input.GetKeyDown(KeyCode.Alpha9)){
+            if (Input.GetKeyDown(KeyCode.Alpha9)){
                 //CreateMissionItem("IconSet_0",6);
             }
             if(Input.GetKeyDown(KeyCode.Alpha0)){

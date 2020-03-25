@@ -17,17 +17,18 @@ namespace Bunker.Game
             var item_name = typeof(T).Name;
             if (ItemRequests.ContainsKey(item_name))
             {
-                ItemRequests[item_name] = ItemRequests[item_name] + n;
-                while (ItemRequests[item_name] >= 1)
-                {
-                    ModuleManager.getInstance.GetModule<BattleUIModule>().CreateItem<T>();
-                    ItemRequests[item_name] = ItemRequests[item_name] - 1;
-                    ItemList[item_name] = ItemList[item_name] + 1;
-                }
+                ItemRequests[item_name] = ItemRequests[item_name] + n;                
             }
             else
             {
                 ItemRequests.Add(item_name, n);                
+            }
+            //
+            while (ItemRequests[item_name] >= 1)
+            {
+                ModuleManager.getInstance.GetModule<BattleUIModule>().CreateItem<T>();
+                ItemRequests[item_name] = ItemRequests[item_name] - 1;
+                ItemList[item_name] = ItemList[item_name] + 1;
             }
         }
 
@@ -40,7 +41,7 @@ namespace Bunker.Game
         public void ConsumeItem<T>() where T : BattleItem, new()
         {
             var item_name = typeof(T).Name;
-            if (ItemRequests.ContainsKey(item_name))
+            if (ItemList.ContainsKey(item_name))
             {
                 ItemList[item_name] = ItemList[item_name] - 1;
                 if (ItemList[item_name] < 0)
