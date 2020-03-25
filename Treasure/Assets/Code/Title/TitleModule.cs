@@ -7,6 +7,7 @@ namespace Bunker.Game
     public class TitleModule : LogicModule
     {
         MainMenuPanel2D _Panel;
+        float _ButtonTimerConter = 0;
 
         public TitleModule() : base(typeof(TitleModule).ToString())
         {
@@ -53,6 +54,19 @@ namespace Bunker.Game
             {
                 _Panel.LoopInfoRun();
                 _Panel.FlashSelector();
+                //
+                _ButtonTimerConter -= dt;
+                //
+                var v = Input.GetAxis("Vertical");
+                if ( Mathf.Abs(v) > 0 && _ButtonTimerConter <= 0)
+                {
+                    _Panel.SelectorMove();
+                    _ButtonTimerConter = 0.2f;
+                }
+                if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Submit"))
+                {
+                    _Panel.SelectorSelected();
+                }
             }
         }
     }

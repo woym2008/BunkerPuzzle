@@ -15,16 +15,26 @@ namespace Bunker.Game
         float flashSpeed = 5;
         Text loopInfo;
         Button startBtn;
+        Button creditsBtn;
         SpriteRenderer selector;
         float rate;
+        //
+        Animator titleAnimator;
 
         public override void OnBegin()
         {
+            titleAnimator = _transform.Find("Panel/Title").GetComponent<Animator>();
+
             startBtn = _transform.Find("Panel/Start").GetComponent<Button>();
             startBtn.onClick.AddListener(OnStartGameClick);
 
+            creditsBtn = _transform.Find("Panel/Credits").GetComponent<Button>();
+            creditsBtn.onClick.AddListener(OnCreditsClick);
+
             loopInfo = _transform.Find("Bar_mask/Text").GetComponent<Text>();
             selector = _transform.Find("Panel/Sel/Selector").GetComponent<SpriteRenderer>();
+
+            selector.transform.SetParent(startBtn.transform);
 
         }
 
@@ -32,6 +42,38 @@ namespace Bunker.Game
         {
             //ProcessManager.getInstance.Switch<BattlefieldProcess>();
             ProcessManager.getInstance.Switch<SelectLevelProcess>();
+        }
+
+        public void OnCreditsClick()
+        {
+            Debug.Log("Show Credits");
+            titleAnimator.SetBool("ShowList", true);
+        }
+
+        public void SelectorMove()
+        {
+            if (selector.transform.parent == startBtn.transform)
+            {
+                selector.transform.SetParent(creditsBtn.transform);
+                selector.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                selector.transform.SetParent(startBtn.transform);
+                selector.transform.localPosition = Vector3.zero;
+            }
+        }
+
+        public void SelectorSelected()
+        {
+            if(selector.transform.parent == startBtn.transform)
+            {
+                OnStartGameClick();
+            }
+            else
+            {
+                OnCreditsClick();
+            }
         }
 
         public void LoopInfoRun()
