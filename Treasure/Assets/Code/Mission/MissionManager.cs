@@ -76,6 +76,7 @@ namespace Bunker.Game
         public void RegisterStepChanageDelegate(StepChangeDelegate cb)
         {
             stepChangeCallback = cb;
+            stepChangeCallback.Invoke(curMissionData.MaxSteps);
         }
 
         public void InvokeMissionDelegate(MissionCollectionType mct)
@@ -140,13 +141,15 @@ namespace Bunker.Game
         public void ConsumeStep(int step = 1)
         {
             curMissionData.MaxSteps -= step;
-            stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
+            //stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
+            stepChangeCallback.Invoke(curMissionData.MaxSteps); 
         }
 
         public void RegainStep(int step = 1)
         {
             curMissionData.MaxSteps += step;
-            stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
+            //stepChangeCallback?.Invoke(curMissionData.MaxSteps / (float)missionData.MaxSteps);
+            stepChangeCallback.Invoke(curMissionData.MaxSteps);
         }
 
         public int GetMissionsState()

@@ -63,10 +63,10 @@ namespace Bunker.Game
             int active_level = 0,cur_level = 0;
             //载入进度
             SaveLoader.getInstance.LoadGameCurProgress(areaID, ref active_level, ref cur_level);
-            var areaframe = GameObject.Instantiate(_areaFrame);
-            _currentArea = areaframe;
+            _currentArea = GameObject.Instantiate(_areaFrame);
             _currentArea.SetActive(true);
-            areaframe.transform.parent = _buttonsParent;
+            _currentArea.transform.SetParent(_buttonsParent);
+            _currentArea.transform.localScale = Vector3.one;
             foreach (var level in levels)
             {
                 var btn = GameObject.Instantiate(_btnPrefab).GetComponent<Button>();
@@ -81,7 +81,8 @@ namespace Bunker.Game
                 }
                 //
                 _levelButtons.Add(btn);
-                btn.transform.parent = areaframe.transform;
+                btn.transform.SetParent(_currentArea.transform);
+                btn.transform.localScale = Vector3.one;
                 btn.gameObject.SetActive(true);
                 //
                 if (active_level > 0)

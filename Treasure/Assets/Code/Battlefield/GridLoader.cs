@@ -83,7 +83,8 @@ namespace Bunker.Game
                 MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
             }
             MissionManager.getInstance.RegisterStepChanageDelegate(
-                ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
+                //ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetProgressNum);
+                ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetAPNum);
             //UI level 的设置
             ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetLevelText(
                 ModuleManager.getInstance.GetModule<BattlefieldModule>().LevelNum
