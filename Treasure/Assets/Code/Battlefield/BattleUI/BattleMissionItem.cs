@@ -24,7 +24,9 @@ namespace Bunker.Game
         }
 
         public void SetIcon(Sprite texture){
-            _Icon.overrideSprite = texture;
+            //_Icon.overrideSprite = texture;
+            _Icon.sprite = texture;
+
         }
 
     }
