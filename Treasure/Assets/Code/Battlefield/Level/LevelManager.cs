@@ -38,11 +38,9 @@ public class LevelManager : ServicesModule<LevelManager>
 
         foreach (var l in _levelTable._rows)
         {
-            if(l._cols == null || l._cols.Count != 2)
-            {
-                break;
-            }
-            if (!l._cols.TryGetValue("level", out Col val))
+            if( l._cols == null || 
+                l._cols.Count < 2 || 
+                !l._cols.TryGetValue("level", out Col val))
             {
                 break;
             }
@@ -72,6 +70,26 @@ public class LevelManager : ServicesModule<LevelManager>
         CurLevel = LastLevel;
     }
 
+    public int GetBossLevel(int areaID)
+    {
+        foreach (var l in _levelTable._rows)
+        {
+            if (l._cols == null ||
+                l._cols.Count < 2 ||
+                !l._cols.TryGetValue("boss", out Col val))
+            {
+                break;
+            }
+            var bossStr = l._cols["boss"]._cellText;
+            var areaStr = int.Parse(l._cols["area"]._cellText);
+            if(areaID == areaStr)
+            {
+                return int.Parse(bossStr);
+            }
+        }
+        return 0;
+    }
+
     public string[] GetAreaLevels(int areaID)
     {
         if(!_levels.ContainsKey(areaID))
@@ -96,7 +114,7 @@ public class LevelManager : ServicesModule<LevelManager>
 
         for (int i=0; i< curareaLevels.Length;++i)
         {
-            if(curareaLevels[i] == currentlevel)
+            if (curareaLevels[i] == currentlevel)
             {
                 if(i== curareaLevels.Length-1)
                 {

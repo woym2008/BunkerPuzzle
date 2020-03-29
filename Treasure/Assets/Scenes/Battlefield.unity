@@ -461,12 +461,12 @@ PrefabInstance:
     - target: {fileID: 8185672339769661807, guid: 62ad8cf72eea83547b32c63e6b97bad0,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 68.449196
+      value: 68.25
       objectReference: {fileID: 0}
     - target: {fileID: 8185672339769661807, guid: 62ad8cf72eea83547b32c63e6b97bad0,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 59.893047
+      value: 51.999996
       objectReference: {fileID: 0}
     - target: {fileID: 4803724873766332540, guid: 62ad8cf72eea83547b32c63e6b97bad0,
         type: 3}
@@ -476,12 +476,12 @@ PrefabInstance:
     - target: {fileID: 5751241523821093190, guid: 62ad8cf72eea83547b32c63e6b97bad0,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 52.192513
+      value: 53.812504
       objectReference: {fileID: 0}
     - target: {fileID: 5751241523821093190, guid: 62ad8cf72eea83547b32c63e6b97bad0,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 45.7754
+      value: 41
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62ad8cf72eea83547b32c63e6b97bad0, type: 3}
@@ -1154,7 +1154,7 @@ Camera:
   m_GameObject: {fileID: 1583866495}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.06666667, g: 0.06666667, b: 0.06666667, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

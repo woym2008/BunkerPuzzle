@@ -89,6 +89,8 @@ namespace Bunker.Game
             ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().SetLevelText(
                 ModuleManager.getInstance.GetModule<BattlefieldModule>().LevelNum
             );
+            //这张地图是否有boss
+            ModuleManager.getInstance.GetModule<BattleTurnsModule>().InsertTurn(map.boss_type);
             //清理一下item工场
             BattleItemFactory.getInstance.Reset();
 

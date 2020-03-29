@@ -29,6 +29,15 @@ namespace Bunker.Game
             _TurnQuene.Enqueue(new RobotTurn(this));
         }
 
+        public void InsertTurn(string turn_type_name)
+        {
+            Type type = Type.GetType(string.Format("Bunker.Game.{0}", turn_type_name));
+            if (type != null) { 
+                var t = Activator.CreateInstance(type,this);
+                _TurnQuene.Enqueue(t as CTurn);
+            }
+        }
+
         public override void OnStop()
         {
             _CurTurn = null;
@@ -91,6 +100,11 @@ namespace Bunker.Game
         {
             base.OnStartTurn();
             _battleFieldInputModule.locked = false;
+        }
+
+        public override void OnUpdateTurn()
+        {
+            //base.OnUpdateTurn();
         }
 
         public override void OnEndTurn()

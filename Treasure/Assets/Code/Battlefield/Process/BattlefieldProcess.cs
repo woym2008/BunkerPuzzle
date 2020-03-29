@@ -128,11 +128,10 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
             //UI mode 启动前置！
             ModuleManager.getInstance.StartModule<BattleUIModule>();
-
-            ModuleManager.getInstance.StartModule<BattlefieldModule>();
-
-            ModuleManager.getInstance.StartModule<RobotManagerModule>();
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();
+            //此处载入关卡数据mapdata
+            ModuleManager.getInstance.StartModule<BattlefieldModule>();
+            ModuleManager.getInstance.StartModule<RobotManagerModule>();
 
 
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();

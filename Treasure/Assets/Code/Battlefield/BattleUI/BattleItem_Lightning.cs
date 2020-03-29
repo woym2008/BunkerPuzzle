@@ -34,6 +34,7 @@ namespace Bunker.Game
 
         Transform saved_parent;
         Vector3 saved_pos;
+        Camera uiCamera;
 
         float minWidth;             //水平最小拖拽范围
         float maxWidth;            //水平最大拖拽范围
@@ -44,18 +45,8 @@ namespace Bunker.Game
 
         void Update()
         {
-            DragRangeLimit();
-            /*
-            if (Input.GetMouseButtonDown(0))
-            {
-                var end_pt = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                var _bf = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-                var _tile = _bf.Field.GetGrid(end_pt);
-                if (_tile != null)
-                {
-                    Debug.Log(_tile);
-                }
-            }*/
+            //这里因为摄像机的原因有问题
+            //DragRangeLimit();
         }
 
         void Start()
@@ -68,6 +59,8 @@ namespace Bunker.Game
             maxWidth = Screen.width - (rt.rect.width / 2);
             minHeight = rt.rect.height / 2;
             maxHeight = Screen.height - (rt.rect.height / 2);
+
+            uiCamera = GameObject.Find("UICamera").GetComponent<Camera>();
         }
         void DragRangeLimit()
         {
@@ -83,7 +76,8 @@ namespace Bunker.Game
             Vector3 globalMousePos;
             rt.SetParent(GameObject.Find("BattleUIPanel").transform);
             //将屏幕坐标转换成世界坐标
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, null, out globalMousePos))
+            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, 
+                eventData.position, uiCamera, out globalMousePos))
             {
                 //计算UI和指针之间的位置偏移量
                 offset = rt.position - globalMousePos;
@@ -117,12 +111,13 @@ namespace Bunker.Game
         {
             Vector3 globalMousePos;
 
-            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, null, out globalMousePos))
+            if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, 
+                eventData.position, uiCamera, out globalMousePos))
             {
                 rt.position = offset + globalMousePos;
             }
             //
-            var end_pt = Camera.main.ScreenToWorldPoint(eventData.position);
+            var end_pt = uiCamera.ScreenToWorldPoint(eventData.position);
             var _bf = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var _tile = _bf.Field.GetGrid(end_pt);
             if (_tile != null && _tile.CanElimination())

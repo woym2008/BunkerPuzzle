@@ -21,6 +21,8 @@ public class MapData : ScriptableObject
     //这里保存着编辑的missions
     [SerializeField]
     public MissionData mission;
+    [SerializeField]
+    public string boss_type;
 
     //提供一个访问接口，可以用二维下标来方便的获取数据
     public int this[int r,int c]

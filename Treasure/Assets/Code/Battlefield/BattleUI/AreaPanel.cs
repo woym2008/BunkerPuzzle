@@ -67,6 +67,9 @@ namespace Bunker.Game
             _currentArea.SetActive(true);
             _currentArea.transform.SetParent(_buttonsParent);
             _currentArea.transform.localScale = Vector3.one;
+            //找到boss level
+            var bossLevel = LevelManager.getInstance.GetBossLevel(areaID);
+
             foreach (var level in levels)
             {
                 var btn = GameObject.Instantiate(_btnPrefab).GetComponent<Button>();
@@ -79,6 +82,7 @@ namespace Bunker.Game
                 {
                     btn.image.sprite = sp;
                 }
+                int level_num = int.Parse(level);
                 //
                 _levelButtons.Add(btn);
                 btn.transform.SetParent(_currentArea.transform);
@@ -88,7 +92,7 @@ namespace Bunker.Game
                 if (active_level > 0)
                 {
                     active_level--;
-                    btn.onClick.AddListener(delegate { OnClickBtn(int.Parse(level), areaID); });
+                    btn.onClick.AddListener(delegate { OnClickBtn(level_num, areaID); });
                     btn.image.color = Color.white;
                     lock_img.enabled = false;
                 }
@@ -96,6 +100,16 @@ namespace Bunker.Game
                 {
                     btn.image.color = Color.gray;
                     lock_img.enabled = true;
+                }
+                //
+                var Desc_img = btn.transform.Find("Desc").GetComponent<Image>();
+                if (bossLevel == level_num)
+                {
+                    Desc_img.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Desc_img.gameObject.SetActive(false);
                 }
             }
         }
