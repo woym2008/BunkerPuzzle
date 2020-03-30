@@ -29,12 +29,19 @@ namespace Bunker.Game
             _TurnQuene.Enqueue(new RobotTurn(this));
         }
 
-        public void InsertTurn(string turn_type_name)
+        public void InsertTurn(string turn_type_name,bool fromTop = false)
         {
             Type type = Type.GetType(string.Format("Bunker.Game.{0}", turn_type_name));
             if (type != null) { 
                 var t = Activator.CreateInstance(type,this);
+                var len = _TurnQuene.Count;
                 _TurnQuene.Enqueue(t as CTurn);
+                while (fromTop && len > 0)
+                {
+                    var turn = _TurnQuene.Dequeue();
+                    _TurnQuene.Enqueue(turn);
+                    len--;
+                }
             }
         }
 

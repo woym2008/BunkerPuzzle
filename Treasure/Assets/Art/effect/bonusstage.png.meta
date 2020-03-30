@@ -1,25 +1,31 @@
 fileFormatVersion: 2
-guid: 5dbdbfc255071324ebf86cefd019553c
+guid: 0c7f5ade4352362429b8168e294c81a9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 21300000
-    second: ghost_0
+      213: 1105842080911003320
+    second: bonusstage_0
   - first:
-      213: 21300002
-    second: ghost_1
+      213: 2765366159761455978
+    second: bonusstage_1
   - first:
-      213: 21300004
-    second: ghost_2
+      213: -764667482511553077
+    second: bonusstage_2
   - first:
-      213: 21300006
-    second: ghost_3
+      213: 3646516704889728067
+    second: bonusstage_3
   - first:
-      213: 21300008
-    second: ghost_4
+      213: -5497620287000556675
+    second: bonusstage_4
   - first:
-      213: 21300010
-    second: ghost_5
+      213: 2531742303479274072
+    second: bonusstage_5
+  - first:
+      213: 7544595005580611009
+    second: bonusstage_6
+  - first:
+      213: 3726862970397531835
+    second: bonusstage_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -81,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,25 +98,151 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 0
+    textureFormat: -1
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ghost_0
+      name: bonusstage_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 285
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b61b106432e0bb44865a9076dad6994
+      internalID: 1105842080911003320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_1
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 285
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5d1b236a14e0df4eb77239a51f3e6f0
+      internalID: 2765366159761455978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 190
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74587478d14408b4c88938ccd82cdbc9
+      internalID: -764667482511553077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_3
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 190
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecd6aede9640ae4478c87713c6f75024
+      internalID: 3646516704889728067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 95
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd4a5a49bbd40ba42b66b9e935c10162
+      internalID: -5497620287000556675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 95
+        width: 320
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca246c0b86765f42b3e99c190a143ac
+      internalID: 2531742303479274072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bonusstage_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
-        height: 32
+        width: 320
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9c53f6ace93fbf48a00d805b9742b3f
-      internalID: 21300000
+      spriteID: f6ebfadfff1074e4c970e2f7a8d1395d
+      internalID: 7544595005580611009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ghost_1
+      name: bonusstage_7
       rect:
         serializedVersion: 2
-        x: 17
+        x: 320
         y: 0
-        width: 17
-        height: 32
+        width: 320
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,92 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 827055e08aaf52f4aa2aef8ad6f6799e
-      internalID: 21300002
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ghost_2
-      rect:
-        serializedVersion: 2
-        x: 34
-        y: 0
-        width: 17
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13e53591ae47c364abc56bbd2dad8bab
-      internalID: 21300004
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ghost_3
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 0
-        width: 17
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 234f6bca340eb38419820d0d5eb90bb4
-      internalID: 21300006
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ghost_4
-      rect:
-        serializedVersion: 2
-        x: 68
-        y: 0
-        width: 17
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7e06b6be9abb32547a3234078c89c929
-      internalID: 21300008
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ghost_5
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 0
-        width: 17
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43783e1c9af729a47b703802f5aa859a
-      internalID: 21300010
+      spriteID: 3a8306a82749cf1468a4dbe10b83ced0
+      internalID: 3726862970397531835
       vertices: []
       indices: 
       edges: []
@@ -232,7 +280,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5453ab7649f837e41a8f475bfc49c38a
+    spriteID: 3599f9b77f004354884e5a454bcadff3
     internalID: 0
     vertices: []
     indices: 

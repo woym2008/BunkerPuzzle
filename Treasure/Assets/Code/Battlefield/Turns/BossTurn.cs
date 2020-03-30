@@ -29,7 +29,6 @@ namespace Bunker.Game
         {
             base.OnUpdateTurn();
             _battleTurnsModule.NextTurn();
-
         }
     }
 }

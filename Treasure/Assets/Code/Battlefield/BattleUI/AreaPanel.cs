@@ -30,11 +30,11 @@ namespace Bunker.Game
 
             _btnPrefab = _buttonsParent.Find("LevelBtn").gameObject;
             _areaFrame = _buttonsParent.Find("AreaFrame").gameObject;
-            _btnPrefab.transform.parent = _buttonsParent.parent;
-            _areaFrame.transform.parent = _buttonsParent.parent;
+            _btnPrefab.transform.SetParent(_buttonsParent.parent);
+            _areaFrame.transform.SetParent(_buttonsParent.parent);
             _btnPrefab.SetActive(false);
             _areaFrame.SetActive(false);
-
+             
             _buttonsParent.DetachChildren();
 
             _nextBtn = _transform.Find("NextButton").GetComponent<Button>();
