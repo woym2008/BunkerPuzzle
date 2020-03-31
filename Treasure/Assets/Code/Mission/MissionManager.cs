@@ -27,12 +27,16 @@ namespace Bunker.Game
         public Dictionary<MissionCollectionType,MissionChangeDelegate> MissionChangeDelegateDict = 
             new Dictionary<MissionCollectionType, MissionChangeDelegate>();
 
+        public Dictionary<MissionCollectionType, RectTransform> MissionItemPosDict =
+            new Dictionary<MissionCollectionType, RectTransform>();
+
 
         public int curMissionState = Mission_Unload;
 
         public void LoadMissionData(MissionData md)
         {
             MissionChangeDelegateDict.Clear();
+            MissionItemPosDict.Clear();
             missionData.Reset(); 
             curMissionData.Reset();
             stepChangeCallback = null;
@@ -62,12 +66,35 @@ namespace Bunker.Game
             //
             curMissionState = Mission_Processing;
         }
-
+        /*
+            item是missionItem 需要保存其位置
+             */
         public bool RegisterMissionChangeDelegate(MissionCollectionType mct,MissionChangeDelegate cb)
         {
             if (!MissionChangeDelegateDict.ContainsKey(mct))
             {
                 MissionChangeDelegateDict.Add(mct, cb);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RegisterMissionItemPos(MissionCollectionType mct, RectTransform item)
+        {
+            if (!MissionItemPosDict.ContainsKey(mct))
+            { 
+                MissionItemPosDict.Add(mct, item);
+                return true;
+            }
+            return false;
+        }
+
+        public bool GetMissionItemPos(MissionCollectionType mct,ref Vector3 pos)
+        {
+            if (MissionItemPosDict.ContainsKey(mct))
+            {
+                pos = Camera.main.ScreenToWorldPoint(MissionItemPosDict[mct].position);
+                pos.z = 0;
                 return true;
             }
             return false;

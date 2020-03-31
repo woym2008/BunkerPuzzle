@@ -71,6 +71,7 @@ namespace Bunker.Game
                 var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
                     MissionDataHelper.MCT_2_SpriteNames(pair.Key), 
                     pair.Value);
+                MissionManager.getInstance.RegisterMissionItemPos(pair.Key, item.transform as RectTransform);
                 MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
                 MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
             }
@@ -79,6 +80,7 @@ namespace Bunker.Game
                 var item = ModuleManager.getInstance.GetModule<BattleUIModule>().CreateMissionItem(
                     MissionDataHelper.MCT_2_SpriteNames(pair.Key),
                     pair.Value);
+                MissionManager.getInstance.RegisterMissionItemPos(pair.Key, item.transform as RectTransform);
                 MissionManager.getInstance.RegisterMissionChangeDelegate(pair.Key, item.OnChange);
                 MissionManager.getInstance.InvokeMissionDelegate(pair.Key);
             }

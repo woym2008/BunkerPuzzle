@@ -34,6 +34,11 @@ namespace Bunker.Game
         {
             Debug.LogFormat("我是{0}块，我被消除了,任务系统会完成一些东西", GetGridType());
             MissionManager.getInstance.Collect(MissionCollectionType.Liquid);
+            Vector3 dest = Vector3.zero;
+            if (MissionManager.getInstance.GetMissionItemPos(MissionCollectionType.Liquid,ref dest))
+            {
+                VFXManager.getInstance.VFX_RedSPR(GetSelfWorldPos(), dest);
+            }
         }
     }
 }

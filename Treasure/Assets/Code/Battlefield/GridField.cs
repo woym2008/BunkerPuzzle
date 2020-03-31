@@ -213,10 +213,10 @@ namespace Bunker.Game
         public Vector2Int ClampGridPos(int x,int y)
         {
             int nx = x, ny = y;
-            if (x >= _grids.GetLength(0)) nx = 0;
-            if (y >= _grids.GetLength(1)) ny = 0;
-            if (x < 0) nx = _grids.GetLength(0) - 1;
-            if (y < 0) ny = _grids.GetLength(1) - 1;
+            if (x >= _grids.GetLength(0)) nx = _grids.GetLength(0) - 1;
+            if (y >= _grids.GetLength(1)) ny = _grids.GetLength(1) - 1;
+            if (x < 0)  nx = 0;
+            if (y < 0)  ny = 0;
 
             return new Vector2Int(nx, ny);
         }

@@ -93,19 +93,6 @@ namespace Bunker.Game
             _apText.text = i.ToString("00");
         }
 
-        public void FlashVFX(float t)
-        {
-            //MonoBehaviourHelper.StartCoroutine(Coroutine_Flash(t));
-        }
-        /*
-        IEnumerator Coroutine_Flash(float t)
-        {
-            _uiCamera.GetComponent<PostProcessLayer>().enabled = true;
-            yield return new WaitForSeconds(t);
-            _uiCamera.GetComponent<PostProcessLayer>().enabled = false;
-            yield return null;
-        }
-        */
         /* 0~1 */
         public void SetProgressNum(float n)
         {

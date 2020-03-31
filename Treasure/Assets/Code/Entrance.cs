@@ -31,6 +31,7 @@ public class Entrance : MonoBehaviour
         ModuleManager.getInstance.CreateModule<BattleTurnsModule>();
 
         TableModule.getInstance.Start();
+        VFXManager.getInstance.Init();
         //
         //SaveLoader.getInstance.ClearGameProgress();
         SaveLoader.getInstance.FirstWritePlayerPrefs();

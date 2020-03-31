@@ -55,11 +55,16 @@ namespace Bunker.Game
             _x = x;
             _y = y;
             _zeropos = zeropos;
-            var selfpos = _zeropos + new Vector3(_x*Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
+            var selfpos = GetSelfWorldPos();
 
             _object.transform.position = selfpos;
 
             Init();
+        }
+
+        public Vector3 GetSelfWorldPos()
+        {
+            return _zeropos + new Vector3(_x * Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
         }
 
         public void Delete()

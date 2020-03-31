@@ -19,7 +19,6 @@ namespace Bunker.Game
             //if can use,use it!
             OnUse();
             MissionManager.getInstance.RegainStep(5);
-            ModuleManager.getInstance.GetModule<BattleUIModule>().GetBattleUIPanel().FlashVFX(0.25f);
             Remove();
         }
 
