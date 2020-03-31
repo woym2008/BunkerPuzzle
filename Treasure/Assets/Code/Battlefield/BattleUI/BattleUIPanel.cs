@@ -33,8 +33,10 @@ namespace Bunker.Game
 
         // boss UI
         Transform _bossWarning;//
+        Transform _bossBar;
         Image _bossHead;
         Text _bossText;
+        
 
 
         public override void OnBegin()
@@ -47,6 +49,7 @@ namespace Bunker.Game
             _apText = _transform.Find("Right_Bar/AP/AP_Num").GetComponent<Text>();
             //_uiCamera = _transform.Find("UICamera").GetComponent<Camera>();
             _bossWarning = _transform.Find("BossWarning");
+            _bossBar = _transform.Find("Boss_Bar");
             _bossHead = _transform.Find("Boss_Bar/Boss_Head").GetComponent<Image>();
             _bossText = _transform.Find("Boss_Bar/Boss_Text").GetComponent<Text>();
 
@@ -68,6 +71,10 @@ namespace Bunker.Game
         public void ShowBossWarning(bool s)
         {
             _bossWarning.gameObject.SetActive(s);
+        }
+        public void ShowBossBar(bool s)
+        {
+            _bossBar.gameObject.SetActive(s);
         }
         //
         public void AddItem(GameObject item){

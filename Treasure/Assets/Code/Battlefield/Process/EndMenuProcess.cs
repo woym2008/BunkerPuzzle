@@ -31,18 +31,6 @@ namespace Bunker.Game
 
             end_state = (int)args[0];
             //
-            if (end_state == END_GAME_WIN)
-            {
-                //SAVE
-                SaveLoader.getInstance.SaveGameCurProgress(
-                   ModuleManager.getInstance.GetModule<BattlefieldModule>().AreaNum,
-                   ModuleManager.getInstance.GetModule<BattlefieldModule>().LevelNum + 1
-                );
-                SaveLoader.getInstance.SavePlayerCurItems(
-                    ModuleManager.getInstance.GetModule<BattlefieldModule>().AreaNum
-                );
-            }
-            //
 
             panel = UIModule.getInstance.Open<FinishPanel>();
             //将参数传入

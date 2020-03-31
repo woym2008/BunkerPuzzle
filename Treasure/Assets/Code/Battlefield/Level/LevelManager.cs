@@ -132,7 +132,7 @@ public class LevelManager : ServicesModule<LevelManager>
                     return nextarealevel;
                 }
                 CurLevel++;
-                return curareaLevels[CurLevel];
+                return curareaLevels[CurLevel - 1];
             }
         }
 
@@ -142,7 +142,7 @@ public class LevelManager : ServicesModule<LevelManager>
     public void SetCurrentLevel(int areaID, int levelID)
     {
         CurArea = areaID;
-        CurLevel = levelID;
+        CurLevel = levelID;      
     }
 
     public void Save()

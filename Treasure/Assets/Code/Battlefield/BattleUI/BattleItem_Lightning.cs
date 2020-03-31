@@ -34,7 +34,7 @@ namespace Bunker.Game
 
         Transform saved_parent;
         Vector3 saved_pos;
-        Camera uiCamera;
+        Camera uiCamera = null;
 
         float minWidth;             //水平最小拖拽范围
         float maxWidth;            //水平最大拖拽范围
@@ -60,7 +60,11 @@ namespace Bunker.Game
             minHeight = rt.rect.height / 2;
             maxHeight = Screen.height - (rt.rect.height / 2);
 
-            uiCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+            if (GameObject.Find("UICamera") != null)
+            {
+                uiCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+            }
+            
         }
         void DragRangeLimit()
         {

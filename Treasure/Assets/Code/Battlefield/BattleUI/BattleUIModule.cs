@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.Events;
 using Bunker.Module;
 
 namespace Bunker.Game
@@ -106,6 +106,35 @@ namespace Bunker.Game
         public BattleUIPanel GetBattleUIPanel()
         {
             return _UIPanel;
+        }
+
+        public void ShowBossWarningVFX(float t,UnityAction evt)
+        {
+            MonoBehaviourHelper.StartCoroutine(_BossWarningVFX(t,evt));
+        }
+
+        IEnumerator _BossWarningVFX(float t, UnityAction evt)
+        {
+            _UIPanel.ShowBossWarning(true);
+            yield return new WaitForSeconds(t);
+            _UIPanel.ShowBossWarning(false);
+            if (evt != null) evt.Invoke();
+            yield return null;
+        }
+
+        public void ShowBossTalkingVFX(float t, string str,UnityAction evt)
+        {
+            MonoBehaviourHelper.StartCoroutine(_BossTalkingVFX(t, str ,evt));
+        }
+
+        IEnumerator _BossTalkingVFX(float t, string str, UnityAction evt)
+        {
+            _UIPanel.ShowBossBar(true);
+            _UIPanel.SetBossText(str);
+            yield return new WaitForSeconds(t);
+            _UIPanel.ShowBossBar(false);
+            if(evt != null) evt.Invoke();
+            yield return null;
         }
     }   
 

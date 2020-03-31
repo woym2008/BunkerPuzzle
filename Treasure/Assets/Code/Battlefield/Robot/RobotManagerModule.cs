@@ -11,6 +11,7 @@ namespace Bunker.Game
     {
         List<RobotBase> _RobotList;
         List<RobotBase>.Enumerator _CurRobotIter;
+        List<Vector2Int> _WillBeVisitedList;
         public bool robotTurn;
         //
         public RobotManagerModule() : base(typeof(RobotManagerModule).ToString())
@@ -25,6 +26,7 @@ namespace Bunker.Game
         public override void Create()
         {
             _RobotList = new List<RobotBase>();
+            _WillBeVisitedList = new List<Vector2Int>();
         }
         public override void Release()
         {
@@ -35,8 +37,8 @@ namespace Bunker.Game
             base.OnStart();
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var g = m.Field.FindGrid("Bunker.Game.RobotStartTile");
-            if (g!=null)
+            var spawn_list = m.Field.FindGrids("Bunker.Game.RobotStartTile");
+            foreach(var g in spawn_list)
             {
                 var robot = CreateRobot<RobotThief>();
                 robot.SetToGird(g);
@@ -83,9 +85,12 @@ namespace Bunker.Game
             {
                 robotTurn = true;
 
+                _WillBeVisitedList.Clear();
+
                 foreach (var bot in _RobotList)
                 {
                     bot.OnPrepareMove();
+                    _WillBeVisitedList.Add(bot.GetDestination());
                 }
 
                 _CurRobotIter = _RobotList.GetEnumerator();
@@ -121,6 +126,15 @@ namespace Bunker.Game
             {
                 EndRobotsTurn();
             }
+        }
+
+        public bool IsInWillBeVisitedList(int x,int y)
+        {
+            foreach (var pos in _WillBeVisitedList)
+            {
+                if (pos.x == x && pos.y == y) return true;
+            }
+            return false;
         }
     }
 }

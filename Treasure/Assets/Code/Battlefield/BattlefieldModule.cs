@@ -123,13 +123,19 @@ namespace Bunker.Game
             {
                 battleInputModule.Rest();
             }
+
+            //保存一下进度
+            string level = LevelManager.getInstance.GetNextLevel(_areaIndex, _curLevel.ToString());
             //这里将关数累加
             _curLevel++;
-            //保存一下进度 --保存的调用放在关卡完成时，而非点击下一关的这里
-            //SaveLoader.getInstance.SaveGameCurProgress(_areaIndex, _curLevel);
-            //
-            string level = LevelManager.getInstance.GetNextLevel(_areaIndex, _curLevel.ToString());
-
+            //SAVE
+            SaveLoader.getInstance.SaveGameCurProgress(
+               LevelManager.getInstance.CurArea,
+               LevelManager.getInstance.CurLevel
+            );
+            SaveLoader.getInstance.SavePlayerCurItems(
+                LevelManager.getInstance.CurArea
+            );
             ProcessManager.getInstance.Switch<BattlefieldProcess>(LevelManager.getInstance.CurLevel, LevelManager.getInstance.CurArea);
             
         }

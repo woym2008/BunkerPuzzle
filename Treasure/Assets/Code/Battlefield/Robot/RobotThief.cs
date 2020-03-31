@@ -14,34 +14,31 @@ namespace Bunker.Game
 
         public override void OnPrepareMove()
         {
+            base.OnPrepareMove();
             //update cur tile
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            Debug.Log(transform);
             var g = m.Field.GetGrid(transform.position) as BaseGrid;
             if (g != null)
             {
-                SetToGird(g);
-                var sr = this.GetComponentInChildren<SpriteRenderer>();
-                sr.sortingOrder = g.Y * 2 + 3;
+                //SetToGird(g);
+                //
+                var sr = GetComponentInChildren<SpriteRenderer>();
+                int offset = _dir.y == 0 ? 1 : 3;
+                sr.sortingOrder = g.Y * 2 + offset;
             }
             else
             {
                 Debug.Log("RobotThief OnPrepareMove ERROR!");
             }
-            //
-            base.OnPrepareMove();
+
         }
+
         public override void OnFinishMove()
         {
-
             //recalc new grid XY
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _pos = m.Field.ClampGridPos(_pos.x + _dir.x , _pos.y - _dir.y); // here need use -
             var g = m.Field.GetGrid(_pos.x, _pos.y) as BaseGrid;
-            this.transform.parent = g.Node.transform;
-            //set order
-            var sr = this.GetComponentInChildren<SpriteRenderer>();
-            sr.sortingOrder = g.Y * 2 + 1;
             //we check wheather the robot is catched the gemTile
             if (g is GemTile)
             {
@@ -50,6 +47,7 @@ namespace Bunker.Game
             }
             //
             base.OnFinishMove();
+
         }
 
         public override Vector3Int FindWay()
@@ -84,7 +82,9 @@ namespace Bunker.Game
                 for (int i = 0; i < weightDir.Count; ++i)
                 {
                     var dir = DirList[weightDir[i].Value];
-                    if (m.Field.CanWalk(_curNode.X + dir.x, _curNode.Y - dir.y))
+                    var rmm = ModuleManager.getInstance.GetModule<RobotManagerModule>();
+                    if (m.Field.CanWalk(_curNode.X + dir.x, _curNode.Y - dir.y) &
+                        !rmm.IsInWillBeVisitedList(_curNode.X + dir.x, _curNode.Y - dir.y))
                     {
                         return dir;
                     }

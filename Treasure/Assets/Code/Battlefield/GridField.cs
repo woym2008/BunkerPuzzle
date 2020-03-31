@@ -237,10 +237,57 @@ namespace Bunker.Game
             return null;
         }
 
+        public List<BaseGrid> FindGrids(string gridType)
+        {
+            List<BaseGrid> out_list = new List<BaseGrid>();
+            for (int i = 0; i < _grids.GetLength(0); ++i)
+            {
+                for (int j = 0; j < _grids.GetLength(1); ++j)
+                {
+                    var g = _grids[i, j];
+                    if (g.GetGridType() == gridType)
+                    {
+                        out_list.Add(g as BaseGrid);
+                    }
+                }
+            }
+            return out_list;
+        }
+
+        List<BaseGrid> tmp_list = new List<BaseGrid>();
+        public BaseGrid GetRandomGrid(string gridType,bool abs_free)
+        {
+            tmp_list.Clear();
+            for (int i = 0; i < _grids.GetLength(0); ++i)
+            {
+                for (int j = 0; j < _grids.GetLength(1); ++j)
+                {
+                    var g = _grids[i, j] as BaseGrid;
+                    if (g.GetGridType() == gridType)
+                    {
+                        //这里先简易判断一下，格子上没有附着其他robot
+                        if (abs_free && g.Node.transform.childCount > 1)
+                        {
+                            continue;
+                        }
+                        tmp_list.Add(g);
+                    }
+                }
+            }
+            if(tmp_list.Count > 0)
+            {
+                return tmp_list[UnityEngine.Random.Range(0, tmp_list.Count)];
+            }
+            return null;
+        }
+
         public bool CanWalk(int x,int y)
         {
             var igo = GetGrid(x,y);
             if (igo == null) return false;
+            //这里判断是否格子被占据，不一定准确
+            if((igo as BaseGrid).Node.transform.childCount > 1) return false;
+            //
             if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
                 igo.GetGridType() == "Bunker.Game.GemTile" ||
                 igo.GetGridType() == "Bunker.Game.RobotStartTile") return true;
