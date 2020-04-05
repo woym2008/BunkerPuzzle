@@ -37,7 +37,8 @@ abstract public class UIPanel
 
     virtual public void OnClose()
     {
-        _transform.gameObject.SetActive(false);
+        //2020-4-6 这里再析构的时候 有bug，修改了一下
+        if(_transform != null) _transform.gameObject.SetActive(false);
         foreach(var window in _windows)
         {
             window.Value.OnClose();

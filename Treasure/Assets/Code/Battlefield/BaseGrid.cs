@@ -89,7 +89,7 @@ namespace Bunker.Game
         public void UpdateSortingOrder()
         {
             //add by wwh
-            if (_object.transform.childCount > 0)
+            if (_object!= null && _object.transform.childCount > 0)
             {
                 var kid = _object.transform.GetChild(0);
                 var sr = kid.GetComponent<SpriteRenderer>();

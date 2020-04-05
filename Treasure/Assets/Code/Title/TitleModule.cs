@@ -30,17 +30,13 @@ namespace Bunker.Game
         public override void OnStart()
         {
             base.OnStart();
-            //UIModule.getInstance.Open<MainMenuPanel>();
             _Panel = UIModule.getInstance.Open<MainMenuPanel2D>();
-
         }
 
         public override void OnStop()
         {
-            //UIModule.getInstance.Close<MainMenuPanel>();
             UIModule.getInstance.Close<MainMenuPanel2D>();
             base.OnStop();
-
         }
 
         protected override void OnModuleMessage(string msg, object[] args)
