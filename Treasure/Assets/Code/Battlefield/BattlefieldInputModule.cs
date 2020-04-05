@@ -14,6 +14,8 @@ namespace Bunker.Game
     }
     public delegate void InputClickEvent(Vector3 presspos, InputState state, Action<object> onClick);
     public delegate void InputReleaseEvent();
+    public delegate void TouchEnterEvent();
+    public delegate void TouchExitEvent();
 
     public delegate void ClickedTileEvent(IGridObject grid);
     public class BattlefieldInputModule : LogicModule
@@ -29,44 +31,52 @@ namespace Bunker.Game
 
         public bool locked = false;
 
+        const string _layername = "Tile";
+        int _layerids;
+
+        InputController _lastInputTile = null;
+
         public BattlefieldInputModule() : base(typeof(BattlefieldInputModule).ToString())
         {
-
+            _layerids = 1 << LayerMask.NameToLayer(_layername);
+            _lastInputTile = null;
         }
         BattlefieldInputModule(string name) : base(name)
         {
-
+            _layerids = 1 << LayerMask.NameToLayer(_layername);
+            _lastInputTile = null;
         }
         public void Rest()
         {
-            if(onPressClick != null)
-            {
-                Delegate[] dels = onPressClick.GetInvocationList();
-                foreach (Delegate del in dels)
-                {
-                    onPressClick -= del as InputClickEvent;
-                }
-            }
+            //if(onPressClick != null)
+            //{
+            //    Delegate[] dels = onPressClick.GetInvocationList();
+            //    foreach (Delegate del in dels)
+            //    {
+            //        onPressClick -= del as InputClickEvent;
+            //    }
+            //}
 
-            if(onReleaseClick != null)
-            {
-                Delegate[] dels_reles = onReleaseClick.GetInvocationList();
-                foreach (Delegate del in dels_reles)
-                {
-                    onReleaseClick -= del as InputReleaseEvent;
-                }
-            }
+            //if(onReleaseClick != null)
+            //{
+            //    Delegate[] dels_reles = onReleaseClick.GetInvocationList();
+            //    foreach (Delegate del in dels_reles)
+            //    {
+            //        onReleaseClick -= del as InputReleaseEvent;
+            //    }
+            //}
 
-            if (onClickedTile != null)
-            {
-                Delegate[] dels_clicked = onClickedTile.GetInvocationList();
-                foreach (Delegate del in dels_clicked)
-                {
-                    onClickedTile -= del as ClickedTileEvent;
-                }
+            //if (onClickedTile != null)
+            //{
+            //    Delegate[] dels_clicked = onClickedTile.GetInvocationList();
+            //    foreach (Delegate del in dels_clicked)
+            //    {
+            //        onClickedTile -= del as ClickedTileEvent;
+            //    }
 
-            }
+            //}
 
+            _lastInputTile = null;
         }
         public override void Create()
         {
@@ -107,34 +117,86 @@ namespace Bunker.Game
             }
             if (!locked)
             {
-                if (Input.GetMouseButtonDown(0))
+                var curmousepos = Input.mousePosition;
+                var curpos = _inputcam.ScreenToWorldPoint(curmousepos);
+                RaycastHit2D hit = 
+                    Physics2D.Raycast(
+                        curpos,                         
+                        Vector2.zero,
+                        100.0f,
+                        _layerids
+                        );
+                
+                if (hit.collider != null && 
+                    hit.collider.gameObject.GetComponent<InputController>() != null)
                 {
-                    Vector3 mousepos = Input.mousePosition;
-                    var pos = _inputcam.ScreenToWorldPoint(mousepos);
-
-                    onPressClick?.Invoke(pos, _state, OnClickObject);
-                }
-
-                if (Input.GetMouseButtonDown(1))
-                {
-                    onReleaseClick?.Invoke();
-                }
-
-                if (Input.touchCount > 0)
-                {
-                    var touch = Input.GetTouch(0);
-
-                    var pos = Camera.main.ScreenToWorldPoint(touch.position);
-
-                    if (touch.phase == TouchPhase.Began)
+                    var ctrl = hit.collider.gameObject.GetComponent<InputController>();
+                    if (ctrl != _lastInputTile)
                     {
-                        onPressClick?.Invoke(pos, _state, OnClickObject);
+                        if(_lastInputTile != null)
+                            _lastInputTile?.onTouchExit.Invoke();
                     }
-                    else if (touch.phase == TouchPhase.Ended)
+                    ctrl.onTouchEnter?.Invoke();
+
+                    _lastInputTile = ctrl;
+                }
+                else
+                {
+                    if(_lastInputTile != null)
                     {
-                        onReleaseClick?.Invoke();
+                        _lastInputTile?.onTouchExit.Invoke();
+                        _lastInputTile = null;
+                    }
+                    
+                }
+
+                if(_lastInputTile != null)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Vector3 mousepos = Input.mousePosition;
+                        var pos = _inputcam.ScreenToWorldPoint(mousepos);
+
+                        //onPressClick?.Invoke(pos, _state, OnClickObject);
+                        if(_lastInputTile != null)
+                            _lastInputTile.onPressClick.Invoke(pos, _state, OnClickObject);
+                    }
+
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        //onReleaseClick?.Invoke();
+                        if (_lastInputTile != null)
+                            _lastInputTile.onReleaseClick?.Invoke();
+                    }
+
+                    if (Input.touchCount > 0)
+                    {
+                        var touch = Input.GetTouch(0);
+
+                        var pos = Camera.main.ScreenToWorldPoint(touch.position);
+
+                        if (touch.phase == TouchPhase.Began)
+                        {
+                            //onPressClick?.Invoke(pos, _state, OnClickObject);
+                            if (_lastInputTile != null)
+                            {
+                                _lastInputTile.onTouchEnter?.Invoke();
+                                _lastInputTile.onPressClick?.Invoke(pos, _state, OnClickObject);
+                            }
+                                
+                        }
+                        else if (touch.phase == TouchPhase.Ended)
+                        {
+                            //onReleaseClick?.Invoke();
+                            if (_lastInputTile != null)
+                            {
+                                _lastInputTile.onTouchExit?.Invoke();
+                                _lastInputTile.onReleaseClick?.Invoke();
+                            }                                
+                        }
                     }
                 }
+                
             }
 
             InputTile.sInputCount = 0;

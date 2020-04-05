@@ -17,5 +17,10 @@ namespace Bunker.Game
             }
 
         }
+
+        public override void UpdateGrid(int x, int y)
+        {
+            base.UpdateGrid(x, y);
+        }
     }
 }

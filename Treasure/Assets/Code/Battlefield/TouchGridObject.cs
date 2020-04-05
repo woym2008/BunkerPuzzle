@@ -20,15 +20,15 @@ namespace Bunker.Game
         private void OnEnable()
         {
             var inputmodule = ModuleManager.getInstance.GetModule("BattlefieldInputModule") as BattlefieldInputModule;
-            inputmodule.onPressClick += OnClick;
-            inputmodule.onReleaseClick += OnRelease;
+            //inputmodule.onPressClick += OnClick;
+            //inputmodule.onReleaseClick += OnRelease;
         }
 
         private void OnDisable()
         {
             var inputmodule = ModuleManager.getInstance.GetModule("BattlefieldInputModule") as BattlefieldInputModule;
-            inputmodule.onPressClick -= OnClick;
-            inputmodule.onReleaseClick -= OnRelease;
+            //inputmodule.onPressClick -= OnClick;
+            //inputmodule.onReleaseClick -= OnRelease;
         }
 
         public void OnClick(Vector3 clickpos, InputState state, Action<object> onclick)
