@@ -62,8 +62,10 @@ namespace Bunker.Game
             _field = new GridField();
             var areastr = string.Format("Area_{0}",_areaIndex);
             var levelstr = string.Format("Level_{0}", _curLevel);
-            _field.Load(areastr, levelstr);
-            _field.OnElimination = OnElimination;
+            if(_field.Load(areastr, levelstr))
+            {
+                _field.OnElimination = OnElimination;
+            }
         }
 
         public override void OnStop()
@@ -126,6 +128,11 @@ namespace Bunker.Game
 
             //保存一下进度
             string level = LevelManager.getInstance.GetNextLevel(_areaIndex, _curLevel.ToString());
+            if(level == "")
+            {
+                ProcessManager.getInstance.Switch<FinalSceneProcess>();
+                return;
+            }
             //这里将关数累加
             _curLevel++;
             //SAVE

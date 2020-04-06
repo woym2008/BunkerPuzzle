@@ -102,9 +102,9 @@ public class LevelManager : ServicesModule<LevelManager>
     public string GetNextLevel(int areaID, string currentlevel)
     {
         var curareaLevels = GetAreaLevels(areaID);
-        if(currentlevel == null || curareaLevels.Length == 0)
+        if(curareaLevels == null || curareaLevels.Length == 0)
         {
-            Debug.LogError("Error Area, Not Find Level");
+            Debug.LogWarning("Error Area, Not Find Level,MayBe Game is Totally complate!");
             return "";
         }
         if (currentlevel == "")
@@ -126,7 +126,7 @@ public class LevelManager : ServicesModule<LevelManager>
                     var nextarealevel = GetNextLevel(CurArea, "");
                     if(nextarealevel == "")
                     {
-                        Debug.LogError("null level");
+                        return "";
                     }
                     CurLevel = int.Parse(nextarealevel);
                     return nextarealevel;

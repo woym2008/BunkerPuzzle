@@ -12,7 +12,7 @@ namespace Bunker.Game
 
         static Transform _rootNode;
 
-        public static void LoadGrid(string areaName, string levelName, out IGridObject[,] reslist)
+        public static bool LoadGrid(string areaName, string levelName, out IGridObject[,] reslist)
         {
             //------------------------
 
@@ -22,6 +22,14 @@ namespace Bunker.Game
                 _rootNode = new GameObject("TileRoot").transform;
             }
             var map = Resources.Load<MapData>(string.Format("{0}/{1}/{2}", "Map", areaName, levelName));
+
+            if (map == null)
+            {
+                //这里不应该找不到，如果找不到，应该是通关了！！
+                reslist = null;
+                Debug.Log(string.Format("Map {0}/{1} not found", areaName, levelName));
+                return false;
+            }
             
             reslist = new IGridObject[map.column, map.row];
             
@@ -96,7 +104,7 @@ namespace Bunker.Game
             //清理一下item工场
             BattleItemFactory.getInstance.Reset();
 
-
+            return true;
         }
 
         public static BaseGrid CreateGrid(string name, int x, int y)

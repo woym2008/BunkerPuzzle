@@ -1,16 +1,7 @@
 fileFormatVersion: 2
-guid: 7802e9bd3d2ea3349b209ae5bae9237b
+guid: 753053547bd2f414c9fa4772f99f37af
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 839287702066948573
-    second: bunker_logo_0
-  - first:
-      213: -25013991707723323
-    second: bunker_logo_1
-  - first:
-      213: 731435648863731590
-    second: bunker_logo_2
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -49,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -93,49 +84,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: bunker_logo_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 225
-        width: 400
-        height: 225
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4152fcee9b047804c93feaba4c4d34fb
-      internalID: 839287702066948573
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bunker_logo_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 400
-        height: 225
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5602fdda079fcfe4faeafb4a6a8d4cb3
-      internalID: -25013991707723323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

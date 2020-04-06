@@ -77,7 +77,7 @@ namespace Bunker.Game
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
             //just debug level
-            GridLoader.LoadGrid("Area_1","Level_1", out _grids);
+            //GridLoader.LoadGrid("Area_1","Level_1", out _grids);
         }
 
         // Update is called once per frame
@@ -94,13 +94,13 @@ namespace Bunker.Game
             return _gridFieldController as T;
         }
         //---------------------------------------------------------------------
-        public void Load(string areaName, string levelName)
+        public bool Load(string areaName, string levelName)
         {
             _currectArea = areaName;
             _currectLevel = levelName;
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            GridLoader.LoadGrid(_currectArea, _currectLevel, out _grids);
+            return GridLoader.LoadGrid(_currectArea, _currectLevel, out _grids);
         }
 
         public void RestartLevel()
