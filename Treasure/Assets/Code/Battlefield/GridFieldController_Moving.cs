@@ -41,6 +41,9 @@ namespace Bunker.Game
         {
             //不知道在这里写这样的代码合适么？
             Debug.Log(" -- OnFinishMovingAnmia --");
+            //这里插入一个步数的消耗
+            MissionManager.getInstance.ConsumeStep();
+            //换回合
             var btm = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
             if(btm != null)
             {

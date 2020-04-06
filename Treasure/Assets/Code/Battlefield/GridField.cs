@@ -294,6 +294,22 @@ namespace Bunker.Game
             return false;
         } 
 
+        public BaseGrid FindTile(GameObject node)
+        {
+            for (int i = 0; i < _grids.GetLength(0); ++i)
+            {
+                for (int j = 0; j < _grids.GetLength(1); ++j)
+                {
+                    var g = _grids[i, j] as BaseGrid;
+                    if (g.Node == node)
+                    {
+                        return g;
+                    }
+                }
+            }
+            return null;
+        }
+
         //---------------------------------------------------------------------
 
         public enum CheckEliminationType

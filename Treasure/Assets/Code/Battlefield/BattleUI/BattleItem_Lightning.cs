@@ -29,24 +29,17 @@ namespace Bunker.Game
             base.Remove();
         }
         //-------------------------------------------------------
-        Vector3 offset;
+        Vector3 offset = Vector3.zero;
         RectTransform rt;
 
         Transform saved_parent;
         Vector3 saved_pos;
         Camera uiCamera = null;
 
-        float minWidth;             //水平最小拖拽范围
-        float maxWidth;            //水平最大拖拽范围
-        float minHeight;            //垂直最小拖拽范围  
-        float maxHeight;            //垂直最大拖拽范围
-        float rangeX;               //拖拽范围
-        float rangeY;               //拖拽范围
 
         void Update()
         {
-            //这里因为摄像机的原因有问题
-            //DragRangeLimit();
+
         }
 
         void Start()
@@ -54,25 +47,10 @@ namespace Bunker.Game
             rt = GetComponent<RectTransform>();
             saved_pos = rt.position;
             saved_parent = rt.parent;
-
-            minWidth = rt.rect.width / 2;
-            maxWidth = Screen.width - (rt.rect.width / 2);
-            minHeight = rt.rect.height / 2;
-            maxHeight = Screen.height - (rt.rect.height / 2);
-
             if (GameObject.Find("UICamera") != null)
             {
                 uiCamera = GameObject.Find("UICamera").GetComponent<Camera>();
             }
-            
-        }
-        void DragRangeLimit()
-        {
-            //限制水平/垂直拖拽范围在最小/最大值内
-            rangeX = Mathf.Clamp(rt.position.x, minWidth, maxWidth);
-            rangeY = Mathf.Clamp(rt.position.y, minHeight, maxHeight);
-            //更新位置
-            rt.position = new Vector3(rangeX, rangeY, 0);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -84,8 +62,10 @@ namespace Bunker.Game
                 eventData.position, uiCamera, out globalMousePos))
             {
                 //计算UI和指针之间的位置偏移量
-                offset = rt.position - globalMousePos;
+                rt.position = globalMousePos;
+                //offset = rt.position - globalMousePos;
             }
+            //
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -95,20 +75,31 @@ namespace Bunker.Game
 
         public void OnEndDrag(PointerEventData eventData)
         {  
-            var end_pt = Camera.main.ScreenToWorldPoint(eventData.position);
-            var _bf = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var _tile = _bf.Field.GetGrid(end_pt);
-            if (_tile!= null 
-                && _tile.CanElimination()
-                && _bf.UseController<GridFieldController_DestroyTile>(new IGridObject[1] { _tile }))
-            {                                     
-                 Remove();                
-            }
-            else
+
+            var bfm = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var curpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit =
+                Physics2D.Raycast(
+                    curpos,
+                    Vector2.zero,
+                    100.0f,
+                    LayerMask.GetMask("EliminationTile","Tile")
+                    );
+
+            if (hit.collider != null)
             {
-                rt.position = saved_pos;
-                rt.SetParent(saved_parent);
+                var tile = bfm.Field.FindTile(hit.collider.gameObject);
+                if (tile != null
+                && tile.CanElimination()
+                && bfm.UseController<GridFieldController_DestroyTile>(new IGridObject[1] { tile }))
+                {
+                    Remove();
+                    return;
+                }
             }
+            rt.position = saved_pos;
+            rt.SetParent(saved_parent);
+            GetComponent<Image>().overrideSprite = null;
         }
 
         private void SetDraggedPosition(PointerEventData eventData)
@@ -119,14 +110,6 @@ namespace Bunker.Game
                 eventData.position, uiCamera, out globalMousePos))
             {
                 rt.position = offset + globalMousePos;
-            }
-            //
-            var end_pt = uiCamera.ScreenToWorldPoint(eventData.position);
-            var _bf = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var _tile = _bf.Field.GetGrid(end_pt);
-            if (_tile != null && _tile.CanElimination())
-            {
-                Debug.Log("item selected a tile:" + _tile.GetGridType());
             }
         }
 

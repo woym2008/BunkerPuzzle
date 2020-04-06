@@ -29,6 +29,15 @@ namespace Bunker.Game
         public virtual void Remove(){
             transform.SetParent(null);
             Destroy(this.gameObject);
+            //在道具使用完成后也做判断查看任务是否完成
+            if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Success)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(EndMenuProcess.END_GAME_WIN);
+            }
+            else if (MissionManager.getInstance.GetMissionsState() == MissionManager.Mission_Failure)
+            {
+                ProcessManager.getInstance.Switch<EndMenuProcess>(EndMenuProcess.END_GAME_LOSE);
+            }
         }
     }
 }
