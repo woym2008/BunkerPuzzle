@@ -70,8 +70,11 @@ namespace Bunker.Game
             //找到boss level
             var bossLevel = LevelManager.getInstance.GetBossLevel(areaID);
 
-            foreach (var level in levels)
+            //foreach (var level in levels)
+            for(int i=0;i<levels.Length;++i)
             {
+                var level = levels[i];
+
                 var btn = GameObject.Instantiate(_btnPrefab).GetComponent<Button>();
                 var btnctrl = btn.gameObject.GetComponent<LevelBtnController>();
                 var lock_img = btn.transform.Find("Lock").GetComponent<Image>();
@@ -82,7 +85,8 @@ namespace Bunker.Game
                 {
                     btn.image.sprite = sp;
                 }
-                int level_num = int.Parse(level);
+                //int level_num = int.Parse(level);
+                int level_num = i;
                 //
                 _levelButtons.Add(btn);
                 btn.transform.SetParent(_currentArea.transform);

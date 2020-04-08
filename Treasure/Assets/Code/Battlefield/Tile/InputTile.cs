@@ -8,7 +8,7 @@ namespace Bunker.Game
 {
     public abstract class InputTile : BaseGrid
     {
-        protected BattlefieldModule _battlefield;
+        protected BattleControllerModule _battlefield;
         protected BattlefieldInputModule _inputModule;
 
         public static int sInputCount = 0;
@@ -27,7 +27,7 @@ namespace Bunker.Game
             base.Init();
 
             //get battlemodule
-            _battlefield = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            _battlefield = ModuleManager.getInstance.GetModule<BattleControllerModule>();
             _inputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
 
             //_inputModule.onPressClick += OnInputClick;

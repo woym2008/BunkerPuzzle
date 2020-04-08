@@ -2,6 +2,7 @@
 using System.Collections;
 using Bunker.Process;
 using Bunker.Module;
+using UnityEngine.SceneManagement;
 
 namespace Bunker.Game
 {
@@ -16,12 +17,16 @@ namespace Bunker.Game
         {
             base.StartProcess(args);
 
-            LevelManager.getInstance.LoadLevelFiles();
-            LevelManager.getInstance.Load();
+            var commonnode = MonoBehaviourHelper.GetCommonObject();
 
-            var levels = LevelManager.getInstance.GetAreaLevels(LevelManager.getInstance.LastArea);
+            commonnode.StartCoroutine(LoadScene());
 
-            UIModule.getInstance.Open<AreaPanel>(levels, LevelManager.getInstance.LastArea);
+            //LevelManager.getInstance.LoadLevelFiles();
+            //LevelManager.getInstance.Load();
+
+            //var levels = LevelManager.getInstance.GetAreaLevels(LevelManager.getInstance.LastArea);
+
+            //UIModule.getInstance.Open<AreaPanel>(levels, LevelManager.getInstance.LastArea);
         }
 
         public override void EndProcess()
@@ -30,6 +35,28 @@ namespace Bunker.Game
 
             base.EndProcess();
         }
+
+        IEnumerator LoadScene()
+        {
+            yield return 0;
+
+            var back = SceneManager.LoadSceneAsync("LevelScene");
+            while (!back.isDone)
+            {
+                yield return 0;
+            }
+            //-----------------
+            //
+
+            LevelManager.getInstance.LoadLevelFiles();
+            LevelManager.getInstance.Load();
+
+            var levels = LevelManager.getInstance.GetAreaLevels(LevelManager.getInstance.LastArea);
+
+            UIModule.getInstance.Open<AreaPanel>(levels, LevelManager.getInstance.LastArea);
+
+        }
+
     }
 }
 

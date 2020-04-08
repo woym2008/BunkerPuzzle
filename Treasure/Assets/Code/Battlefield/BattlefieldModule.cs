@@ -62,10 +62,17 @@ namespace Bunker.Game
             _field = new GridField();
             var areastr = string.Format("Area_{0}",_areaIndex);
             var levelstr = string.Format("Level_{0}", _curLevel);
+
             if(_field.Load(areastr, levelstr))
             {
                 _field.OnElimination = OnElimination;
             }
+
+            //_field.Load(areastr, levelstr);
+            //_field.OnElimination = OnElimination;
+
+            var battlecontroller = ModuleManager.getInstance.GetModule<BattleControllerModule>();
+            battlecontroller.Field = _field;
         }
 
         public override void OnStop()
@@ -82,26 +89,26 @@ namespace Bunker.Game
         {
         }
 
-        GridFieldControllerBase _currentController;
-        public bool UseController<T>(params object[] datas) where T : GridFieldControllerBase
-        {
-            if(_currentController != null)
-            {
-                if(!_currentController.IsFinish())
-                {
-                    return false;
-                }
-            }
-            var controller = Activator.CreateInstance(typeof(T)) as T;
+        //GridFieldControllerBase _currentController;
+        //public bool UseController<T>(params object[] datas) where T : GridFieldControllerBase
+        //{
+        //    if(_currentController != null)
+        //    {
+        //        if(!_currentController.IsFinish())
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    var controller = Activator.CreateInstance(typeof(T)) as T;
 
-            controller.SetGridField(_field);
+        //    controller.SetGridField(_field);
 
-            controller.Excute(datas);
+        //    controller.Excute(datas);
 
-            _currentController = controller;
+        //    _currentController = controller;
 
-            return true;
-        }
+        //    return true;
+        //}
 
         public void RestartLevel()
         {

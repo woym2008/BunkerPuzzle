@@ -101,6 +101,8 @@ namespace Bunker.Game
 
             _battleLogicObject.onupdate -= Update;
 
+            MissionManager.getInstance.OnMissionValueHandler -= OnMissionValue;
+
             GameObject.Destroy(_battleLogicObject);
 
             yield return 0;
@@ -142,8 +144,29 @@ namespace Bunker.Game
             //这里尝试载入一下道具
             SaveLoader.getInstance.LoadPlayerCurItems(area);
 
+            //加上mission回调
+            MissionManager.getInstance.OnMissionValueHandler += OnMissionValue;
+
             _battleTurnsModule.NextTurn();
 
+        }
+
+        //--------------------------------------------------------
+        void OnMissionValue(int value)
+        {
+            switch(value)
+            {
+                case MissionManager.Mission_Success:
+                    {
+                        ProcessManager.getInstance.Switch<EndMenuProcess>(EndMenuProcess.END_GAME_WIN);
+                    }
+                    break;
+                case MissionManager.Mission_Failure:
+                    {
+                        ProcessManager.getInstance.Switch<EndMenuProcess>(EndMenuProcess.END_GAME_LOSE);
+                    }
+                    break;
+            }
         }
     }
 }

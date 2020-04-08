@@ -77,6 +77,7 @@ namespace Bunker.Game
         {  
 
             var bfm = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var bcm = ModuleManager.getInstance.GetModule<BattleControllerModule>();
             var curpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit =
                 Physics2D.Raycast(
@@ -91,7 +92,7 @@ namespace Bunker.Game
                 var tile = bfm.Field.FindTile(hit.collider.gameObject);
                 if (tile != null
                 && tile.CanElimination()
-                && bfm.UseController<GridFieldController_DestroyTile>(new IGridObject[1] { tile }))
+                && bcm.UseController<GridFieldController_DestroyTile>(new IGridObject[1] { tile }))
                 {
                     Remove();
                     return;

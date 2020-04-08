@@ -10,6 +10,8 @@ namespace Bunker.Game
     public delegate void MissionChangeDelegate(string name, int n,int max);
     public delegate void StepChangeDelegate(float n);
 
+    public delegate void MissionValue(int value);
+
     public class MissionManager : ServicesModule<MissionManager>
     {
         public const int Mission_Success = 1;
@@ -32,6 +34,8 @@ namespace Bunker.Game
 
 
         public int curMissionState = Mission_Unload;
+
+        public event MissionValue OnMissionValueHandler;
 
         public void LoadMissionData(MissionData md)
         {
@@ -207,6 +211,41 @@ namespace Bunker.Game
             }
 
             return ret;
+        }
+
+        public void CheckMissionState()
+        {
+            var ret = Mission_Success;
+
+            foreach (var md in curMissionData.ProtectMissions)
+            {
+                if (md.Value == 0)
+                {
+                    OnMissionValueHandler?.Invoke(Mission_Failure);
+                    return;
+                    //return Mission_Failure;
+                }
+            }
+
+            for (var i = 0; i < curMissionData.Missions.Count; ++i)
+            {
+                var mp = curMissionData.Missions[i];
+                if (mp.Value < OriginalMission.Missions[i].Value)
+                {
+                    ret = Mission_Processing;
+                    //OnMissionValueHandler?.Invoke(Mission_Processing);
+                    break;
+                }
+            }
+
+            if (ret == Mission_Processing && curMissionData.MaxSteps <= 0)
+            {
+                OnMissionValueHandler?.Invoke(Mission_Failure);
+                return;
+                //return Mission_Failure;
+            }
+
+            OnMissionValueHandler?.Invoke(ret);
         }
     }
 }

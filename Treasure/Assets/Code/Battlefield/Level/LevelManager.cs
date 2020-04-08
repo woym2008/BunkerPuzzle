@@ -82,7 +82,7 @@ public class LevelManager : ServicesModule<LevelManager>
             }
             var bossStr = l._cols["boss"]._cellText;
             var areaStr = int.Parse(l._cols["area"]._cellText);
-            if(areaID == areaStr)
+            if(areaID == areaStr && bossStr != "")
             {
                 return int.Parse(bossStr);
             }

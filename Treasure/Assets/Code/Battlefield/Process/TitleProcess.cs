@@ -20,6 +20,10 @@ namespace Bunker.Game
         private void Update(float dt)
         {
             //if(_titleModule != null) _titleModule.Update(dt);
+            if(Input.GetKeyDown(KeyCode.Backspace))
+            {
+                SaveLoader.getInstance.ClearGameProgress();
+            }
         }
 
         public override void StartProcess(params object[] args)
@@ -32,6 +36,7 @@ namespace Bunker.Game
             _titleLogicObject.StartCoroutine(LoadMainMenuScene());
             //
             //ProcessManager.getInstance.Switch<BattlefieldProcess>();
+
         }
 
         IEnumerator LoadMainMenuScene()
@@ -51,11 +56,12 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<TitleModule>();
 
             _titleLogicObject.onupdate += _titleModule.Update;
-
+            _titleLogicObject.onupdate += Update;
         }
 
         public override void EndProcess()
         {
+            _titleLogicObject.onupdate -= Update;
             _titleLogicObject.onupdate -= _titleModule.Update;
             ModuleManager.getInstance.StopModule<TitleModule>();
             base.EndProcess();

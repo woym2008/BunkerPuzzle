@@ -40,8 +40,20 @@ namespace Bunker.Game
 
         public void OnStartGameClick()
         {
-            //ProcessManager.getInstance.Switch<BattlefieldProcess>();
-            ProcessManager.getInstance.Switch<SelectLevelProcess>();
+            //先检查是否没玩过，没玩过直接进教程
+            int level = 0, curlevel = 0;
+            SaveLoader.getInstance.LoadGameCurProgress(0, ref level, ref curlevel);
+            if(level == 0)
+            {
+                ProcessManager.getInstance.Switch<GuideProcess>();
+
+            }
+            else
+            {
+                //ProcessManager.getInstance.Switch<BattlefieldProcess>();
+                ProcessManager.getInstance.Switch<SelectLevelProcess>();
+            }
+
         }
 
         public void OnCreditsClick()
