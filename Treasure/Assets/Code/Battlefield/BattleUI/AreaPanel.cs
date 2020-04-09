@@ -154,7 +154,14 @@ namespace Bunker.Game
 
         public void OnClickBtn(int level, int area)
         {
-            ProcessManager.getInstance.Switch<BattlefieldProcess>(level,area);
+            if(area == 0)
+            {
+                ProcessManager.getInstance.Switch<GuideProcess>();
+            }
+            else
+            {
+                ProcessManager.getInstance.Switch<BattlefieldProcess>(level, area);
+            }            
         }
     }
 

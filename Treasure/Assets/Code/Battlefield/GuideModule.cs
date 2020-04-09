@@ -45,7 +45,7 @@ public class GuideModule : LogicModule
 
         _field = new GridField();
         var areastr = string.Format("Area_{0}", 0);
-        var levelstr = string.Format("Level_{0}", 1);
+        var levelstr = string.Format("Level_{0}", 0);
         _field.Load(areastr, levelstr);
         _field.OnElimination = OnElimination;
 

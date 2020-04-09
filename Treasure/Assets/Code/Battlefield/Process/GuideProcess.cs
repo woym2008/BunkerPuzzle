@@ -102,7 +102,7 @@ public class GuideProcess : BasicProcess
             battleInputModule.Rest();
         }
 
-        LevelManager.getInstance.SetCurrentLevel(0, 1);
+        LevelManager.getInstance.SetCurrentLevel(0, 0);
 
         ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
         ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
