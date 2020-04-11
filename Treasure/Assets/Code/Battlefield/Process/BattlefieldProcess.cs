@@ -32,8 +32,7 @@ namespace Bunker.Game
         public override void StartProcess(params object[] args)
         {
             base.StartProcess(args);
-            _battleLogicObject = MonoBehaviourHelper.CreateObject();
-            _battleLogicObject.gameObject.name = "BattlefieldRoot";
+            _battleLogicObject = MonoBehaviourHelper.CreateObject("BattlefieldRoot");
 
             int level = (int)args[0];
             int area = (int)args[1];

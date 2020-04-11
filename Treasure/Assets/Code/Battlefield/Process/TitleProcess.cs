@@ -31,8 +31,7 @@ namespace Bunker.Game
             base.StartProcess(args);
             //显示ui
             if(_titleLogicObject == null)
-                _titleLogicObject = MonoBehaviourHelper.CreateObject();
-            _titleLogicObject.gameObject.name = "MainMenuRoot";
+                _titleLogicObject = MonoBehaviourHelper.CreateObject("MainMenuRoot");
             _titleLogicObject.StartCoroutine(LoadMainMenuScene());
             //
             //ProcessManager.getInstance.Switch<BattlefieldProcess>();

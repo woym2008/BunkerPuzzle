@@ -31,6 +31,7 @@ namespace Bunker.Game
         {
             base.OnStart();
             _Panel = UIModule.getInstance.Open<MainMenuPanel2D>();
+            SoundManager.getInstance.PlayBGM("bgm");
         }
 
         public override void OnStop()

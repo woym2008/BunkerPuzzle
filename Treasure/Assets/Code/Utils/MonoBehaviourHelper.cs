@@ -5,11 +5,27 @@ public static class MonoBehaviourHelper
 {
     static public CommonMonoBehaviour CommonObject;
 
-    static public CommonMonoBehaviour CreateObject()
+    static public CommonMonoBehaviour CreateObject(string obj_name)
     {
-        var obj = new GameObject();
+        CommonMonoBehaviour cmb = null;
+        var go = GameObject.Find(obj_name);
+        if (go != null)
+        {
+            cmb = go.GetComponent<CommonMonoBehaviour>();
 
-        var cmb = obj.AddComponent<CommonMonoBehaviour>();
+            if(cmb != null)
+            {
+                return cmb;
+            }
+        }
+        else
+        {
+            go = new GameObject();
+        }
+
+        go.name = obj_name;
+
+        cmb = go.AddComponent<CommonMonoBehaviour>();
 
         return cmb;
     }
@@ -18,7 +34,7 @@ public static class MonoBehaviourHelper
     {
         if(CommonObject == null)
         {
-            CommonObject = CreateObject();
+            CommonObject = CreateObject("CommonObject");
         }
 
         return CommonObject;

@@ -35,6 +35,7 @@ public class Entrance : MonoBehaviour
 
         TableModule.getInstance.Start();
         VFXManager.getInstance.Init();
+        SoundManager.getInstance.Init();
         //
         //SaveLoader.getInstance.ClearGameProgress();
         SaveLoader.getInstance.FirstWritePlayerPrefs();

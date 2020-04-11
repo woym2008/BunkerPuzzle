@@ -26,8 +26,7 @@ namespace Bunker.Game
             base.StartProcess(args);
             //显示ui
             if (_finalObject == null)
-                _finalObject = MonoBehaviourHelper.CreateObject();
-            _finalObject.gameObject.name = "FinalObject";
+                _finalObject = MonoBehaviourHelper.CreateObject("FinalObject");
             _finalObject.StartCoroutine(LoadMainMenuScene());
         }
 

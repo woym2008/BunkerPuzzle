@@ -37,8 +37,7 @@ public class GuideProcess : BasicProcess
     {
         base.StartProcess(args);
 
-        _battleLogicObject = MonoBehaviourHelper.CreateObject();
-        _battleLogicObject.gameObject.name = "BattlefieldRoot";
+        _battleLogicObject = MonoBehaviourHelper.CreateObject("BattlefieldRoot");
 
         _battleLogicObject.StartCoroutine(LoadBattleScene());
 
