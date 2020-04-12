@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 39b27bee96fe54e48be0e07642f39e02
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 35
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ZoomlaCuHei-A003
+  fontNames:
+  - ZoomlaCuHei-A003
+  fallbackFontReferences: []
+  customCharacters: " \u7889\u5821\u6E38\u620F"
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 1
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
