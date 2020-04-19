@@ -8,7 +8,8 @@ namespace Bunker.Game
 {
     public class BattleUIModule : LogicModule
     {
-        BattleUIPanel   _UIPanel;
+        IBattleUI _UIPanel;
+        int _uiType = 0;
         //
         Dictionary<string, Sprite> _MissionIconlist = new Dictionary<string, Sprite>();
         //
@@ -35,10 +36,20 @@ namespace Bunker.Game
             base.Release();
         }
 
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
-            _UIPanel = UIModule.getInstance.Open<BattleUIPanel>();
+            if(data.Length == 1 && data[0].ToString() == "Guide")
+            {
+                _uiType = 1;
+                _UIPanel = UIModule.getInstance.Open<GuideUIPanel>();
+            }
+            else
+            {
+                _uiType = 0;
+                _UIPanel = UIModule.getInstance.Open<BattleUIPanel>();
+            }
+            
 
         }
 
@@ -103,7 +114,7 @@ namespace Bunker.Game
             return item;
         }
 
-        public BattleUIPanel GetBattleUIPanel()
+        public IBattleUI GetBattleUIPanel()
         {
             return _UIPanel;
         }

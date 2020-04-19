@@ -20,7 +20,7 @@ namespace Bunker.Game
         {
 
         }
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
             _CurTurn = null;

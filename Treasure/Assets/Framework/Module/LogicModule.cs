@@ -75,7 +75,7 @@ namespace Bunker.Module
             ;
         }
 
-        virtual public void OnStart()
+        virtual public void OnStart(params object[] data)
         {
 
         }

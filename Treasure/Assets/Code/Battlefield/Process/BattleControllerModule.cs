@@ -32,7 +32,7 @@ public class BattleControllerModule : LogicModule
         base.Release();
     }
 
-    public override void OnStart()
+    public override void OnStart(params object[] data)
     {
         base.OnStart();
     }

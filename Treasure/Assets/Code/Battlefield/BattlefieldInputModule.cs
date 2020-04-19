@@ -31,6 +31,8 @@ namespace Bunker.Game
 
         public bool locked = false;
 
+        bool _pause = false;
+
         const string _layername = "Tile";
         int _layerids;
 
@@ -88,7 +90,7 @@ namespace Bunker.Game
             base.Release();
         }
 
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
 
@@ -104,6 +106,11 @@ namespace Bunker.Game
             _inputcam = null;
         }
 
+        public void Pause(bool enable)
+        {
+            _pause = enable;
+        }
+
         protected override void OnModuleMessage(string msg, object[] args)
         {
             base.OnModuleMessage(msg, args);
@@ -114,6 +121,10 @@ namespace Bunker.Game
             if(_inputcam == null)
             {
                 _inputcam = ModuleManager.getInstance.GetModule<BattlefieldCameraModule>().GameCam;
+            }
+            if(_pause)
+            {
+                return;
             }
             if (!locked)
             {

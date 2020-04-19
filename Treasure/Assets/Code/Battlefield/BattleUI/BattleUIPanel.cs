@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Bunker.Game
 {
-    public class BattleUIPanel : UIPanel
+    public class BattleUIPanel : UIPanel,IBattleUI
     {
         Transform _ItemPanel;
         Transform _MissionPanel;

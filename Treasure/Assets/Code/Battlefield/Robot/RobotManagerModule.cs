@@ -32,7 +32,7 @@ namespace Bunker.Game
         {
             base.Release();
         }
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
             //TODO create robot at Special Tile from BattleField!

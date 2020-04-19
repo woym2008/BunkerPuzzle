@@ -106,7 +106,7 @@ public class GuideProcess : BasicProcess
         ModuleManager.getInstance.StartModule<BattlefieldCameraModule>();
         ModuleManager.getInstance.StartModule<BattlefieldInputModule>();
         //UI mode 启动前置！
-        ModuleManager.getInstance.StartModule<BattleUIModule>();
+        ModuleManager.getInstance.StartModule<BattleUIModule>("Guide");
         ModuleManager.getInstance.StartModule<BattleTurnsModule>();
         //此处载入关卡数据mapdata
         ModuleManager.getInstance.StartModule<GuideModule>();

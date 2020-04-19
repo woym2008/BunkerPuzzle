@@ -210,13 +210,13 @@ namespace Bunker.Module
             _modules.Clear();
         }
         //-----------------------------------------
-        public void StartModule<T>() where T : LogicModule
+        public void StartModule<T>(params object[] data) where T : LogicModule
         {
             var module = GetModule(typeof(T).ToString());
 
             if(module != null)
             {
-                module.OnStart();
+                module.OnStart(data);
             }
         }
 

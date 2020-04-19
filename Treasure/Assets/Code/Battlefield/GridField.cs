@@ -68,7 +68,7 @@ namespace Bunker.Game
         string _currectArea = "";
         string _currectLevel = "";
         //-------------------------------------
-        public Action<int> OnElimination;
+        public event Action<int> OnElimination;
         //-------------------------------------
         // Use this for initialization
         void Start()

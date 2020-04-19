@@ -55,7 +55,7 @@ namespace Bunker.Game
             base.Release();
         }
 
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
 
@@ -65,7 +65,7 @@ namespace Bunker.Game
 
             if(_field.Load(areastr, levelstr))
             {
-                _field.OnElimination = OnElimination;
+                _field.OnElimination += OnElimination;
             }
 
             //_field.Load(areastr, levelstr);
@@ -77,6 +77,10 @@ namespace Bunker.Game
 
         public override void OnStop()
         {
+            if(_field != null)
+            {
+                _field.OnElimination -= OnElimination;
+            }
             base.OnStop();
         }
 

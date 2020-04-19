@@ -39,7 +39,7 @@ public class GuideModule : LogicModule
         base.Release();
     }
 
-    public override void OnStart()
+    public override void OnStart(params object[] data)
     {
         base.OnStart();
 
@@ -47,7 +47,7 @@ public class GuideModule : LogicModule
         var areastr = string.Format("Area_{0}", 0);
         var levelstr = string.Format("Level_{0}", 0);
         _field.Load(areastr, levelstr);
-        _field.OnElimination = OnElimination;
+        _field.OnElimination += OnElimination;
 
         var battlecontroller = ModuleManager.getInstance.GetModule<BattleControllerModule>();
         battlecontroller.Field = _field;
@@ -55,6 +55,10 @@ public class GuideModule : LogicModule
 
     public override void OnStop()
     {
+        if(_field != null)
+        {
+            _field.OnElimination -= OnElimination;
+        }
         base.OnStop();
     }
 

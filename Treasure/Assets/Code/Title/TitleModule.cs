@@ -27,7 +27,7 @@ namespace Bunker.Game
             base.Release();
         }
 
-        public override void OnStart()
+        public override void OnStart(params object[] data)
         {
             base.OnStart();
             _Panel = UIModule.getInstance.Open<MainMenuPanel2D>();
