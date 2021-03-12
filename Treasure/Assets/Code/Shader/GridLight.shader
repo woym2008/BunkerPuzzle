@@ -129,15 +129,6 @@ Shader "UI/GridLight"
 				{
 					color = gridColor;
 				}
-
-				if (abs(color.x) == backgroundColor.x
-					&& abs(color.y) == backgroundColor.y
-					&& abs(color.z) == backgroundColor.z
-					&& abs(color.w) == backgroundColor.w
-					)
-				{
-					discard;
-				}
 		
 				if (color.a != 0.0) {
 					float v = tex2D(_GradientTex, IN.texcoord).r;
