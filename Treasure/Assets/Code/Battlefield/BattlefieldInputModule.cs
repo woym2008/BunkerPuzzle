@@ -145,7 +145,7 @@ namespace Bunker.Game
                     if (ctrl != _lastInputTile)
                     {
                         if(_lastInputTile != null)
-                            _lastInputTile?.onTouchExit.Invoke();
+                            _lastInputTile?.onTouchExit?.Invoke();
                     }
                     ctrl.onTouchEnter?.Invoke();
 
@@ -155,7 +155,7 @@ namespace Bunker.Game
                 {
                     if(_lastInputTile != null)
                     {
-                        _lastInputTile?.onTouchExit.Invoke();
+                        _lastInputTile?.onTouchExit?.Invoke();
                         _lastInputTile = null;
                     }
                     
