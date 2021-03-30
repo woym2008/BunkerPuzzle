@@ -102,7 +102,7 @@ namespace Bunker.Game
 
             MissionManager.getInstance.OnMissionValueHandler -= OnMissionValue;
 
-            GameObject.Destroy(_battleLogicObject);
+            //GameObject.Destroy(_battleLogicObject);
 
             yield return 0;
         }

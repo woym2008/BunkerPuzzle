@@ -71,8 +71,8 @@ namespace Bunker.Game
             curMissionState = Mission_Processing;
         }
         /*
-            item是missionItem 需要保存其位置
-             */
+            item是missionItem 需要保存其位置,这个MissionItem，是用来定位在UI上位置的，用于特效使用！
+     */
         public bool RegisterMissionChangeDelegate(MissionCollectionType mct,MissionChangeDelegate cb)
         {
             if (!MissionChangeDelegateDict.ContainsKey(mct))

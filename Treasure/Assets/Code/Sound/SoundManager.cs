@@ -29,6 +29,9 @@ public class SoundManager : ServicesModule<SoundManager>
         {
             soundPlayers.Add(_gameObject.AddComponent<AudioSource>());
         }
+        //临时将声音关闭
+        SetMute(true);
+
     }
 
     public void SetVolume(float v)

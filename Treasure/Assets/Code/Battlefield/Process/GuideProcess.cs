@@ -148,7 +148,7 @@ public class GuideProcess : BasicProcess
 
         _battleLogicObject.onupdate -= Update;
 
-        GameObject.Destroy(_battleLogicObject);
+        //GameObject.Destroy(_battleLogicObject);
 
         yield return 0;
     }

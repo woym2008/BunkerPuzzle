@@ -12,6 +12,10 @@ namespace Bunker.Game
         Dictionary<string, float> ItemRequests = new Dictionary<string, float>();
         Dictionary<string, int> ItemList = new Dictionary<string, int>();
         //这里要控制一下，比如消除2个格子，只能得到一个物品这种
+        /*
+            这里的ITEM的生成规则是，可以生成任意个道具，比如0.1、0.5 、1和2等，每当满足1个完整道具的时候，就会给
+            游戏UI中实例化一个完整的道具，且此时这里也有保存
+        */
         public void CreateBattleItem<T>(float n) where T : BattleItem, new()
         {
             var item_name = typeof(T).Name;
@@ -36,6 +40,17 @@ namespace Bunker.Game
         {          
             ItemRequests.Clear();
             ItemList.Clear();
+        }
+
+        public void ClearItemRequestsList(float threshold = 1.0f)
+        {
+            foreach (var pair in ItemRequests)
+            {
+                if (pair.Value < threshold)
+                {
+                    ItemRequests[pair.Key] = 0;
+                }
+            }
         }
 
         public void ConsumeItem<T>() where T : BattleItem, new()
