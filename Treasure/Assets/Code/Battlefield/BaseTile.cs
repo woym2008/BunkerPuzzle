@@ -3,26 +3,10 @@ using System.Collections;
 
 namespace Bunker.Game
 {
-    abstract public class BaseGrid : IGridObject
+    abstract public class BaseTile : ITile
     {
-        public int X
-        {
-            get
-            {
-                return _x;
-            }
-        }
+        public Grid ParentGrid { get; set; }
 
-        public int Y
-        {
-            get
-            {
-                return _y;
-            }
-        }
-
-        protected int _x;
-        protected int _y;
         protected Vector3 _zeropos;
 
         protected GameObject _object;
@@ -35,25 +19,26 @@ namespace Bunker.Game
                 return _object;
             }
         }
-
+        
         string _name;
 
         private bool _isUpdated = false;
 
-        ~BaseGrid()
+        ~BaseTile()
         {
             //OnDestroy();
         }
 
 
-        public void CreateGrid(string name, Vector3 zeropos, int x = 0, int y = 0)
+        public void Create(string name, Vector3 zeropos, Grid grid)
         {
             _name = name;
 
+            ParentGrid = grid;
+
             var prefab = Resources.Load("Prefabs/Tiles/" + name) as GameObject;
             _object = GameObject.Instantiate(prefab);
-            _x = x;
-            _y = y;
+
             _zeropos = zeropos;
             var selfpos = GetSelfWorldPos();
 
@@ -64,7 +49,7 @@ namespace Bunker.Game
 
         public Vector3 GetSelfWorldPos()
         {
-            return _zeropos + new Vector3(_x * Constant.TileSize.x, -_y * Constant.TileSize.y, 0);
+            return _zeropos + new Vector3(ParentGrid.ColID * Constant.TileSize.x, -ParentGrid.RowID * Constant.TileSize.y, 0);
         }
 
         public void Delete()
@@ -93,15 +78,15 @@ namespace Bunker.Game
             {
                 var kid = _object.transform.GetChild(0);
                 var sr = kid.GetComponent<SpriteRenderer>();
-                sr.sortingOrder = _y * 2;
+                sr.sortingOrder = ParentGrid.RowID * 2;
             }
         }
 
-        private void SetPos(int x, int y)
-        {
-            _x = x;
-            _y = y;
-        }
+        //private void SetPos(int x, int y)
+        //{
+        //    _x = x;
+        //    _y = y;
+        //}
 
         virtual public bool CanMove()
         {
@@ -134,12 +119,14 @@ namespace Bunker.Game
             }
         }
 
-        virtual public void UpdateGrid(int x, int y)
+        virtual public void UpdateGrid(Grid grid)
         {
             if(_object != null)
             {
-                SetPos(x, y);
-                var selfpos = _zeropos + new Vector3(x * Constant.TileSize.x, -y * Constant.TileSize.y, 0);
+                //SetPos(x, y);
+                grid.AttachTile = this;
+                this.ParentGrid = grid;
+                var selfpos = _zeropos + new Vector3(grid.ColID * Constant.TileSize.x, -grid.RowID * Constant.TileSize.y, 0);
                 _object.transform.position = selfpos;
             }
             if(_copyobject != null)
@@ -174,6 +161,13 @@ namespace Bunker.Game
             Debug.LogFormat("相邻的{0}块要消除，我的类型是{1}，判断能否消除", gridtype, GetGridType());
             return (gridtype == GetGridType());
         }
+        //-------------------------------------------------------------
+        //小人行走相关函数
+        virtual public bool CanWalk()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------
     }
 }
 

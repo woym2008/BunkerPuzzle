@@ -12,7 +12,7 @@ namespace Bunker.Game
 
         static Transform _rootNode;
 
-        public static bool LoadGrid(string areaName, string levelName, out IGridObject[,] reslist)
+        public static bool LoadGrid(string areaName, string levelName, out Grid[] rows, out Grid[] cols, out Grid[,] grids)
         {
             //------------------------
 
@@ -26,25 +26,138 @@ namespace Bunker.Game
             if (map == null)
             {
                 //这里不应该找不到，如果找不到，应该是通关了！！
-                reslist = null;
+                rows = null;
+                cols = null;
+                grids = null;
                 Debug.Log(string.Format("Map {0}/{1} not found", areaName, levelName));
                 return false;
             }
             
-            reslist = new IGridObject[map.column, map.row];
-            
+            //这里需要
+            //1 保存各个行和各个列的首节点
+            //2 对各个节点的上下左右节点进行赋值，通过缓存上一行的节点和同行的前一个节点来实现
+            //如果出现了rows[x] == null的情况，说明这一行都没有数据 cols同理
+            rows = new Grid[map.row];
+            cols = new Grid[map.column];
+
+            grids = new Grid[map.column, map.row];
+
+            //缓存读入的在同一行上的上一个块
+            //cache current
+            Grid lastTileInRow = null;
+            Grid firstTileInRow = null;
+            //缓存读入的上一行上的同一列上的上一个块
+            //cache1 cache2 cache3
+            //1      2      3
+            Grid[] lastRowTileInCol = new Grid[map.column];
+            Grid[] firstRowTileInCol = new Grid[map.column];
             for (int i = 0; i < map.row; ++i)
             {
+                lastTileInRow = null;//换行了，清空这个
+                firstTileInRow = null;
                 for (int j = 0; j < map.column; ++j)
                 {
                     var tiledata = map.data[i * map.row + j];
 
                     var resname = Constant.Tiles[tiledata];
-                    var grid = CreateGrid(resname, j, i);
-                    reslist[i,j] = grid; //---这里很奇怪，不应该是[j,i]?
+
+                    var grid = new Grid(j, i);
+                    grid.AttachTile = null;
+                    grid.Up = null;
+                    grid.Down = null;
+                    grid.Left = null;
+                    grid.Right = null;
+
+                    BaseTile tile = null;
+
+                    //是否为空墙
+                    if (resname != "Empty")
+                    {
+                        tile = CreateTile(resname, grid);
+
+                        grid.AttachTile = tile;
+                        tile.ParentGrid = grid;
+                    }
+
+                    //行列的开头节点
+                    if (i == 0)
+                    {
+                        cols[j] = grid;
+                    }
+                    if (j == 0)
+                    {
+                        rows[j] = grid;
+                    }
+
+                    var lastTileInCol = lastRowTileInCol[j];
+                    //四周节点
+                    //上下
+                    if(grid != null)
+                    {
+                        //如果之前cols[j]为空,说明第一行的第j列是空的,那么这一列的第一个节点就要向下顺延
+                        if (cols[j] == null)
+                        {
+                            cols[j] = grid;
+                        }
+
+                        if (lastTileInCol == null)
+                        {
+                            grid.Up = null;
+                            grid.Down = null;
+                            firstRowTileInCol[j] = grid;
+                        }
+                        else
+                        {
+                            grid.Up = lastTileInCol;
+                            lastTileInCol.Down = grid;
+                        }
+                        lastRowTileInCol[j] = grid;
+                        
+                    }
+
+                    //左右
+                    if(grid != null)
+                    {
+                        if (rows[i] == null)
+                        {
+                            rows[i] = grid;
+                        }
+
+                        if (lastTileInRow == null)
+                        {
+                            firstTileInRow = grid;
+                            grid.Left = null;
+                            grid.Right = null;
+                        }
+                        else
+                        {
+                            grid.Left = lastTileInRow;
+                            lastTileInRow.Right = grid;
+                        }
+                        lastTileInRow = grid;
+
+                    }
+
+                    grids[j, i] = grid;
+                }
+
+                if(lastTileInRow != null && firstTileInRow != null)
+                {
+                    lastTileInRow.Right = firstTileInRow;
+                    firstTileInRow.Left = lastTileInRow;
                 }
             }
-            
+
+            for(int i=0;i< lastRowTileInCol.Length; ++i)
+            {
+                var first = firstRowTileInCol[i];
+                var last = lastRowTileInCol[i];
+                if(first != null && last != null)
+                {
+                    first.Up = last;
+                    last.Down = first;
+                }
+            }
 
             //create mask
             var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;
@@ -107,14 +220,14 @@ namespace Bunker.Game
             return true;
         }
 
-        public static BaseGrid CreateGrid(string name, int x, int y)
+        public static BaseTile CreateTile(string name, Grid grid)
         {
             var type = Type.GetType(string.Format("{0}.{1}", _domain, name));
-            var grid = Activator.CreateInstance(type) as BaseGrid;
+            var tile = Activator.CreateInstance(type) as BaseTile;
 
-            grid.CreateGrid(name,GridField.ZeroPos ,x, y);
-            grid.Node.transform.parent = _rootNode;
-            return grid;
+            tile.Create(name, GridField.ZeroPos , grid);
+            tile.Node.transform.parent = _rootNode;
+            return tile;
         }
     }
 

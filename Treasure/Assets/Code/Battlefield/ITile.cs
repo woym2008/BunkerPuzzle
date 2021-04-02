@@ -3,16 +3,11 @@ using System.Collections;
 
 namespace Bunker.Game
 {
-    public interface IGridObject
+    public interface ITile
     {
-        int X
-        {
-            get;
-        }
-        int Y
-        {
-            get;
-        }
+        Grid ParentGrid { get; set; }
+
+
 
         bool CanMove();
         /// <summary>
@@ -34,9 +29,8 @@ namespace Bunker.Game
         /// <summary>
         /// 格子的update
         /// </summary>
-        /// <param name="x">The x coordinate.</param>
-        /// <param name="y">The y coordinate.</param>
-        void UpdateGrid(int x, int y);
+        /// <param name="Grid">The x coordinate And The y coordinate.</param>
+        void UpdateGrid(Grid grid);
         /// <summary>
         /// 获取格子类型
         /// </summary>

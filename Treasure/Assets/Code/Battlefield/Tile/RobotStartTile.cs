@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bunker.Game
 {
-    public class RobotStartTile : BaseGrid
+    public class RobotStartTile : BaseTile
     {
         public override void Init()
         {
@@ -18,9 +18,9 @@ namespace Bunker.Game
             return base.CanMove();
         }
 
-        public override void UpdateGrid(int x, int y)
+        public override void UpdateGrid(Grid grid)
         {
-            base.UpdateGrid(x, y);
+            base.UpdateGrid(grid);
         }
 
         public override string GetGridType()

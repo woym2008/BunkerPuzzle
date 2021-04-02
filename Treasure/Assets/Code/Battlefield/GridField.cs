@@ -43,14 +43,24 @@ namespace Bunker.Game
         //-------------------------------------
         GridFieldControllerBase _gridFieldController;
         //-------------------------------------
-        private IGridObject[,] _grids;
-        public IGridObject[,] Grids
-        {
-            get
-            {
-                return _grids;
-            }
-        }
+        //存行与列的节点集合，便于找到各个节点的开始数据
+        //行开头的节点集合
+        //0
+        //1
+        //:
+        //:
+        //9
+        public Grid[] rowStartGrids;
+        //列开头的节点集合
+        //0 1 ... 9
+        public Grid[] colStartGrids;
+
+        //格子数组
+        //这个数组主要为了方便访问格子
+        //格子数组和上面两个格子起点数组不同，上面那里里存的都是非空白点
+        //格子数组可能会存空格子点，即和其他格子没有链接关系的点，
+        //这主要为了小人行走方便，可能有飞空怪之类的，格子数组作为整个地图，包括地面和天空
+        public Grid[,] gridArray;
 
         static Transform _zeroPoint;
         static public Vector3 ZeroPos
@@ -100,26 +110,23 @@ namespace Bunker.Game
             _currectLevel = levelName;
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            return GridLoader.LoadGrid(_currectArea, _currectLevel, out _grids);
+            return GridLoader.LoadGrid(_currectArea, _currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
         }
 
         public void RestartLevel()
         {
             if(_currectLevel != null && _currectArea != null)
             {
-                if (_grids != null)
+                if(rowStartGrids != null)
                 {
-                    for (int i = 0; i < _grids.GetLength(0); ++i)
+                    for(int i = 0; i < rowStartGrids.Length; ++i)
                     {
-                        for (int j = 0; j < _grids.GetLength(1); ++j)
-                        {
-                            var g = _grids[i, j];
-                            g.Delete();
-                        }
+                        rowStartGrids[i].AttachTile?.Delete();
                     }
                 }
+                
                 _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-                GridLoader.LoadGrid(_currectArea,_currectLevel, out _grids);
+                GridLoader.LoadGrid(_currectArea,_currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
             }
         }
         //---------------------------------------------------------------------
@@ -172,7 +179,7 @@ namespace Bunker.Game
         }
         //---------------------------------------------------------------------
         //add by wwh / Oh no!Just Test!
-        public IGridObject GetGrid(Vector3 pos)
+        public Grid GetGrid(Vector3 pos)
         {
             pos = pos - ZeroPos;
             var x = (pos.x - Constant.TileSize.x * 0.5f) / Constant.TileSize.x;
@@ -180,100 +187,359 @@ namespace Bunker.Game
             return GetGrid(Mathf.CeilToInt(x), Mathf.CeilToInt(y));
         }
 
-        public IGridObject GetGrid(int column_value, int row_value)
+        public Grid GetGrid(int column_value, int row_value)
         {
-            if (column_value >= _grids.GetLength(0) || row_value >= _grids.GetLength(1) || column_value < 0 || row_value < 0)
+            if (gridArray == null || column_value >= gridArray.GetLength(0) || row_value >= gridArray.GetLength(1) ||
+                column_value < 0 || row_value < 0)
             {
                 return null;
             }
 
-            return _grids[row_value, column_value];
+            return gridArray[column_value, row_value];
         }
 
-        private void SetGrid(int column_value, int row_value, IGridObject grid)
+        //public BaseTile GetTile(int column_value, int row_value)
+        //{
+        //    if (rowStartGrids != null || colStartGrids == null)
+        //    {
+        //        return null;
+        //    }
+
+        //    if (column_value >= colStartGrids.Length || column_value < 0)
+        //    {
+        //        return null;
+        //    }
+
+        //    if (row_value >= rowStartGrids.Length || row_value < 0)
+        //    {
+        //        return null;
+        //    }
+
+        //    var firstnode = colStartGrids[column_value];
+        //    var curnode = firstnode;
+        //    if (curnode != null)
+        //    {
+        //        if (curnode.AttachTile != null)
+        //        {
+        //            if (curnode.ColID == column_value && curnode.RowID == row_value)
+        //            {
+        //                return curnode.AttachTile;
+        //            }
+        //        }
+        //        curnode = curnode.Down;
+        //        while (curnode != firstnode)
+        //        {
+        //            if (curnode.AttachTile != null)
+        //            {
+        //                if (curnode.ColID == column_value && curnode.RowID == row_value)
+        //                {
+        //                    return curnode.AttachTile;
+        //                }                        
+        //            }
+        //            curnode = curnode.Down;
+        //        }
+        //    }
+        //    return null;
+        //}
+
+        public BaseTile GetTile(int column_value, int row_value)
         {
-            if (column_value >= _grids.GetLength(0) || row_value >= _grids.GetLength(1) || column_value < 0 || row_value < 0)
+            if(gridArray == null || column_value >= gridArray.GetLength(0) || row_value >= gridArray.GetLength(1) ||
+                column_value < 0 || row_value < 0)
+            {
+                return null;
+            }
+
+            var grid = gridArray[column_value, row_value];
+
+            return grid.AttachTile;
+        }
+        private void SetTile(Grid grid, BaseTile tile)
+        {
+            SetTile(grid.ColID, grid.RowID, tile);
+        }        
+        private void SetTile(int column_value, int row_value, BaseTile tile)
+        {
+            if(rowStartGrids !=null || colStartGrids == null)
             {
                 return;
             }
-            _grids[row_value, column_value] = grid;
-        }
 
-        private void RemoveGrid(int column_value, int row_value)
-        {
-            if (column_value >= _grids.GetLength(0) || row_value >= _grids.GetLength(1) || column_value < 0 || row_value < 0)
+            if(column_value >= colStartGrids.Length || column_value < 0)
             {
                 return;
             }
-            Debug.LogWarning("Delete Grid: " + row_value + "," + column_value);
-            _grids[row_value, column_value].Delete();
-            _grids[row_value, column_value] = null;
+
+            if (row_value >= rowStartGrids.Length || row_value < 0)
+            {
+                return;
+            }
+
+            if(colStartGrids[column_value] != null)
+            {
+                var firstnode = colStartGrids[column_value];
+                var curnode = firstnode;
+                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                {
+                    curnode.AttachTile = tile;
+                    tile.ParentGrid = curnode;
+                    return;
+                }
+                curnode = curnode.Down;
+
+                while (curnode != firstnode)
+                {
+                    if((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                    {
+                        curnode.AttachTile = tile;
+                        tile.ParentGrid = curnode;
+                        return;
+                    }
+                    curnode = curnode.Down;
+                }
+            }
+            else if (rowStartGrids[row_value] != null)
+            {
+                var firstnode = rowStartGrids[row_value];
+                var curnode = firstnode;
+                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                {
+                    curnode.AttachTile = tile;
+                    tile.ParentGrid = curnode;
+                    return;
+                }
+                curnode = curnode.Right;
+
+                while (curnode != firstnode)
+                {
+                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                    {
+                        curnode.AttachTile = tile;
+                        tile.ParentGrid = curnode;
+                        return;
+                    }
+                    curnode = curnode.Right;
+                }
+            }
+        }
+
+        private void RemoveTile(Grid grid)
+        {
+            RemoveTile(grid.ColID, grid.RowID);
+        }
+        private void RemoveTile(int column_value, int row_value)
+        {
+            if (rowStartGrids == null || colStartGrids == null)
+            {
+                return;
+            }
+
+            if (column_value >= colStartGrids.Length || column_value < 0)
+            {
+                return;
+            }
+
+            if (row_value >= rowStartGrids.Length || row_value < 0)
+            {
+                return;
+            }
+
+            if (colStartGrids[column_value] != null)
+            {
+                var firstnode = colStartGrids[column_value];
+                var curnode = firstnode;
+                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                {
+                    var tile = curnode.AttachTile;
+                    if(tile != null)
+                    {
+                        tile.Delete();
+                    }
+                    curnode.AttachTile = null;
+                    return;
+                }
+                curnode = curnode.Down;
+
+                while (curnode != firstnode)
+                {
+                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                    {
+                        var tile = curnode.AttachTile;
+                        if (tile != null)
+                        {
+                            tile.OnDestroy();
+                        }
+                        curnode.AttachTile = null;
+                        return;
+                    }
+                    curnode = curnode.Down;
+                }
+            }
+            else if (rowStartGrids[row_value] != null)
+            {
+                var firstnode = rowStartGrids[row_value];
+                var curnode = firstnode;
+                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                {
+                    var tile = curnode.AttachTile;
+                    if (tile != null)
+                    {
+                        tile.OnDestroy();
+                    }
+                    curnode.AttachTile = null;
+                    return;
+                }
+                curnode = curnode.Right;
+
+                while (curnode != firstnode)
+                {
+                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+                    {
+                        var tile = curnode.AttachTile;
+                        if (tile != null)
+                        {
+                            tile.OnDestroy();
+                        }
+                        curnode.AttachTile = null;
+                        return;
+                    }
+                    curnode = curnode.Right;
+                }
+            }
+
         }
 
         public Vector2Int ClampGridPos(int x,int y)
         {
             int nx = x, ny = y;
-            if (x >= _grids.GetLength(0)) nx = _grids.GetLength(0) - 1;
-            if (y >= _grids.GetLength(1)) ny = _grids.GetLength(1) - 1;
+
+            if (x >= gridArray.GetLength(0)) nx = colStartGrids.GetLength(0) - 1;
+            if (y >= rowStartGrids.GetLength(1)) ny = rowStartGrids.GetLength(1) - 1;
+
             if (x < 0)  nx = 0;
             if (y < 0)  ny = 0;
 
             return new Vector2Int(nx, ny);
         }
 
-        public BaseGrid FindGrid(string gridType)
+        public BaseTile FindTile(string tileType)
         {
-            for (int i = 0;i< _grids.GetLength(0);++i)
+            if (colStartGrids != null)
             {
-                for (int j = 0; j < _grids.GetLength(1); ++j)
+                for(int i=0; i< colStartGrids.Length; ++i)
                 {
-                    var g = _grids[i, j];
-                    if (g.GetGridType() == gridType)
+                    var firstnode = colStartGrids[i];
+                    var curnode = firstnode;
+                    if (curnode != null)
                     {
-                        return g as BaseGrid;
+                        if(curnode.AttachTile != null)
+                        {
+                            if(curnode.AttachTile.GetGridType() == tileType)
+                            {
+                                return curnode.AttachTile;
+                            }
+                        }
+                        curnode = curnode.Down;
+                        while (curnode != firstnode)
+                        {
+                            if(curnode.AttachTile != null)
+                            {
+                                if (curnode.AttachTile.GetGridType() == tileType)
+                                {
+                                    return curnode.AttachTile;
+                                }
+                            }
+                            curnode = curnode.Down;
+                        }
                     }
-                }
+                }          
             }
+            
             return null;
         }
 
-        public List<BaseGrid> FindGrids(string gridType)
+        public List<BaseTile> FindTileds(string tileType)
         {
-            List<BaseGrid> out_list = new List<BaseGrid>();
-            for (int i = 0; i < _grids.GetLength(0); ++i)
+            List<BaseTile> out_list = new List<BaseTile>();
+
+            if (colStartGrids != null)
             {
-                for (int j = 0; j < _grids.GetLength(1); ++j)
+                for (int i = 0; i < colStartGrids.Length; ++i)
                 {
-                    var g = _grids[i, j];
-                    if (g.GetGridType() == gridType)
+                    var firstnode = colStartGrids[i];
+                    var curnode = firstnode;
+                    if (curnode != null)
                     {
-                        out_list.Add(g as BaseGrid);
+                        if (curnode.AttachTile != null)
+                        {
+                            if (curnode.AttachTile.GetGridType() == tileType)
+                            {
+                                out_list.Add(curnode.AttachTile);
+                            }                            
+                        }
+                        curnode = curnode.Down;
+                        while (curnode != firstnode)
+                        {
+                            if (curnode.AttachTile != null)
+                            {
+                                if (curnode.AttachTile.GetGridType() == tileType)
+                                {
+                                    out_list.Add(curnode.AttachTile);
+                                }
+                            }
+                            curnode = curnode.Down;
+                        }
                     }
                 }
             }
+            
             return out_list;
         }
-
-        List<BaseGrid> tmp_list = new List<BaseGrid>();
-        public BaseGrid GetRandomGrid(string gridType,bool abs_free)
+        
+        public BaseTile GetRandomTile(string tileType, bool abs_free)
         {
+            List<BaseTile> tmp_list = new List<BaseTile>();
+
             tmp_list.Clear();
-            for (int i = 0; i < _grids.GetLength(0); ++i)
+            if (colStartGrids != null)
             {
-                for (int j = 0; j < _grids.GetLength(1); ++j)
+                for (int i = 0; i < colStartGrids.Length; ++i)
                 {
-                    var g = _grids[i, j] as BaseGrid;
-                    if (g.GetGridType() == gridType)
+                    var firstnode = colStartGrids[i];
+                    var curnode = firstnode;
+                    if (curnode != null)
                     {
-                        //这里先简易判断一下，格子上没有附着其他robot
-                        if (abs_free && g.Node.transform.childCount > 1)
+                        if (curnode.AttachTile != null)
                         {
-                            continue;
+                            if (curnode.AttachTile.GetGridType() == tileType)
+                            {
+                                //这里先简易判断一下，格子上没有附着其他robot
+                                if (!(abs_free && curnode.AttachTile.Node.transform.childCount > 1))
+                                {
+                                    tmp_list.Add(curnode.AttachTile);
+                                }
+                            }                            
                         }
-                        tmp_list.Add(g);
+                        curnode = curnode.Down;
+                        while (curnode != firstnode)
+                        {
+                            if (curnode.AttachTile != null)
+                            {
+                                if (curnode.AttachTile.GetGridType() == tileType)
+                                {
+                                    //这里先简易判断一下，格子上没有附着其他robot
+                                    if (!(abs_free && curnode.AttachTile.Node.transform.childCount > 1))
+                                    {
+                                        tmp_list.Add(curnode.AttachTile);
+                                    }                                    
+                                }
+                            }
+                            curnode = curnode.Down;
+                        }
                     }
                 }
             }
+
             if(tmp_list.Count > 0)
             {
                 return tmp_list[UnityEngine.Random.Range(0, tmp_list.Count)];
@@ -283,30 +549,52 @@ namespace Bunker.Game
 
         public bool CanWalk(int x,int y)
         {
-            var igo = GetGrid(x,y);
+            var igo = GetTile(x,y);
             if (igo == null) return false;
             //这里判断是否格子被占据，不一定准确
-            if((igo as BaseGrid).Node.transform.childCount > 1) return false;
+            if((igo as BaseTile).Node.transform.childCount > 1) return false;
             //
-            if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
-                igo.GetGridType() == "Bunker.Game.GemTile" ||
-                igo.GetGridType() == "Bunker.Game.RobotStartTile") return true;
-            return false;
+            //if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
+            //    igo.GetGridType() == "Bunker.Game.GemTile" ||
+            //    igo.GetGridType() == "Bunker.Game.RobotStartTile") return true;
+            //return false;
+
+            return igo.CanWalk();
         } 
 
-        public BaseGrid FindTile(GameObject node)
+        public BaseTile FindTileObject(GameObject node)
         {
-            for (int i = 0; i < _grids.GetLength(0); ++i)
+            if (colStartGrids != null)
             {
-                for (int j = 0; j < _grids.GetLength(1); ++j)
+                for (int i = 0; i < colStartGrids.Length; ++i)
                 {
-                    var g = _grids[i, j] as BaseGrid;
-                    if (g.Node == node)
+                    var firstnode = colStartGrids[i];
+                    var curnode = firstnode;
+                    if (curnode != null)
                     {
-                        return g;
+                        if (curnode.AttachTile != null)
+                        {
+                            if (curnode.AttachTile.Node == node)
+                            {
+                                return curnode.AttachTile;
+                            }                            
+                        }
+                        curnode = curnode.Down;
+                        while (curnode != firstnode)
+                        {
+                            if (curnode.AttachTile != null)
+                            {
+                                if (curnode.AttachTile.Node == node)
+                                {
+                                    return curnode.AttachTile;
+                                }
+                            }
+                            curnode = curnode.Down;
+                        }
                     }
                 }
             }
+
             return null;
         }
 
@@ -320,165 +608,169 @@ namespace Bunker.Game
             Vertical_U,
             Vertical_D,
         }
-        public void CheckElimination(IGridObject grid, ref List<IGridObject> list, CheckEliminationType type = CheckEliminationType.Null)
+        public void CheckElimination(BaseTile tile, ref List<BaseTile> list, CheckEliminationType type = CheckEliminationType.Null)
         {
-            if(_grids != null)
+            if(tile != null)
             {
-                //1 up
-                //bool bUpOK = true;
+                var gridSelf = tile.ParentGrid;
+
+                var gridUp = gridSelf.Up;
+                var gridDown = gridSelf.Down;
+                var gridLeft = gridSelf.Left;
+                var gridRight = gridSelf.Right;
+
                 bool bUpOK = false;
-                var gridUp = GetGrid(grid.X, grid.Y + 1);
-                if (gridUp == null)
+                bool bDownOK = false;
+                bool bLeftOK = false;
+                bool bRightOK = false;
+
+                bool bHasUp = false;
+                bool bHasDown = false;
+                bool bHasLeft = false;
+                bool bHasRight = false;
+
+                foreach (var t in list)
                 {
-                    bUpOK = false;
+                    if(t.ParentGrid == gridUp)
+                    {
+                        bHasUp = true;
+                    }
+                    if (t.ParentGrid == gridUp)
+                    {
+                        bHasDown = true;
+                    }
+                    if (t.ParentGrid == gridUp)
+                    {
+                        bHasLeft = true;
+                    }
+                    if (t.ParentGrid == gridUp)
+                    {
+                        bHasRight = true;
+                    }
                 }
-                else
+
+                if (gridUp.AttachTile != null)
                 {
-                    if (gridUp.CanElimination() && grid.CanEliminationByOther(gridUp.GetGridType(),0))
+                    if (gridUp.AttachTile.CanElimination() 
+                        && tile.CanEliminationByOther(gridUp.AttachTile.GetGridType(), 0)
+                        && !bHasUp)
                     {
                         bUpOK = true;
                     }
                 }
-
-
-
-                //2 down
-                //bool bDownOK = true;
-                bool bDownOK = false;
-                var gridDown = GetGrid(grid.X, grid.Y - 1);
-                if (gridDown == null)
+                if (gridDown.AttachTile != null)
                 {
-                    bDownOK = false;
-                }
-                else
-                {
-                    if (gridDown.CanElimination() && grid.CanEliminationByOther(gridDown.GetGridType(),1))
+                    if (gridDown.AttachTile.CanElimination() 
+                        && tile.CanEliminationByOther(gridDown.AttachTile.GetGridType(), 1)
+                        && !bHasDown)
                     {
                         bDownOK = true;
                     }
                 }
-
-
-                //3 left
-                //bool bLeftOK = true;
-                bool bLeftOK = false;
-                var gridLeft = GetGrid(grid.X - 1, grid.Y);
-                if (gridLeft == null)
+                if (gridLeft.AttachTile != null)
                 {
-                    bLeftOK = false;
-                }
-                else
-                {
-                    if (gridLeft.CanElimination() && grid.CanEliminationByOther(gridLeft.GetGridType(),2) )
+                    if (gridLeft.AttachTile.CanElimination() 
+                        && tile.CanEliminationByOther(gridLeft.AttachTile.GetGridType(), 2)
+                        && !bHasLeft)
                     {
-                        bLeftOK = false;
+                        bLeftOK = true;
                     }
                 }
-
-
-                //4 right
-                //bool bRightOK = true;
-                bool bRightOK = false;
-                var gridRight = GetGrid(grid.X + 1, grid.Y);
-                if (gridRight == null)
+                if (gridRight.AttachTile != null)
                 {
-                    bRightOK = false;
-                }
-                else
-                {
-                    if(gridRight.CanElimination() && grid.CanEliminationByOther(gridRight.GetGridType(),3))
+                    if (gridRight.AttachTile.CanElimination() 
+                        && tile.CanEliminationByOther(gridRight.AttachTile.GetGridType(), 3)
+                        && !bHasRight)
                     {
                         bRightOK = true;
                     }
                 }
 
-
                 if (type == CheckEliminationType.Null)
                 {
-                    if(bDownOK || bUpOK)
+                    if (bDownOK || bUpOK)
                     {
-                        if(bUpOK)
+                        if (bUpOK)
                         {
-                            list.Add(gridUp);
-                            CheckElimination(gridUp, ref list, CheckEliminationType.Vertical_U);
+                            list.Add(gridUp.AttachTile);
+                            CheckElimination(gridUp.AttachTile, ref list, CheckEliminationType.Vertical_U);
                         }
-                        if(bDownOK)
+                        if (bDownOK)
                         {
-                            list.Add(gridDown);
-                            CheckElimination(gridDown, ref list, CheckEliminationType.Vertical_D);
+                            list.Add(gridDown.AttachTile);
+                            CheckElimination(gridDown.AttachTile, ref list, CheckEliminationType.Vertical_D);
                         }
                     }
-                    else if(bLeftOK || bRightOK)
+                    else if (bLeftOK || bRightOK)
                     {
-                        if(bLeftOK)
+                        if (bLeftOK)
                         {
 
-                            Debug.Log("bLeftOK - first: " + gridLeft.X + "," + gridLeft.Y);
+                            Debug.Log("bLeftOK - first: " + gridLeft.ColID + "," + gridLeft.RowID);
 
-                            list.Add(gridLeft);
-                            CheckElimination(gridLeft, ref list, CheckEliminationType.Horizontal_L);
+                            list.Add(gridLeft.AttachTile);
+                            CheckElimination(gridLeft.AttachTile, ref list, CheckEliminationType.Horizontal_L);
 
                         }
-                        if(bRightOK)
+                        if (bRightOK)
                         {
 
-                            Debug.Log("bRightOK - first: " + gridRight.X + "," + gridRight.Y);
+                            Debug.Log("bRightOK - first: " + gridRight.ColID + "," + gridRight.RowID);
 
-                            list.Add(gridRight);
-                            CheckElimination(gridRight, ref list, CheckEliminationType.Horizontal_R);
+                            list.Add(gridRight.AttachTile);
+                            CheckElimination(gridRight.AttachTile, ref list, CheckEliminationType.Horizontal_R);
                         }
                     }
                 }
-                else if(type == CheckEliminationType.Horizontal_L)
+                else if (type == CheckEliminationType.Horizontal_L)
                 {
-                    Debug.Log("bLeftOK: " + gridLeft.X + "," + gridLeft.Y);
+                    Debug.Log("bLeftOK: " + gridLeft.ColID + "," + gridLeft.RowID);
                     if (bLeftOK)
                     {
-                        list.Add(gridLeft);
-                        CheckElimination(gridLeft, ref list, CheckEliminationType.Horizontal_L);
+                        list.Add(gridLeft.AttachTile);
+                        CheckElimination(gridLeft.AttachTile, ref list, CheckEliminationType.Horizontal_L);
                     }
                 }
                 else if (type == CheckEliminationType.Horizontal_R)
                 {
-                    Debug.Log("bRightOK: " + gridRight.X + "," + gridRight.Y);
+                    Debug.Log("bRightOK: " + gridRight.ColID + "," + gridRight.RowID);
                     if (bRightOK)
                     {
-                        list.Add(gridRight);
-                        CheckElimination(gridRight, ref list, CheckEliminationType.Horizontal_R);
+                        list.Add(gridRight.AttachTile);
+                        CheckElimination(gridRight.AttachTile, ref list, CheckEliminationType.Horizontal_R);
                     }
                 }
-                else if(type == CheckEliminationType.Vertical_U)
+                else if (type == CheckEliminationType.Vertical_U)
                 {
-                    Debug.Log("bUpOK: " + gridUp.X + ","+ gridUp.Y);
+                    Debug.Log("bUpOK: " + gridUp.ColID + "," + gridUp.RowID);
                     if (bUpOK)
                     {
-                        list.Add(gridUp);
-                        CheckElimination(gridUp, ref list, CheckEliminationType.Vertical_U);
+                        list.Add(gridUp.AttachTile);
+                        CheckElimination(gridUp.AttachTile, ref list, CheckEliminationType.Vertical_U);
                     }
                 }
                 else if (type == CheckEliminationType.Vertical_D)
                 {
-                    Debug.Log("bDownOK: " + gridDown.X + "," + gridDown.Y);
+                    Debug.Log("bDownOK: " + gridDown.ColID + "," + gridDown.RowID);
                     if (bDownOK)
                     {
-                        list.Add(gridDown);
-                        CheckElimination(gridDown, ref list, CheckEliminationType.Vertical_D);
+                        list.Add(gridDown.AttachTile);
+                        CheckElimination(gridDown.AttachTile, ref list, CheckEliminationType.Vertical_D);
                     }
                 }
             }
         }
 
-        public void EliminationGrids(List<IGridObject> elimiGrids)
+        public void EliminationGrids(List<BaseTile> elimiGrids)
         {
             foreach(var g in elimiGrids)
             {
-                Debug.Log("EliminationGrid: " + g.X + "," + g.Y);
+                Debug.Log("EliminationGrid: " + g.ParentGrid.ColID + "," + g.ParentGrid.RowID);
                 g.Elimination();
-                var x = g.X;
-                var y = g.Y;
-                RemoveGrid(x, y);
-                var newg = GridLoader.CreateGrid("NormalTile", x, y);
-                SetGrid(x,y, newg);
+                var grid = g.ParentGrid;
+                RemoveTile(grid);
+                var newg = GridLoader.CreateTile("NormalTile", grid);
+                SetTile(grid, newg);
 
                 g.OnEliminationed();
             }
@@ -489,25 +781,36 @@ namespace Bunker.Game
         //通过检测grids中有没有可消除grid，来判断是否都消除完了
         public bool IsAllGridsElimination()
         {
-            for (int i = 0; i < _grids.GetLength(0); ++i)
+            if (colStartGrids != null)
             {
-                for (int j = 0; j < _grids.GetLength(1); ++j)
+                for (int i = 0; i < colStartGrids.Length; ++i)
                 {
-                    var g = _grids[i, j];
-                    if (g.CanElimination())
+                    var firstnode = colStartGrids[i];
+                    var curnode = firstnode;
+                    if (curnode != null)
                     {
-                        return false;
+                        if (curnode.AttachTile != null)
+                        {
+                            if (curnode.AttachTile.CanElimination())
+                            {
+                                return false;
+                            }
+                            curnode = curnode.Down;
+                        }
+                        while (curnode != firstnode)
+                        {
+                            if (curnode.AttachTile != null)
+                            {
+                                if (curnode.AttachTile.CanElimination())
+                                {
+                                    return false;
+                                }
+                            }
+                            curnode = curnode.Down;
+                        }
                     }
                 }
             }
-            /*
-            foreach (var g in _grids)
-            {
-                if(g.CanElimination())
-                {
-                    return false;
-                }
-            }*/
 
             return true;
         }

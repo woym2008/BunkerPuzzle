@@ -208,7 +208,7 @@ namespace Bunker.Game
             
             yield return null;
         }
-        void OnClickDirect(IGridObject grid)
+        void OnClickDirect(BaseTile grid)
         {
             _clickMark.gameObject.SetActive(false);
             ModuleManager.getInstance.GetModule<BattlefieldInputModule>().Pause(true);

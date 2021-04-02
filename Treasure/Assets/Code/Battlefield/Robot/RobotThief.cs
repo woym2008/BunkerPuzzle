@@ -17,14 +17,14 @@ namespace Bunker.Game
             base.OnPrepareMove();
             //update cur tile
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var g = m.Field.GetGrid(transform.position) as BaseGrid;
+            var g = m.Field.GetGrid(transform.position);
             if (g != null)
             {
                 //SetToGird(g);
                 //
                 var sr = GetComponentInChildren<SpriteRenderer>();
                 int offset = _dir.y == 0 ? 1 : 3;
-                sr.sortingOrder = g.Y * 2 + offset;
+                sr.sortingOrder = g.ColID * 2 + offset;
             }
             else
             {
@@ -38,9 +38,10 @@ namespace Bunker.Game
             //recalc new grid XY
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _pos = m.Field.ClampGridPos(_pos.x + _dir.x , _pos.y - _dir.y); // here need use -
-            var g = m.Field.GetGrid(_pos.x, _pos.y) as BaseGrid;
+            var g = m.Field.GetTile(_pos.x, _pos.y);
+
             //we check wheather the robot is catched the gemTile
-            if (g is GemTile)
+            if (g != null && g is GemTile)
             {
                 //Game Over
                 ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_LOSE);
@@ -53,7 +54,7 @@ namespace Bunker.Game
         public override Vector3Int FindWay()
         {
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var igo = m.Field.FindGrid("Bunker.Game.GemTile");
+            var igo = m.Field.FindTile("Bunker.Game.GemTile");
             if (igo != null)
             {
                 var wp = igo.Node.transform.position;
@@ -83,8 +84,8 @@ namespace Bunker.Game
                 {
                     var dir = DirList[weightDir[i].Value];
                     var rmm = ModuleManager.getInstance.GetModule<RobotManagerModule>();
-                    if (m.Field.CanWalk(_curNode.X + dir.x, _curNode.Y - dir.y) &
-                        !rmm.IsInWillBeVisitedList(_curNode.X + dir.x, _curNode.Y - dir.y))
+                    if (m.Field.CanWalk(_curNode.ColID + dir.x, _curNode.RowID - dir.y) &
+                        !rmm.IsInWillBeVisitedList(_curNode.ColID + dir.x, _curNode.RowID - dir.y))
                     {
                         return dir;
                     }

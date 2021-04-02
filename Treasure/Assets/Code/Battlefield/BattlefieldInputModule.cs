@@ -17,7 +17,7 @@ namespace Bunker.Game
     public delegate void TouchEnterEvent();
     public delegate void TouchExitEvent();
 
-    public delegate void ClickedTileEvent(IGridObject grid);
+    public delegate void ClickedTileEvent(BaseTile grid);
     public class BattlefieldInputModule : LogicModule
     {
         public event InputClickEvent onPressClick;
@@ -193,8 +193,7 @@ namespace Bunker.Game
                             {
                                 _lastInputTile.onTouchEnter?.Invoke();
                                 _lastInputTile.onPressClick?.Invoke(pos, _state, OnClickObject);
-                            }
-                                
+                            }                                
                         }
                         else if (touch.phase == TouchPhase.Ended)
                         {
@@ -218,11 +217,11 @@ namespace Bunker.Game
         ///</summary>
         private void OnClickObject(object data)
         {
-            if((IGridObject)data != null)
+            if((BaseTile)data != null)
             {
                 Debug.Log("find grid");
 
-                onClickedTile?.Invoke((IGridObject)data);
+                onClickedTile?.Invoke((BaseTile)data);
             }
         }
 

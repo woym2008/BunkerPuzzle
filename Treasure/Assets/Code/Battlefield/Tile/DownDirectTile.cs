@@ -13,14 +13,14 @@ namespace Bunker.Game
             {
                 Debug.Log("DownDirectTile OnClick");
 
-                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Down, X, Y, -1);
+                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Down, ParentGrid.ColID, ParentGrid.RowID, -1);
             }
 
         }
 
-        public override void UpdateGrid(int x, int y)
+        public override void UpdateGrid(Grid grid)
         {
-            base.UpdateGrid(x, y);
+            base.UpdateGrid(grid);
         }
     }
 }

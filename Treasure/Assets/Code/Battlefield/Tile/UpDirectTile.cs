@@ -14,7 +14,7 @@ namespace Bunker.Game
                 Debug.Log("UpDirectTile OnClick");
 
                 //_battlefield.Field.Move(MoveDirect.Up, X, Y, 1);
-                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Up, X, Y, 1);
+                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Up, ParentGrid.ColID, ParentGrid.RowID, 1);
             }
 
         }

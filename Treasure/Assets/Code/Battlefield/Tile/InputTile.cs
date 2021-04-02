@@ -6,7 +6,7 @@ using Bunker.Module;
 
 namespace Bunker.Game
 {
-    public abstract class InputTile : BaseGrid
+    public abstract class InputTile : BaseTile
     {
         protected BattleControllerModule _battlefield;
         protected BattlefieldInputModule _inputModule;
@@ -68,9 +68,9 @@ namespace Bunker.Game
             return base.CanMove();
         }
 
-        public override void UpdateGrid(int x, int y)
+        public override void UpdateGrid(Grid grid)
         {
-            base.UpdateGrid(x, y);
+            base.UpdateGrid(grid);
         }
 
         void OnInputClick(Vector3 clickpos, InputState state, Action<object> onClick)

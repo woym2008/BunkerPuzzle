@@ -10,3 +10,7 @@ Treasure/Temp/
 Treasure/obj/
 Treasure/Logs/
 Treasure/Bin/
+Treasure/ProjectSettings/PackageManagerSettings.asset
+Treasure/Packages/packages-lock.json
+Treasure/UserSettings/EditorUserSettings.asset
+Treasure/ProjectSettings/VersionControlSettings.asset

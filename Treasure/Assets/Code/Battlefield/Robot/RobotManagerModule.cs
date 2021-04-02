@@ -37,11 +37,11 @@ namespace Bunker.Game
             base.OnStart();
             //TODO create robot at Special Tile from BattleField!
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var spawn_list = m.Field.FindGrids("Bunker.Game.RobotStartTile");
-            foreach(var g in spawn_list)
+            var spawn_list = m.Field.FindTileds("Bunker.Game.RobotStartTile");
+            foreach(var t in spawn_list)
             {
                 var robot = CreateRobot<RobotThief>();
-                robot.SetToGird(g);
+                robot.SetToGird(t.ParentGrid);
             }
 
         }

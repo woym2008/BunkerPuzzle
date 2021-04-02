@@ -89,10 +89,10 @@ namespace Bunker.Game
 
             if (hit.collider != null)
             {
-                var tile = bfm.Field.FindTile(hit.collider.gameObject);
+                var tile = bfm.Field.FindTileObject(hit.collider.gameObject);
                 if (tile != null
                 && tile.CanElimination()
-                && bcm.UseController<GridFieldController_DestroyTile>(new IGridObject[1] { tile }))
+                && bcm.UseController<GridFieldController_DestroyTile>(new BaseTile[1] { tile }))
                 {
                     Remove();
                     return;

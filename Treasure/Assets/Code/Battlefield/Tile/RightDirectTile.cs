@@ -14,7 +14,7 @@ namespace Bunker.Game
             {
                 Debug.Log("RightDirectTile OnClick");
 
-                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Right, X, Y, -1);
+                _battlefield.UseController<GridFieldController_Moving>(MoveDirect.Right, ParentGrid.ColID, ParentGrid.RowID, -1);
             }
 
         }

@@ -37,7 +37,7 @@ namespace Bunker.Game
         {
             return !_isMoving;
         }
-        public void OnFinishMovingAnmia()
+        public void OnFinishMovingAnima()
         {
             //不知道在这里写这样的代码合适么？
             Debug.Log(" -- OnFinishMovingAnmia --");
@@ -75,187 +75,212 @@ namespace Bunker.Game
             {
                 case MoveDirect.Left:
                     {
-                        GetHorizontalLine(gridy, out var datas);
-                        MoveHorizontal_Animation(datas, -offsetValue);
+                        GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        MoveHorizontal_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Right:
                     {
-                        GetHorizontalLine(gridy, out var datas);
-                        MoveHorizontal_Animation(datas, -offsetValue);
+                        GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        MoveHorizontal_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Up:
                     {
-                        GetVerticalLine(gridx, out var datas);
-                        MoveVertical_Animation(datas, -offsetValue);
+                        GetVerticalLine(gridx, out BaseTile[] tiles);
+                        MoveVertical_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Down:
                     {
-                        GetVerticalLine(gridx, out var datas);
-                        MoveVertical_Animation(datas, -offsetValue);
+                        GetVerticalLine(gridx, out BaseTile[] tiles);
+                        MoveVertical_Animation(tiles, -offsetValue);
                     }
                     break;
 
             }
         }
         //-------------------------------------------------------------------------------------
-        private void MoveHorizontal_Animation(IGridObject[] datas, int offset)
+        private void MoveHorizontal_Animation(BaseTile[] datas, int offset)
         {
             var movetime = Mathf.Abs(MoveOneGridTime * offset);
+
             for (int i = 0; i < datas.Length; ++i)
             {
-                int x = datas[i].X;
-                int y = datas[i].Y;
-                int column_value = x + offset;
-                int lengthLine = _gridfield.Grids.GetLength(0);
-                if (column_value < 0)
-                {
-                    var copytarget = lengthLine + column_value;
-                    var copyori = copytarget - offset;
+                int x = datas[i].ParentGrid.ColID;
+                int y = datas[i].ParentGrid.RowID;
 
-                    datas[i].CopyMoveTo(copyori, y, copytarget, y, movetime);
-                }
-                if (column_value >= lengthLine)
-                {
-                    var copytarget = lengthLine - column_value;
-                    var copyori = copytarget - offset;
+                int col_value = x + offset;
+                var targetGrid = datas[i].ParentGrid.GetColOffsetGrid(offset);
 
-                    datas[i].CopyMoveTo(copyori, y, copytarget, y, movetime);
+                //不连续的则说明不挨着，就需要有个用来填充表示的copytile
+                if (Mathf.Abs(datas[i].ParentGrid.ColID - targetGrid.ColID) > 1)
+                {
+                    var copytargetColID = targetGrid.ColID - offset;
+
+                    datas[i].CopyMoveTo(copytargetColID, y, targetGrid.ColID, y, movetime);
                 }
 
-                datas[i].MoveTo(column_value, y, movetime);
-                Debug.Log("mh: " + datas[i].X);
-            }
+                datas[i].MoveTo(col_value, y, movetime);
+
+                datas[i].ParentGrid = targetGrid;
+            }            
 
             MonoBehaviourHelper.StartCoroutine(WaitforUpdateHorizontal(datas, offset, movetime));
         }
-        private void MoveVertical_Animation(IGridObject[] datas, int offset)
+        private void MoveVertical_Animation(BaseTile[] datas, int offset)
         {
             var movetime = Mathf.Abs(MoveOneGridTime * offset);
+
             for (int i = 0; i < datas.Length; ++i)
             {
-                int x = datas[i].X;
-                int y = datas[i].Y;
+                int x = datas[i].ParentGrid.ColID;
+                int y = datas[i].ParentGrid.RowID;
+
                 int row_value = y + offset;
-                int lengthLine = _gridfield.Grids.GetLength(1);
-                if (row_value < 0)
-                {
-                    var copytarget = lengthLine + row_value;
-                    var copyori = copytarget - offset;
+                var targetGrid = datas[i].ParentGrid.GetRowOffsetGrid(offset);
 
-                    datas[i].CopyMoveTo(x,copyori,x,copytarget,movetime);
-                }
-                if (row_value >= lengthLine)
+                //不连续的则说明不挨着，就需要有个用来填充表示的copytile
+                if (Mathf.Abs(datas[i].ParentGrid.RowID - targetGrid.RowID) > 1)
                 {
-                    var copytarget = row_value - lengthLine;
-                    var copyori = copytarget - offset;
+                    var copytargetRowID = targetGrid.RowID - offset;
 
-                    datas[i].CopyMoveTo(x, copyori, x, copytarget, movetime);
+                    datas[i].CopyMoveTo(x, copytargetRowID, x, targetGrid.RowID, movetime);
                 }
+
                 datas[i].MoveTo(x, row_value, movetime);
+
+                datas[i].ParentGrid = targetGrid;
             }
 
             MonoBehaviourHelper.StartCoroutine(WaitforUpdateVertical(datas, offset, movetime));
         }
 
-        IEnumerator WaitforUpdateHorizontal(IGridObject[] datas, int offset, float time)
+        IEnumerator WaitforUpdateHorizontal(BaseTile[] datas, int offset, float time)
         {
             yield return new WaitForSeconds(time);
 
-            MoveHorizontal(datas, offset);
+            //MoveHorizontal(datas, offset);
+            foreach (var tile in datas)
+            {
+                tile.UpdateGrid(tile.ParentGrid);
+            }
 
             EliminationUpdate();
 
             _isMoving = false;
 
             //_gridfield.SwitchController<GridFieldController_Idle>();
-            OnFinishMovingAnmia();
+            OnFinishMovingAnima();
         }
 
-        IEnumerator WaitforUpdateVertical(IGridObject[] datas, int offset, float time)
+        IEnumerator WaitforUpdateVertical(BaseTile[] datas, int offset, float time)
         {
             yield return new WaitForSeconds(time);
 
-            MoveVertical(datas, offset);
+            //MoveVertical(datas, offset);
+            foreach (var tile in datas)
+            {
+                tile.UpdateGrid(tile.ParentGrid);
+            }
 
             EliminationUpdate();
 
             _isMoving = false;
             //_gridfield.SwitchController<GridFieldController_Idle>();
-            OnFinishMovingAnmia();
+            OnFinishMovingAnima();
 
         }
         //-------------------------------------------------------------------------------------
-        private void MoveVertical(IGridObject[] datas, int offset)
-        {
-            //var temp = datas[0];
-            for (int i = 0; i < datas.Length; ++i)
-            {
-                int x = datas[i].X;
-                int y = datas[i].Y;
-                int row_value = y + offset;
-                int lengthLine = _gridfield.Grids.GetLength(1);
-                if (row_value < 0)
-                {
-                    row_value = lengthLine + row_value;
-                }
-                if (row_value >= lengthLine)
-                {
-                    row_value = row_value - lengthLine;
-                }
-                datas[i].UpdateGrid(x, row_value);
-            }
-            foreach (var g in datas)
-            {
-                //列，行
-                _gridfield.Grids[g.Y, g.X] = g;
-            }
-        }
-        private void MoveHorizontal(IGridObject[] datas, int offset)
-        {
-            //var temp = datas[0];
-            for (int i = 0; i < datas.Length; ++i)
-            {
-                int x = datas[i].X;
-                int y = datas[i].Y;
-                int column_value = x + offset;
-                int lengthLine = _gridfield.Grids.GetLength(0);
-                if (column_value < 0)
-                {
-                    column_value = column_value + lengthLine;
-                }
-                if (column_value >= lengthLine)
-                {
-                    column_value = column_value - lengthLine;
-                }
-                //_grids[targetx, y] = datas[i];
+        //private void MoveVertical(BaseTile[] datas, int offset)
+        //{
+        //    //var temp = datas[0];
+        //    //for (int i = 0; i < datas.Length; ++i)
+        //    //{
+        //    //    int x = datas[i].ParentGrid.ColID;
+        //    //    int y = datas[i].ParentGrid.RowID;
+        //    //    int row_value = y + offset;
+        //    //    int lengthLine = _gridfield.gridArray.GetLength(1);
 
-                datas[i].UpdateGrid(column_value, y);
-                Debug.Log("mh: " + datas[i].X);
-            }
-            foreach (var g in datas)
-            {
-                //列，行
-                _gridfield.Grids[g.Y, g.X] = g;
-            }
-        }
+        //    //    var curgrid = datas[i].ParentGrid;
+        //    //    int offsetvalue = Mathf.Abs(offset);
+        //    //    if (offset > 0)
+        //    //    {
+        //    //        for (int j = 0; j < offsetvalue; ++j)
+        //    //        {
+        //    //            curgrid = curgrid.Right;
+        //    //        }
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        for (int j = 0; j < offsetvalue; ++j)
+        //    //        {
+        //    //            curgrid = curgrid.Left;
+        //    //        }
+        //    //    }
 
-        private void GetAroundGrids(int column_value, int row_value, out IGridObject[] datas)
+        //    //    datas[i].UpdateGrid(x, row_value);
+        //    //}
+        //    //foreach (var g in datas)
+        //    //{
+        //    //    //列，行
+        //    //    _gridfield.Grids[g.Y, g.X] = g;
+        //    //}
+        //    foreach (var tile in datas)
+        //    {
+        //        tile.ParentGrid.AttachTile = tile;
+        //        tile.UpdateGrid(tile.ParentGrid.ColID, tile.ParentGrid.RowID);
+        //    }
+        //}
+        //private void MoveHorizontal(BaseTile[] datas, int offset)
+        //{
+        //    //var temp = datas[0];
+        //    //for (int i = 0; i < datas.Length; ++i)
+        //    //{
+        //    //    int x = datas[i].ParentGrid.ColID;
+        //    //    int y = datas[i].ParentGrid.RowID;
+        //    //    int column_value = x + offset;
+        //    //    int lengthLine = _gridfield.gridArray.GetLength(0);
+        //    //    if (column_value < 0)
+        //    //    {
+        //    //        column_value = column_value + lengthLine;
+        //    //    }
+        //    //    if (column_value >= lengthLine)
+        //    //    {
+        //    //        column_value = column_value - lengthLine;
+        //    //    }
+        //    //    //_grids[targetx, y] = datas[i];
+
+        //    //    datas[i].UpdateGrid(column_value, y);
+        //    //    Debug.Log("mh: " + datas[i].X);
+        //    //}
+        //    //foreach (var g in datas)
+        //    //{
+        //    //    //列，行
+        //    //    _gridfield.Grids[g.Y, g.X] = g;
+        //    //}
+        //    foreach (var tile in datas)
+        //    {
+        //        tile.ParentGrid.AttachTile = tile;
+        //        tile.UpdateGrid(tile.ParentGrid.ColID, tile.ParentGrid.RowID);
+        //    }
+        //}
+
+        private void GetAroundGrids(int column_value, int row_value, out BaseTile[] datas)
         {
-            if (row_value >= _gridfield.Grids.GetLength(0) || column_value >= _gridfield.Grids.GetLength(1))
+            var centerTile = _gridfield.GetTile(column_value, row_value);
+
+            if(centerTile == null)
             {
                 datas = null;
                 return;
             }
 
-            List<IGridObject> selects = new List<IGridObject>();
-            var centerGrid = _gridfield.Grids[row_value, column_value];
-            var up = _gridfield.GetGrid(column_value, row_value - 1);
-            var down = _gridfield.GetGrid(column_value, row_value + 1);
-            var left = _gridfield.GetGrid(column_value - 1, row_value);
-            var right = _gridfield.GetGrid(column_value + 1, row_value);
+            List<BaseTile> selects = new List<BaseTile>();
+            var up = _gridfield.GetTile(column_value, row_value - 1);
+            var down = _gridfield.GetTile(column_value, row_value + 1);
+            var left = _gridfield.GetTile(column_value - 1, row_value);
+            var right = _gridfield.GetTile(column_value + 1, row_value);
             if (up != null)
             {
                 selects.Add(up);
@@ -275,62 +300,116 @@ namespace Bunker.Game
             datas = selects.ToArray();
         }
 
-        private bool GetVerticalLine(int number, out IGridObject[] datas)
+        private bool GetVerticalLine(int number, out BaseTile[] datas)
         {
-            if (number >= _gridfield.Grids.GetLength(0))
+            if (number >= _gridfield.colStartGrids.Length || number < 0)
             {
                 datas = null;
                 return false;
             }
 
-            List<IGridObject> gs = new List<IGridObject>();
-            for (int i = 0; i < _gridfield.Grids.GetLength(0); ++i)
+            var firstnode = _gridfield.colStartGrids[number];
+            var curnode = firstnode;
+            List<BaseTile> gs = new List<BaseTile>();
+            if(firstnode != null)
             {
+                if(firstnode.AttachTile != null)
+                {
+                    gs.Add(firstnode.AttachTile);
+                }                
 
-                gs.Add(_gridfield.Grids[i, number]);
+                curnode = firstnode.Down;
+                while(curnode != firstnode)
+                {
+                    if (curnode.AttachTile != null)
+                    {
+                        gs.Add(curnode.AttachTile);
+                    }
+                    curnode = curnode.Down;
+                }
             }
             datas = gs.ToArray();
 
             return true;
         }
 
-        private bool GetHorizontalLine(int number, out IGridObject[] datas)
+        private bool GetHorizontalLine(int number, out BaseTile[] datas)
         {
-            if (number >= _gridfield.Grids.GetLength(1))
+            if (number >= _gridfield.rowStartGrids.Length || number < 0)
             {
                 datas = null;
                 return false;
             }
 
-            List<IGridObject> gs = new List<IGridObject>();
-            for (int i = 0; i < _gridfield.Grids.GetLength(1); ++i)
+            var firstnode = _gridfield.rowStartGrids[number];
+            var curnode = firstnode;
+            List<BaseTile> gs = new List<BaseTile>();
+            if (firstnode != null)
             {
-                gs.Add(_gridfield.Grids[number, i]);
+                if (firstnode.AttachTile != null)
+                {
+                    gs.Add(firstnode.AttachTile);
+                }
+
+                curnode = firstnode.Right;
+                while (curnode != firstnode)
+                {
+                    if (curnode.AttachTile != null)
+                    {
+                        gs.Add(curnode.AttachTile);
+                    }
+                    curnode = curnode.Right;
+                }
             }
             datas = gs.ToArray();
 
             return true;
+        }
+
+        private Grid GetHorizontalStartGrid(int col)
+        {
+            if(_gridfield.colStartGrids != null && col < _gridfield.colStartGrids.Length && col >= 0)
+            {
+                return _gridfield.colStartGrids[col];
+            }
+
+            return null;
+        }
+
+        private Grid GetVerticalLineStartGrid(int row)
+        {
+            if (_gridfield.rowStartGrids != null && row < _gridfield.rowStartGrids.Length && row >= 0)
+            {
+                return _gridfield.rowStartGrids[row];
+            }
+
+            return null;
         }
         //-------------------------------------------------------------------------------------
         public void EliminationUpdate()
         {
             //竖直
-            for (int i = 0; i < _gridfield.Grids.GetLength(0); ++i)
+            for (int i = 0; i < _gridfield.gridArray.GetLength(0); ++i)
             {
                 //水平
-                for (int j = 0; j < _gridfield.Grids.GetLength(1); ++j)
+                for (int j = 0; j < _gridfield.gridArray.GetLength(1); ++j)
                 {
-                    List<IGridObject> tempGridList = new List<IGridObject>();
-                    var grid = _gridfield.Grids[j, i];
+                    List<BaseTile> tempGridList = new List<BaseTile>();
+                    var grid = _gridfield.gridArray[j, i];
+                    if(grid.AttachTile == null)
+                    {
+                        continue;
+                    }
+                    var tile = grid.AttachTile;
                     //modify by wwh : this is update the sortorder!
-                    (grid as BaseGrid).UpdateSortingOrder();
+                    tile.UpdateSortingOrder();
                     //Debug.Log("grid update: " + i + j);
                    // Debug.Log("grid update: " + grid.X + grid.Y);
-                    if (grid.CanElimination())
+                    if (tile.CanElimination())
                     {
-                        tempGridList.Add(grid);
+                        tempGridList.Add(tile);
 
-                        _gridfield.CheckElimination(grid, ref tempGridList);
+                        _gridfield.CheckElimination(tile, ref tempGridList);
 
                         if (tempGridList.Count >= 2)
                         {

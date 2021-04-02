@@ -32,7 +32,7 @@ namespace Bunker.Game
 
             var obj = objs[0];
 
-            IGridObject[] points = (IGridObject[])objs;
+            BaseTile[] points = (BaseTile[])objs;
 
             MonoBehaviourHelper.StartCoroutine(WaitforDestroyTile(points));
             //消灭
@@ -40,11 +40,11 @@ namespace Bunker.Game
             //_isWorking = false;
         }
 
-        IEnumerator WaitforDestroyTile(IGridObject[] datas)
+        IEnumerator WaitforDestroyTile(BaseTile[] datas)
         {
             //create effect
 
-            var tempgrids = new List<IGridObject>();
+            var tempgrids = new List<BaseTile>();
             foreach(var g in datas)
             {
                 tempgrids.Add(g);

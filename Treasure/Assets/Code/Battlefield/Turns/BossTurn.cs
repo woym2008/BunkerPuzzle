@@ -89,11 +89,11 @@ namespace Bunker.Game
                     }
                 case STAGE_1:
                     {
-                        var g = _bfm.Field.GetRandomGrid("Bunker.Game.NormalTile",true);
-                        if (g != null)
+                        var t = _bfm.Field.GetRandomTile("Bunker.Game.NormalTile",true);
+                        if (t != null)
                         {
                             var robot = _rmm.CreateRobot<RobotThief>();
-                            robot.SetToGird(g);
+                            robot.SetToGird(t.ParentGrid);
                             robotDeployCounter++;
                             _bui.ShowBossTalkingVFX(DIALOG_TIME, dialogues[bossTalk_1_during], null);
                         }

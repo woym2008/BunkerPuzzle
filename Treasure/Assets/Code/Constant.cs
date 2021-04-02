@@ -16,7 +16,7 @@ public static class Constant
         "WedgeRightTile",
         "GemTile",
         "RobotStartTile",
-
+        "Empty"
     };
     public static int[] TilesIndex =
     {

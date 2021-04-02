@@ -22,7 +22,7 @@ namespace Bunker.Game
         private int _moveStep;
         protected Vector3Int _dir;
         protected Vector2Int _pos;
-        protected BaseGrid _curNode;
+        protected Grid _curNode;
 
         private void OnDestroy()
         {
@@ -60,8 +60,9 @@ namespace Bunker.Game
             state = END;
             _moveStep = 0;
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var g = m.Field.GetGrid(transform.position) as BaseGrid;
-            SetToGird(g);
+            var g = m.Field.GetGrid(transform.position);
+            if(g != null)
+                SetToGird(g);
             ModuleManager.getInstance.SendMessage("Bunker.Game.RobotManagerModule", "NextRobot");
         }
 
@@ -81,15 +82,19 @@ namespace Bunker.Game
             return m.Field.ClampGridPos(_pos.x + _dir.x, _pos.y - _dir.y);
         }
 
-        public void SetToGird(BaseGrid grid)
+        public void SetToGird(Grid grid)
         {
+            if(grid.AttachTile == null)
+            {
+                return;
+            }
             _curNode = grid;
-            _pos = new Vector2Int(grid.X, grid.Y);
-            transform.parent = grid.Node.transform;
+            _pos = new Vector2Int(grid.ColID, grid.RowID);
+            transform.parent = grid.AttachTile.Node.transform;
             transform.localPosition = Vector3.zero;
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var sr = GetComponentInChildren<SpriteRenderer>();
-            sr.sortingOrder = _curNode.Y * 2 + 1;
+            sr.sortingOrder = _curNode.RowID * 2 + 1;
         }
         //这个非常简单，只需要向目的地靠近就好
         /// <summary>
