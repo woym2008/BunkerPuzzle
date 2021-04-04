@@ -23,7 +23,8 @@ public class MapDataEditor : Editor
         Color.gray,
         Color.gray,
         Color.magenta,
-        Color.red
+        Color.red,
+        Color.clear,
     };
 
     private void OnEnable()
@@ -122,6 +123,15 @@ public class MapDataEditor : Editor
         PreviewMapRect.Set(r.x, r.y, 20, 20);
         //EditorGUI.DrawRect(PreviewMapRect, Color.green);
 
+        Vector2 mouseClickPos = Vector2.zero;
+        bool clickMouse = false;
+        if (Event.current.type == EventType.MouseDown)
+        {
+            mouseClickPos = Event.current.mousePosition;
+
+            clickMouse = true;
+        }
+
         for (int i = 0; i < mapdata.row; ++i)
         {
             for (int j = 0; j < mapdata.column; ++j)
@@ -131,13 +141,33 @@ public class MapDataEditor : Editor
                 PreviewMapRect.x = r.x + j * 20;
                 PreviewMapRect.y = r.y + i * 20;
 
-                EditorGUI.DrawRect(PreviewMapRect, tileColorDye[index]);
+                if(clickMouse && PreviewMapRect.Contains(mouseClickPos))
+                {
+                    index++;
+                    if(index >= tileColorDye.Length)
+                    {
+                        index = 0;
+                    }
+                    mapdata.data[i * mapdata.column + j] = index;
+                }
+
+                var iconIndex = Constant.Tiles[index];
+                if(MapTileIconManager.getInstance.textures.ContainsKey(iconIndex))
+                {
+                    var tex = MapTileIconManager.getInstance.textures[iconIndex];
+                    if(tex != null)
+                        EditorGUI.DrawTextureTransparent(PreviewMapRect, tex);
+
+                }
+                //var tex = MapTileIconManager.getInstance.textures[iconIndex];
+                //EditorGUI.DrawRect(PreviewMapRect, tileColorDye[index]);
 
                 //Debug.Log(PreviewMapRect);
 
 
             }
         }
+
 
         //Debug.Log(r);
 
