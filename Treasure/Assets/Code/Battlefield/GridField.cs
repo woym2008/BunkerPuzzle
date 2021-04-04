@@ -256,77 +256,87 @@ namespace Bunker.Game
         }
         private void SetTile(Grid grid, BaseTile tile)
         {
-            SetTile(grid.ColID, grid.RowID, tile);
+            //SetTile(grid.ColID, grid.RowID, tile);
+            grid.AttachTile = tile;
+            tile.ParentGrid = grid;
         }        
-        private void SetTile(int column_value, int row_value, BaseTile tile)
-        {
-            if(rowStartGrids !=null || colStartGrids == null)
-            {
-                return;
-            }
+        //private void SetTile(int column_value, int row_value, BaseTile tile)
+        //{
+        //    if(rowStartGrids !=null || colStartGrids == null)
+        //    {
+        //        return;
+        //    }
 
-            if(column_value >= colStartGrids.Length || column_value < 0)
-            {
-                return;
-            }
+        //    if(column_value >= colStartGrids.Length || column_value < 0)
+        //    {
+        //        return;
+        //    }
 
-            if (row_value >= rowStartGrids.Length || row_value < 0)
-            {
-                return;
-            }
+        //    if (row_value >= rowStartGrids.Length || row_value < 0)
+        //    {
+        //        return;
+        //    }
 
-            if(colStartGrids[column_value] != null)
-            {
-                var firstnode = colStartGrids[column_value];
-                var curnode = firstnode;
-                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                {
-                    curnode.AttachTile = tile;
-                    tile.ParentGrid = curnode;
-                    return;
-                }
-                curnode = curnode.Down;
+        //    if(colStartGrids[column_value] != null)
+        //    {
+        //        var firstnode = colStartGrids[column_value];
+        //        var curnode = firstnode;
+        //        if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+        //        {
+        //            curnode.AttachTile = tile;
+        //            tile.ParentGrid = curnode;
+        //            return;
+        //        }
+        //        curnode = curnode.Down;
 
-                while (curnode != firstnode)
-                {
-                    if((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                    {
-                        curnode.AttachTile = tile;
-                        tile.ParentGrid = curnode;
-                        return;
-                    }
-                    curnode = curnode.Down;
-                }
-            }
-            else if (rowStartGrids[row_value] != null)
-            {
-                var firstnode = rowStartGrids[row_value];
-                var curnode = firstnode;
-                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                {
-                    curnode.AttachTile = tile;
-                    tile.ParentGrid = curnode;
-                    return;
-                }
-                curnode = curnode.Right;
+        //        while (curnode != firstnode)
+        //        {
+        //            if((curnode.RowID == row_value) && (curnode.ColID == column_value))
+        //            {
+        //                curnode.AttachTile = tile;
+        //                tile.ParentGrid = curnode;
+        //                return;
+        //            }
+        //            curnode = curnode.Down;
+        //        }
+        //    }
+        //    else if (rowStartGrids[row_value] != null)
+        //    {
+        //        var firstnode = rowStartGrids[row_value];
+        //        var curnode = firstnode;
+        //        if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+        //        {
+        //            curnode.AttachTile = tile;
+        //            tile.ParentGrid = curnode;
+        //            return;
+        //        }
+        //        curnode = curnode.Right;
 
-                while (curnode != firstnode)
-                {
-                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                    {
-                        curnode.AttachTile = tile;
-                        tile.ParentGrid = curnode;
-                        return;
-                    }
-                    curnode = curnode.Right;
-                }
-            }
-        }
+        //        while (curnode != firstnode)
+        //        {
+        //            if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+        //            {
+        //                curnode.AttachTile = tile;
+        //                tile.ParentGrid = curnode;
+        //                return;
+        //            }
+        //            curnode = curnode.Right;
+        //        }
+        //    }
+        //}
 
         private void RemoveTile(Grid grid)
         {
-            RemoveTile(grid.ColID, grid.RowID);
+            //RemoveTile(grid.ColID, grid.RowID);
+            var tile = grid.AttachTile;
+            if(tile != null)
+            {
+                grid.AttachTile = null;
+                tile.ParentGrid = null;
+                tile.Delete();
+            }
         }
+        /*
         private void RemoveTile(int column_value, int row_value)
         {
             if (rowStartGrids == null || colStartGrids == null)
@@ -344,71 +354,73 @@ namespace Bunker.Game
                 return;
             }
 
-            if (colStartGrids[column_value] != null)
-            {
-                var firstnode = colStartGrids[column_value];
-                var curnode = firstnode;
-                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                {
-                    var tile = curnode.AttachTile;
-                    if(tile != null)
-                    {
-                        tile.Delete();
-                    }
-                    curnode.AttachTile = null;
-                    return;
-                }
-                curnode = curnode.Down;
+            var tile = gridArray[];
 
-                while (curnode != firstnode)
-                {
-                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                    {
-                        var tile = curnode.AttachTile;
-                        if (tile != null)
-                        {
-                            tile.OnDestroy();
-                        }
-                        curnode.AttachTile = null;
-                        return;
-                    }
-                    curnode = curnode.Down;
-                }
-            }
-            else if (rowStartGrids[row_value] != null)
-            {
-                var firstnode = rowStartGrids[row_value];
-                var curnode = firstnode;
-                if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                {
-                    var tile = curnode.AttachTile;
-                    if (tile != null)
-                    {
-                        tile.OnDestroy();
-                    }
-                    curnode.AttachTile = null;
-                    return;
-                }
-                curnode = curnode.Right;
+            //if (colStartGrids[column_value] != null)
+            //{
+            //    var firstnode = colStartGrids[column_value];
+            //    var curnode = firstnode;
+            //    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+            //    {
+            //        var tile = curnode.AttachTile;
+            //        if(tile != null)
+            //        {
+            //            tile.Delete();
+            //        }
+            //        curnode.AttachTile = null;
+            //        return;
+            //    }
+            //    curnode = curnode.Down;
 
-                while (curnode != firstnode)
-                {
-                    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
-                    {
-                        var tile = curnode.AttachTile;
-                        if (tile != null)
-                        {
-                            tile.OnDestroy();
-                        }
-                        curnode.AttachTile = null;
-                        return;
-                    }
-                    curnode = curnode.Right;
-                }
-            }
+            //    while (curnode != firstnode)
+            //    {
+            //        if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+            //        {
+            //            var tile = curnode.AttachTile;
+            //            if (tile != null)
+            //            {
+            //                tile.OnDestroy();
+            //            }
+            //            curnode.AttachTile = null;
+            //            return;
+            //        }
+            //        curnode = curnode.Down;
+            //    }
+            //}
+            //else if (rowStartGrids[row_value] != null)
+            //{
+            //    var firstnode = rowStartGrids[row_value];
+            //    var curnode = firstnode;
+            //    if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+            //    {
+            //        var tile = curnode.AttachTile;
+            //        if (tile != null)
+            //        {
+            //            tile.OnDestroy();
+            //        }
+            //        curnode.AttachTile = null;
+            //        return;
+            //    }
+            //    curnode = curnode.Right;
+
+            //    while (curnode != firstnode)
+            //    {
+            //        if ((curnode.RowID == row_value) && (curnode.ColID == column_value))
+            //        {
+            //            var tile = curnode.AttachTile;
+            //            if (tile != null)
+            //            {
+            //                tile.OnDestroy();
+            //            }
+            //            curnode.AttachTile = null;
+            //            return;
+            //        }
+            //        curnode = curnode.Right;
+            //    }
+            //}
 
         }
-
+        */
         public Vector2Int ClampGridPos(int x,int y)
         {
             int nx = x, ny = y;
@@ -768,11 +780,12 @@ namespace Bunker.Game
                 Debug.Log("EliminationGrid: " + g.ParentGrid.ColID + "," + g.ParentGrid.RowID);
                 g.Elimination();
                 var grid = g.ParentGrid;
+
+                g.OnEliminationed();
+
                 RemoveTile(grid);
                 var newg = GridLoader.CreateTile("NormalTile", grid);
                 SetTile(grid, newg);
-
-                g.OnEliminationed();
             }
 
             OnElimination?.Invoke(elimiGrids.Count);
