@@ -16,12 +16,12 @@ namespace Bunker.Game
         BattleUIModule  _battleUIModule;
         RobotManagerModule _robotManagerModule;
         BattleTurnsModule _battleTurnsModule;
+        //add by wwh 2021-4-4
+        ShopUIModule _shopUIModule;
 
         public override void Create()
         {
             base.Create();
-
-
         }
 
         public override void Release()
@@ -46,8 +46,6 @@ namespace Bunker.Game
         {
             //_battleLogicObject.onupdate -= _battleModule.Update;
             _battleLogicObject.StartCoroutine(RemoveScene());
-
-
 
             base.EndProcess();
 
@@ -79,6 +77,30 @@ namespace Bunker.Game
             {
                 _battleTurnsModule.Update(dt);
             }
+            //TEST SHOW SHOP! add by wwh
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SetShopVisiable(true);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SetShopVisiable(false);
+            }
+        }
+
+        public void SetShopVisiable(bool b)
+        {
+            if (b)
+            {
+                _shopUIModule.DisplayShopUIPanel();
+                _battleUIModule.HideBattleUIPanel();
+            }
+            else
+            {
+                _shopUIModule.HideShopUIPanel();
+                _battleUIModule.DisplayBattleUIPanel();
+
+            }
         }
 
         IEnumerator RemoveScene()
@@ -91,6 +113,7 @@ namespace Bunker.Game
             ModuleManager.getInstance.StopModule<BattlefieldInputModule>();
             ModuleManager.getInstance.StopModule<RobotManagerModule>();
             ModuleManager.getInstance.StopModule<BattleTurnsModule>();
+            ModuleManager.getInstance.StopModule<ShopUIModule>();
 
             //var back = SceneManager.UnloadSceneAsync("Battlefield");
             //while (!back.isDone)
@@ -130,6 +153,8 @@ namespace Bunker.Game
             //UI mode 启动前置！
             ModuleManager.getInstance.StartModule<BattleUIModule>();
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();
+            ModuleManager.getInstance.StartModule<ShopUIModule>();
+
             //此处载入关卡数据mapdata
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
@@ -139,6 +164,7 @@ namespace Bunker.Game
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();
             _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
+            _shopUIModule = ModuleManager.getInstance.GetModule<ShopUIModule>();
 
             //这里尝试载入一下道具
             SaveLoader.getInstance.LoadPlayerCurItems(area);

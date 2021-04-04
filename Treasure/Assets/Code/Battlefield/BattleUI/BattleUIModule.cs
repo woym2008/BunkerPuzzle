@@ -57,7 +57,17 @@ namespace Bunker.Game
         {
             UIModule.getInstance.Close<BattleUIPanel>();
             base.OnStop();
+        }
 
+        public void DisplayBattleUIPanel()
+        {
+            _uiType = 0;
+            _UIPanel = UIModule.getInstance.Open<BattleUIPanel>();
+        }
+
+        public void HideBattleUIPanel()
+        {
+            UIModule.getInstance.Close<BattleUIPanel>();
         }
 
         protected override void OnModuleMessage(string msg, object[] args)
