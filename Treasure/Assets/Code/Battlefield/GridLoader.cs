@@ -80,19 +80,19 @@ namespace Bunker.Game
                     }
 
                     //行列的开头节点
-                    if (i == 0)
+                    if (i == 0 && grid.AttachTile != null)
                     {
                         cols[j] = grid;
                     }
-                    if (j == 0)
+                    if (j == 0 && grid.AttachTile != null)
                     {
-                        rows[j] = grid;
+                        rows[i] = grid;
                     }
 
                     var lastTileInCol = lastRowTileInCol[j];
                     //四周节点
                     //上下
-                    if(grid != null)
+                    if(grid.AttachTile != null)
                     {
                         //如果之前cols[j]为空,说明第一行的第j列是空的,那么这一列的第一个节点就要向下顺延
                         if (cols[j] == null)
@@ -105,6 +105,8 @@ namespace Bunker.Game
                             grid.Up = null;
                             grid.Down = null;
                             firstRowTileInCol[j] = grid;
+                            if(cols[j] == null)
+                                cols[j] = grid;
                         }
                         else
                         {
@@ -116,18 +118,20 @@ namespace Bunker.Game
                     }
 
                     //左右
-                    if(grid != null)
+                    if(grid.AttachTile != null)
                     {
-                        if (rows[i] == null)
-                        {
-                            rows[i] = grid;
-                        }
+                        //if (rows[i] == null)
+                        //{
+                        //    rows[i] = grid;
+                        //}
 
                         if (lastTileInRow == null)
                         {
                             firstTileInRow = grid;
                             grid.Left = null;
                             grid.Right = null;
+                            if (rows[i] == null)
+                                rows[i] = grid;
                         }
                         else
                         {
