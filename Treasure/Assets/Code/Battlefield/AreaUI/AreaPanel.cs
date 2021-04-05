@@ -18,6 +18,8 @@ namespace Bunker.Game
 
         Button _nextBtn;
         Button _preBtn;
+        //
+        bool _DEBUG_UNLIMITED_ = true;
 
         const string buttonPathBase = "UI/Icon";
         public override void OnBegin()
@@ -92,19 +94,30 @@ namespace Bunker.Game
                 btn.transform.SetParent(_currentArea.transform);
                 btn.transform.localScale = Vector3.one;
                 btn.gameObject.SetActive(true);
-                //
-                if (active_level > 0)
+                //modify by wwh 2021-4-5 
+                //此处不限制读取当前进度，而对关卡进行锁定
+                if (_DEBUG_UNLIMITED_)
                 {
-                    active_level--;
                     btn.onClick.AddListener(delegate { OnClickBtn(level_num, areaID); });
                     btn.image.color = Color.white;
                     lock_img.enabled = false;
                 }
                 else
                 {
-                    btn.image.color = Color.gray;
-                    lock_img.enabled = true;
+                    if (active_level > 0)
+                    {
+                        active_level--;
+                        btn.onClick.AddListener(delegate { OnClickBtn(level_num, areaID); });
+                        btn.image.color = Color.white;
+                        lock_img.enabled = false;
+                    }
+                    else
+                    {
+                        btn.image.color = Color.gray;
+                        lock_img.enabled = true;
+                    }
                 }
+
                 //
                 var Desc_img = btn.transform.Find("Desc").GetComponent<Image>();
                 if (bossLevel == level_num)
