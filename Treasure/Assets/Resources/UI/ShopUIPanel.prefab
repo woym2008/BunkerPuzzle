@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 260389053}
   - component: {fileID: 260389052}
   - component: {fileID: 260389051}
+  - component: {fileID: 1101872953532300054}
   m_Layer: 5
   m_Name: SHOP_TEXT
   m_TagString: Untagged
@@ -211,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23366857, g: 0.71240574, b: 0.8396226, a: 1}
+  m_Color: {r: 0.2971698, g: 0.8539573, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -246,6 +247,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &1101872953532300054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260389049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0efd58e8cbb269545acda6ccb2600444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIText: {fileID: 0}
+  scale: 4
+  threshold: 1
+  rand_flash: 1
 --- !u!1 &394359536
 GameObject:
   m_ObjectHideFlags: 0

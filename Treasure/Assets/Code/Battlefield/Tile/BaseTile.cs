@@ -113,6 +113,8 @@ namespace Bunker.Game
                 _copyobject = GameObject.Instantiate(_object) as GameObject;
 
                 var gridctrl = _copyobject.gameObject.GetComponent<GridMotionController>();
+                //add by wwh
+                if(gridctrl == null) gridctrl = _copyobject.gameObject.AddComponent<GridMotionController>();
                 gridctrl.transform.position = currentpos;
                 gridctrl.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = startY * 2;
                 gridctrl?.MoveToPosition(targetpos, movetime);
