@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8fc8a51f5d64074d8c1901510784b91, type: 3}
   m_Name: ItemsDatabase
   m_EditorClassIdentifier: 
+  HeadIcon: {fileID: 21300000, guid: f93a497576f709749972737773832efe, type: 3}
   ShopItems:
   - item_type: BattleItem_Recovery
     item_icon: {fileID: 21300002, guid: 38b4f8270539e08498c986f49fa705b1, type: 3}
+    cost: 10
+    level: 0
+  - item_type: BattleItem_Fire
+    item_icon: {fileID: 21300004, guid: 38b4f8270539e08498c986f49fa705b1, type: 3}
+    cost: 10
+    level: 0
+  - item_type: BattleItem_Lightning
+    item_icon: {fileID: 21300000, guid: 38b4f8270539e08498c986f49fa705b1, type: 3}
     cost: 10
     level: 0
