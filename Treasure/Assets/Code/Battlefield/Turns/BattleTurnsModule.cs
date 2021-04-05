@@ -31,7 +31,7 @@ namespace Bunker.Game
 
         public void InsertTurn(string turn_type_name,bool fromTop = false)
         {
-            Type type = Type.GetType(string.Format("Bunker.Game.{0}", turn_type_name));
+            Type type = Type.GetType(string.Format("{0}{1}",Constant.DOMAIN_PREFIX, turn_type_name));
             if (type != null) { 
                 var t = Activator.CreateInstance(type,this);
                 var len = _TurnQuene.Count;

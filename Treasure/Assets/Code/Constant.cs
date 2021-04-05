@@ -31,5 +31,7 @@ public static class Constant
     public static int debug_start_level = 1;
     //
     public static bool save_items = true;
+    //
+    public const string DOMAIN_PREFIX = "Bunker.Game.";
 
 }

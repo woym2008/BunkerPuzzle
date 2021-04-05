@@ -123,11 +123,12 @@ namespace Bunker.Module
             }
         }
         //-----------------------------------------
+        /*
         string _domain = "Bunker.Game";
         public void SetDomain(string str)
         {
             _domain = str;
-        }
+        }*/
 
         public T CreateModule<T>() where T: LogicModule
         {

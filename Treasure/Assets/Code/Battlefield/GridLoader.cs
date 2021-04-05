@@ -8,7 +8,7 @@ namespace Bunker.Game
 {
     public static class GridLoader
     {
-        static string _domain = "Bunker.Game";
+        //static string _domain = "Bunker.Game";
 
         static Transform _rootNode;
 
@@ -226,7 +226,7 @@ namespace Bunker.Game
 
         public static BaseTile CreateTile(string name, Grid grid)
         {
-            var type = Type.GetType(string.Format("{0}.{1}", _domain, name));
+            var type = Type.GetType(string.Format("{0}{1}", Constant.DOMAIN_PREFIX, name));
             var tile = Activator.CreateInstance(type) as BaseTile;
 
             tile.Create(name, GridField.ZeroPos , grid);

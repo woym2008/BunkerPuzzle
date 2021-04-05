@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using Bunker.Module;
+using System;
 
 namespace Bunker.Game
 {
@@ -94,14 +95,6 @@ namespace Bunker.Game
             if(Input.GetKeyDown(KeyCode.Alpha0)){
                 //CreateMissionItem("IconSet_1",8);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                //_progress -= 5;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                //_progress += 5;
-            }
         }
         //////
         public void CreateItem<T>() where T : BattleItem, new()
@@ -110,6 +103,16 @@ namespace Bunker.Game
             var item = GameObject.Instantiate(Resources.Load("UI/" + uiname)) as GameObject;
             item.name = uiname;
             item.AddComponent<T>().OnInit();
+            _UIPanel.AddItem(item);
+        }
+        public void CreateItem(string item_type)
+        {
+            //var uiname = item_type.Substring(item_type.LastIndexOf('.') + 1);    //去除命名空间
+            var uiname = item_type;
+            var item = GameObject.Instantiate(Resources.Load("UI/" + uiname)) as GameObject;
+            item.name = uiname;
+            var bi = item.AddComponent(Type.GetType(Constant.DOMAIN_PREFIX + item_type)) as BattleItem;
+            bi.OnInit();
             _UIPanel.AddItem(item);
         }
 

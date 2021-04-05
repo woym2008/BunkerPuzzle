@@ -11,6 +11,7 @@ namespace Bunker.Game
     {
         Dictionary<string, float> ItemRequests = new Dictionary<string, float>();
         Dictionary<string, int> ItemList = new Dictionary<string, int>();
+
         //这里要控制一下，比如消除2个格子，只能得到一个物品这种
         /*
             这里的ITEM的生成规则是，可以生成任意个道具，比如0.1、0.5 、1和2等，每当满足1个完整道具的时候，就会给
@@ -19,18 +20,22 @@ namespace Bunker.Game
         public void CreateBattleItem<T>(float n) where T : BattleItem, new()
         {
             var item_name = typeof(T).Name;
+            CreateBattleItem(item_name, n);
+        }
+        public void CreateBattleItem(string item_name, float n)
+        {
             if (ItemRequests.ContainsKey(item_name))
             {
-                ItemRequests[item_name] = ItemRequests[item_name] + n;                
+                ItemRequests[item_name] = ItemRequests[item_name] + n;
             }
             else
             {
-                ItemRequests.Add(item_name, n);                
+                ItemRequests.Add(item_name, n);
             }
             //
             while (ItemRequests[item_name] >= 1)
             {
-                ModuleManager.getInstance.GetModule<BattleUIModule>().CreateItem<T>();
+                ModuleManager.getInstance.GetModule<BattleUIModule>().CreateItem(item_name);
                 ItemRequests[item_name] = ItemRequests[item_name] - 1;
                 ItemList[item_name] = ItemList[item_name] + 1;
             }

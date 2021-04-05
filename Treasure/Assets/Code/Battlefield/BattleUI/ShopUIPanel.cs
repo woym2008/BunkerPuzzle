@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Bunker.Process;
+using Bunker.Module;
+
 
 
 namespace Bunker.Game
@@ -93,10 +95,14 @@ namespace Bunker.Game
             if(idx != -1)
             {
                 string item_type = ShopItems[idx].item_type;
-                //
                 //TODO
+                const string domain = "";//"Bunker.Game.";
+                BattleItemFactory.getInstance.CreateBattleItem(domain + item_type, 1);
             }
             //关闭页面
+            ModuleManager.getInstance.GetModule<ShopUIModule>().HideShopUIPanel();
+            ModuleManager.getInstance.GetModule<BattleUIModule>().DisplayBattleUIPanel();
+
         }
     }
 }
