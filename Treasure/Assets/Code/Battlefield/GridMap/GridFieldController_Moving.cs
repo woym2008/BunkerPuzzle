@@ -113,18 +113,20 @@ namespace Bunker.Game
                 int col_value = x + offset;
                 var targetGrid = datas[i].ParentGrid.GetColOffsetGrid(offset);
 
+                int dir = offset > 0 ? -1 : -2;
+
                 //不连续的则说明不挨着，就需要有个用来填充表示的copytile
                 if (Mathf.Abs(datas[i].ParentGrid.ColID - targetGrid.ColID) > 1)
                 {
                     var copytargetColID = targetGrid.ColID - offset;
+                                        
+                    datas[i].CopyMoveTo(col_value, y, copytargetColID, y, targetGrid.ColID, y, movetime, dir);
 
-                    datas[i].CopyMoveTo(col_value, y, copytargetColID, y, targetGrid.ColID, y, movetime);
-
-                    datas[i].MoveTo(col_value, y, movetime, true);
+                    datas[i].MoveTo(col_value, y, movetime, dir, true);
                 }
                 else
                 {
-                    datas[i].MoveTo(col_value, y, movetime);
+                    datas[i].MoveTo(col_value, y, movetime, dir);
                 }
 
 
@@ -145,18 +147,20 @@ namespace Bunker.Game
                 int row_value = y + offset;
                 var targetGrid = datas[i].ParentGrid.GetRowOffsetGrid(offset);
 
+                int dir = offset > 0 ? 2 : 1;
+
                 //不连续的则说明不挨着，就需要有个用来填充表示的copytile
                 if (Mathf.Abs(datas[i].ParentGrid.RowID - targetGrid.RowID) > 1)
                 {
                     var copytargetRowID = targetGrid.RowID - offset;
 
-                    datas[i].CopyMoveTo(x, row_value, x, copytargetRowID, x, targetGrid.RowID, movetime);
+                    datas[i].CopyMoveTo(x, row_value, x, copytargetRowID, x, targetGrid.RowID, movetime, dir);
 
-                    datas[i].MoveTo(x, row_value, movetime, true);
+                    datas[i].MoveTo(x, row_value, movetime, dir, true);
                 }
                 else
                 {
-                    datas[i].MoveTo(x, row_value, movetime);
+                    datas[i].MoveTo(x, row_value, movetime, dir);
                 }
 
                 datas[i].ParentGrid = targetGrid;

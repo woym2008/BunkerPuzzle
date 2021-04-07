@@ -16,7 +16,8 @@ namespace Bunker.Game
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
         /// <param name="movetime">Movetime.</param>
-        void MoveTo(int x, int y, float movetime, bool usecopy = false);
+        /// <param name="direct">方向，-2 左 -1 右 1 上 2 下.</param>
+        void MoveTo(int x, int y, float movetime, int direct, bool usecopy = false);
         /// <summary>
         /// 复制一个一摸一样的镜像格子移动
         /// </summary>
@@ -27,7 +28,8 @@ namespace Bunker.Game
         /// <param name="endX">复制块要去的位置End x.</param>
         /// <param name="endY">复制块要去的位置End y.</param>
         /// <param name="movetime">Movetime.</param>
-        void CopyMoveTo(int currentTargetX, int currentTargetY, int startX, int startY, int endX, int endY, float movetime);
+        /// <param name="direct">方向，-2 左 -1 右 1 上 2 下.</param>
+        void CopyMoveTo(int currentTargetX, int currentTargetY, int startX, int startY, int endX, int endY, float movetime, int direct);
         /// <summary>
         /// 格子的update
         /// </summary>

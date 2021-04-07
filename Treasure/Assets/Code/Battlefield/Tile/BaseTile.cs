@@ -104,7 +104,7 @@ namespace Bunker.Game
             return true;
         }
 
-        virtual public void MoveTo(int x, int y, float movetime, bool usecopy = false)
+        virtual public void MoveTo(int x, int y, float movetime, int direct, bool usecopy = false)
         {
             var targetpos = _zeropos + new Vector3(x * Constant.TileSize.x, -y * Constant.TileSize.y, 0);
 
@@ -119,15 +119,25 @@ namespace Bunker.Game
                 var gridctrl_ori = _copyobject_ori.gameObject.GetComponent<GridMotionController>();
                 if (gridctrl_ori == null) gridctrl_ori = _copyobject_ori.gameObject.AddComponent<GridMotionController>();
                 gridctrl_ori.transform.position = _object.transform.position;
-                gridctrl_ori.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = _object.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
+                var sordorder = _object.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
+                gridctrl_ori.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = sordorder;
                 gridctrl_ori?.MoveToPosition(targetpos, movetime);
+                                
+                _maskobject_ori = _maskModule?.GetMaskTile();
+                if (_maskobject_ori)
+                {
+                    _maskobject_ori.InitMask(TileSize, sordorder, direct, true);
+                    _maskobject_ori.gameObject.transform.position = targetpos;
+                }
+
                 _object?.SetActive(false);
+
                 return;
             }
             var gridctrl = _object.gameObject.GetComponent<GridMotionController>();
             gridctrl?.MoveToPosition(targetpos, movetime);
         }
-        virtual public void CopyMoveTo(int currentTargetX, int currentTargetY ,int startX, int startY, int endX, int endY, float movetime)
+        virtual public void CopyMoveTo(int currentTargetX, int currentTargetY, int startX, int startY, int endX, int endY, float movetime, int direct)
         {
             if (_object != null)
             {
@@ -145,19 +155,15 @@ namespace Bunker.Game
                 //add by wwh
                 if (gridctrl_target == null) gridctrl_target = _copyobject_target.gameObject.AddComponent<GridMotionController>();
                 gridctrl_target.transform.position = copycurrentpos;
-                gridctrl_target.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = startY * 2;
+                var sortorder = startY * 2;
+                gridctrl_target.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = sortorder;
                 gridctrl_target?.MoveToPosition(targetpos, movetime);
 
-                _maskobject_ori = _maskModule?.GetMaskTile();
                 _maskobject_copy = _maskModule?.GetMaskTile();
-                if(_maskobject_ori)
-                {
-                    _maskobject_ori.InitMask(TileSize);
-                    _maskobject_ori.gameObject.transform.position = currentTargetPos;
-                }
+                
                 if (_maskobject_copy)
                 {
-                    _maskobject_copy.InitMask(TileSize);
+                    _maskobject_copy.InitMask(TileSize, sortorder, direct, false);
                     _maskobject_copy.gameObject.transform.position = copycurrentpos;
                 }
             }
