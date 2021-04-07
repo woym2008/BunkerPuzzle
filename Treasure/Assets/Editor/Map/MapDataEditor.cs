@@ -7,7 +7,7 @@ using UnityEditor;
 public class MapDataEditor : Editor
 {
     MapData mapdata;
-
+    GUIStyle gs;
     //bool addmaptile;
 
     Rect PreviewMapRect = new Rect();
@@ -167,8 +167,23 @@ public class MapDataEditor : Editor
 
             }
         }
+        GUILayout.Space(20);
+        //gs.stretchWidth = false;
+        if (GUILayout.Button("重置", GUILayout.Width(150)))
+        {
+            if(EditorUtility.DisplayDialog("地图编辑", "确定要重置编辑的关卡么？", "确认", "取消"))
+            {
+                for (int i = 0; i < mapdata.row; ++i)
+                {
+                    for (int j = 0; j < mapdata.column; ++j)
+                    {
+                        mapdata.data[i * mapdata.column + j] = 0;
+                    }
+                }
+            }
 
-
+            ischange = true;
+        }
         //Debug.Log(r);
 
 
