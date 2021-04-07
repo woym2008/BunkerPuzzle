@@ -118,10 +118,15 @@ namespace Bunker.Game
                 {
                     var copytargetColID = targetGrid.ColID - offset;
 
-                    datas[i].CopyMoveTo(copytargetColID, y, targetGrid.ColID, y, movetime);
+                    datas[i].CopyMoveTo(col_value, y, copytargetColID, y, targetGrid.ColID, y, movetime);
+
+                    datas[i].MoveTo(col_value, y, movetime, true);
+                }
+                else
+                {
+                    datas[i].MoveTo(col_value, y, movetime);
                 }
 
-                datas[i].MoveTo(col_value, y, movetime);
 
                 datas[i].ParentGrid = targetGrid;
             }            
@@ -145,10 +150,14 @@ namespace Bunker.Game
                 {
                     var copytargetRowID = targetGrid.RowID - offset;
 
-                    datas[i].CopyMoveTo(x, copytargetRowID, x, targetGrid.RowID, movetime);
-                }
+                    datas[i].CopyMoveTo(x, row_value, x, copytargetRowID, x, targetGrid.RowID, movetime);
 
-                datas[i].MoveTo(x, row_value, movetime);
+                    datas[i].MoveTo(x, row_value, movetime, true);
+                }
+                else
+                {
+                    datas[i].MoveTo(x, row_value, movetime);
+                }
 
                 datas[i].ParentGrid = targetGrid;
             }

@@ -425,8 +425,8 @@ namespace Bunker.Game
         {
             int nx = x, ny = y;
 
-            if (x >= gridArray.GetLength(0)) nx = colStartGrids.GetLength(0) - 1;
-            if (y >= rowStartGrids.GetLength(1)) ny = rowStartGrids.GetLength(1) - 1;
+            if (x >= gridArray.GetLength(0)) nx = gridArray.GetLength(0) - 1;
+            if (y >= gridArray.GetLength(1)) ny = gridArray.GetLength(1) - 1;
 
             if (x < 0)  nx = 0;
             if (y < 0)  ny = 0;
@@ -663,39 +663,52 @@ namespace Bunker.Game
 
                 if (gridUp.AttachTile != null)
                 {
-                    if (gridUp.AttachTile.CanElimination() 
+                    if(Mathf.Abs(gridUp.RowID - gridSelf.RowID) == 1)
+                    {
+                        if (gridUp.AttachTile.CanElimination()
                         && tile.CanEliminationByOther(gridUp.AttachTile.GetGridType(), 0)
                         && !bHasUp)
-                    {
-                        bUpOK = true;
+                        {
+                            bUpOK = true;
+                        }
                     }
+                    
                 }
                 if (gridDown.AttachTile != null)
                 {
-                    if (gridDown.AttachTile.CanElimination() 
+                    if (Mathf.Abs(gridDown.RowID - gridSelf.RowID) == 1)
+                    {
+                        if (gridDown.AttachTile.CanElimination()
                         && tile.CanEliminationByOther(gridDown.AttachTile.GetGridType(), 1)
                         && !bHasDown)
-                    {
-                        bDownOK = true;
-                    }
+                        {
+                            bDownOK = true;
+                        }
+                    }                        
                 }
                 if (gridLeft.AttachTile != null)
                 {
-                    if (gridLeft.AttachTile.CanElimination() 
+                    if (Mathf.Abs(gridLeft.ColID - gridSelf.ColID) == 1)
+                    {
+                        if (gridLeft.AttachTile.CanElimination()
                         && tile.CanEliminationByOther(gridLeft.AttachTile.GetGridType(), 2)
                         && !bHasLeft)
-                    {
-                        bLeftOK = true;
-                    }
+                        {
+                            bLeftOK = true;
+                        }
+                    }                        
                 }
                 if (gridRight.AttachTile != null)
                 {
-                    if (gridRight.AttachTile.CanElimination() 
+                    if (Mathf.Abs(gridRight.ColID - gridSelf.ColID) == 1)
+                    {
+                        if (gridRight.AttachTile.CanElimination()
                         && tile.CanEliminationByOther(gridRight.AttachTile.GetGridType(), 3)
                         && !bHasRight)
-                    {
-                        bRightOK = true;
-                    }
+                        {
+                            bRightOK = true;
+                        }
+                    }                        
                 }
 
                 if (type == CheckEliminationType.Null)

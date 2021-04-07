@@ -8,6 +8,9 @@ namespace Bunker.Game
 {
     public class RobotStartTile : BaseTile
     {
+        override protected int TileSize {
+            get { return 1; }
+        }
         public override void Init()
         {
             base.Init();

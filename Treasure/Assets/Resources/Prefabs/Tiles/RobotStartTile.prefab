@@ -48,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &290915730869414673
 Animator:
@@ -123,7 +124,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2928756427559043949}
-  - component: {fileID: 3171635668366199845}
   - component: {fileID: 1506879003575203718}
   m_Layer: 0
   m_Name: RobotStartTile
@@ -147,18 +147,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3171635668366199845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4142164382376037399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0d8828ceee6e4218a74bb604c05058a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1506879003575203718
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -164,29 +164,29 @@ namespace Bunker.Game
             }
 
             //create mask
-            var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;
-            if(mask != null)
-            {
-                var sm = mask.GetComponent<SpriteMask>();
-                if(sm != null)
-                {
-                    sm.transform.parent = _rootNode;
+            //var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;
+            //if(mask != null)
+            //{
+            //    var sm = mask.GetComponent<SpriteMask>();
+            //    if(sm != null)
+            //    {
+            //        sm.transform.parent = _rootNode;
 
-                    sm.gameObject.transform.localScale = new Vector3(
-                    (float)map.column,
-                    (float)map.row + 1, 
-                    0.0f
-                        );
+            //        sm.gameObject.transform.localScale = new Vector3(
+            //        (float)map.column,
+            //        (float)map.row + 1, 
+            //        0.0f
+            //            );
 
-                    sm.transform.position = GridField.ZeroPos + new Vector3(
-                    Constant.TileSize.x * (map.column * 0.5f) - Constant.TileSize.x * 0.5f,
-                    -Constant.TileSize.y * (map.row * 0.5f) + Constant.TileSize.y * 1.0f,
-                    0
-                        );
+            //        sm.transform.position = GridField.ZeroPos + new Vector3(
+            //        Constant.TileSize.x * (map.column * 0.5f) - Constant.TileSize.x * 0.5f,
+            //        -Constant.TileSize.y * (map.row * 0.5f) + Constant.TileSize.y * 1.0f,
+            //        0
+            //            );
 
 
-                }
-            }
+            //    }
+            //}
             //Create Mission Data
             var md = map.mission;
             MissionManager.getInstance.LoadMissionData(md);

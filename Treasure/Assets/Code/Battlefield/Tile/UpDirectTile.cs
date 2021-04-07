@@ -5,6 +5,9 @@ namespace Bunker.Game
 {
     public class UpDirectTile : InputTile
     {
+        override protected int TileSize {
+            get { return 2; }
+        }
         protected override void OnClick()
         {
             base.OnClick();

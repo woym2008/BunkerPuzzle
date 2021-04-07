@@ -5,6 +5,9 @@ namespace Bunker.Game
 {
     public class WedgeRightTile : BaseTile
     {
+        override protected int TileSize {
+            get { return 2; }
+        }
         public override void Init()
         {
             base.Init();

@@ -5,6 +5,9 @@ namespace Bunker.Game
 {
     public class NormalTile : BaseTile
     {
+        override protected int TileSize {
+            get { return 1; }
+        }
         public override void Init()
         {
             base.Init();

@@ -9,6 +9,6 @@ public class TileSpriteController : MonoBehaviour
     {
         _renderer = this.gameObject.GetComponent<SpriteRenderer>();
 
-        _renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        //_renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
     }
 }

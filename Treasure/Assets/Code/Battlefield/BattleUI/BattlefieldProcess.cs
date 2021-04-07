@@ -115,6 +115,9 @@ namespace Bunker.Game
             ModuleManager.getInstance.StopModule<BattleTurnsModule>();
             ModuleManager.getInstance.StopModule<ShopUIModule>();
 
+            //masktile管理
+            ModuleManager.getInstance.StopModule<MaskTileModule>();
+
             //var back = SceneManager.UnloadSceneAsync("Battlefield");
             //while (!back.isDone)
             //{
@@ -154,6 +157,10 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattleUIModule>();
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();
             ModuleManager.getInstance.StartModule<ShopUIModule>();
+
+
+            //masktile管理
+            ModuleManager.getInstance.StartModule<MaskTileModule>();
 
             //此处载入关卡数据mapdata
             ModuleManager.getInstance.StartModule<BattlefieldModule>();

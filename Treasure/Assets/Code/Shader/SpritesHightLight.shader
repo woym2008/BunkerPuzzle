@@ -16,7 +16,6 @@ Shader "Sprites/HeightLight"
 
     SubShader
     {
-
         Tags
         {
             "Queue"="Transparent"
@@ -41,7 +40,6 @@ Shader "Sprites/HeightLight"
             #pragma multi_compile_local _ PIXELSNAP_ON
             #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
             #include "UnitySprites2.cginc"
-            //#include "UnityCG.cginc"
 
         ENDCG
         }
