@@ -73,7 +73,7 @@ public class MapTileIconManager
                     break;
                 case "WedgeRightTile":
                     {
-                        texname = "wedge_cube.png";
+                        texname = "wedge_cube_r.png";
                     }
                     break;
                 case "GemTile":

@@ -35,14 +35,14 @@ namespace Bunker.Game
 
         public override bool CanEliminationByOther(string gridtype, int direct)
         {
-            /*
+            
             if (gridtype == "Bunker.Game.WedgeLeftTile" && direct == 2)
             {
                 return true;
             }
             return false;
-            */
-            return base.CanEliminationByOther(gridtype,direct);
+            
+            //return base.CanEliminationByOther(gridtype,direct);
         }
     }
 }
