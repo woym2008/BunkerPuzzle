@@ -647,15 +647,15 @@ namespace Bunker.Game
                     {
                         bHasUp = true;
                     }
-                    if (t.ParentGrid == gridUp)
+                    if (t.ParentGrid == gridDown)
                     {
                         bHasDown = true;
                     }
-                    if (t.ParentGrid == gridUp)
+                    if (t.ParentGrid == gridLeft)
                     {
                         bHasLeft = true;
                     }
-                    if (t.ParentGrid == gridUp)
+                    if (t.ParentGrid == gridRight)
                     {
                         bHasRight = true;
                     }
