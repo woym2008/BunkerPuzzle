@@ -24,7 +24,7 @@ namespace Bunker.Game
                 //
                 var sr = GetComponentInChildren<SpriteRenderer>();
                 int offset = _dir.y == 0 ? 1 : 3;
-                sr.sortingOrder = g.ColID * 2 + offset;
+                sr.sortingOrder = g.RowID * 2 + offset;
             }
             else
             {
