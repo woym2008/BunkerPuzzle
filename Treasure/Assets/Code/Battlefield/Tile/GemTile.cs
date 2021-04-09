@@ -33,5 +33,10 @@ namespace Bunker.Game
         {
             return this.GetType().ToString();
         }
+
+        public override bool CanWalk()
+        {
+            return true;
+        }
     }
 }
