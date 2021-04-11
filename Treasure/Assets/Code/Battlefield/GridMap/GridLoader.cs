@@ -32,7 +32,19 @@ namespace Bunker.Game
                 Debug.Log(string.Format("Map {0}/{1} not found", areaName, levelName));
                 return false;
             }
-            
+
+            var rmax = map.row;
+            var cmax = map.column;
+
+            var offsetr = Constant.MaxRow - rmax;
+            var offsetc = Constant.MaxCol - cmax;
+
+            GridField.zeroOffset = new Vector3(
+                Constant.TileSize.x * offsetc * 0.5f,
+                -Constant.TileSize.y * offsetr * 0.5f,
+                0
+                );
+
             //这里需要
             //1 保存各个行和各个列的首节点
             //2 对各个节点的上下左右节点进行赋值，通过缓存上一行的节点和同行的前一个节点来实现

@@ -34,4 +34,6 @@ public static class Constant
     //
     public const string DOMAIN_PREFIX = "Bunker.Game.";
 
+    public static int MaxRow = 10;
+    public static int MaxCol = 10;
 }

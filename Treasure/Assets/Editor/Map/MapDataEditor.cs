@@ -168,6 +168,8 @@ public class MapDataEditor : Editor
             }
         }
         GUILayout.Space(20);
+
+        EditorGUILayout.BeginHorizontal();
         //gs.stretchWidth = false;
         if (GUILayout.Button("重置", GUILayout.Width(150)))
         {
@@ -185,8 +187,14 @@ public class MapDataEditor : Editor
             ischange = true;
         }
         //Debug.Log(r);
+        GUILayout.Space(20);
 
-
+        if (GUILayout.Button("保存", GUILayout.Width(150)))
+        {
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+        EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndVertical();
 
 

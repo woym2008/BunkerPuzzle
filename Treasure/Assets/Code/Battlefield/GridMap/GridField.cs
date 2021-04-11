@@ -63,13 +63,14 @@ namespace Bunker.Game
         public Grid[,] gridArray;
 
         static Transform _zeroPoint;
+        static public Vector3 zeroOffset;
         static public Vector3 ZeroPos
         {
             get
             {
                 if(_zeroPoint != null)
                 {
-                    return _zeroPoint.position;
+                    return _zeroPoint.position + zeroOffset;
                 }
                 return Vector3.zero;
             }
@@ -109,6 +110,8 @@ namespace Bunker.Game
             _currectArea = areaName;
             _currectLevel = levelName;
 
+            zeroOffset = Vector3.zero;
+
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
             return GridLoader.LoadGrid(_currectArea, _currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
         }
@@ -124,7 +127,9 @@ namespace Bunker.Game
                         rowStartGrids[i].AttachTile?.Delete();
                     }
                 }
-                
+
+                zeroOffset = Vector3.zero;
+
                 _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
                 GridLoader.LoadGrid(_currectArea,_currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
             }
