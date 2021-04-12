@@ -12,9 +12,9 @@ namespace Bunker.Game
         ScrollRect _levelList;
         Transform _buttonsParent;
         GameObject _btnPrefab;
-        GameObject _areaFrame;
+        GameObject _areaFrame;      //Content
 
-        GameObject _currentArea;
+        //GameObject _currentArea;
 
         Button _nextBtn;
         Button _preBtn;
@@ -31,13 +31,15 @@ namespace Bunker.Game
             _buttonsParent = _levelList.content;
 
             _btnPrefab = _buttonsParent.Find("LevelBtn").gameObject;
-            _areaFrame = _buttonsParent.Find("AreaFrame").gameObject;
             _btnPrefab.transform.SetParent(_buttonsParent.parent);
-            _areaFrame.transform.SetParent(_buttonsParent.parent);
             _btnPrefab.SetActive(false);
-            _areaFrame.SetActive(false);
-             
+
+            _areaFrame = _buttonsParent.gameObject;
+            _areaFrame.transform.SetParent(_buttonsParent.parent);
+            _areaFrame.SetActive(true);
+
             _buttonsParent.DetachChildren();
+
 
             _nextBtn = _transform.Find("NextButton").GetComponent<Button>();
             _preBtn = _transform.Find("PreButton").GetComponent<Button>();
@@ -65,10 +67,10 @@ namespace Bunker.Game
             int active_level = 0,cur_level = 0;
             //载入进度
             SaveLoader.getInstance.LoadGameCurProgress(areaID, ref active_level, ref cur_level);
-            _currentArea = GameObject.Instantiate(_areaFrame);
-            _currentArea.SetActive(true);
-            _currentArea.transform.SetParent(_buttonsParent);
-            _currentArea.transform.localScale = Vector3.one;
+            //_currentArea = GameObject.Instantiate(_areaFrame);
+            //_currentArea.SetActive(true);
+            //_currentArea.transform.SetParent(_buttonsParent);
+            //_currentArea.transform.localScale = Vector3.one;
             //找到boss level
             var bossLevel = LevelManager.getInstance.GetBossLevel(areaID);
 
@@ -91,7 +93,7 @@ namespace Bunker.Game
                 int level_num = i;
                 //
                 _levelButtons.Add(btn);
-                btn.transform.SetParent(_currentArea.transform);
+                btn.transform.SetParent(_areaFrame.transform);
                 btn.transform.localScale = Vector3.one;
                 btn.gameObject.SetActive(true);
                 //modify by wwh 2021-4-5 
@@ -129,6 +131,7 @@ namespace Bunker.Game
                     Desc_img.gameObject.SetActive(false);
                 }
             }
+
         }
 
         void CloseArea()
@@ -140,7 +143,7 @@ namespace Bunker.Game
             }
             _levelButtons.Clear();
 
-            GameObject.Destroy(_currentArea);
+            //GameObject.Destroy(_currentArea);
         }
 
         void NextArea()

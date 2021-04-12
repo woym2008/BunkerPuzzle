@@ -9,6 +9,7 @@ public class MapDataEditor : Editor
     MapData mapdata;
     GUIStyle gs;
     //bool addmaptile;
+    bool showFoldout = true;
 
     Rect PreviewMapRect = new Rect();
 
@@ -44,7 +45,6 @@ public class MapDataEditor : Editor
         serializedObject.Update();
         base.OnInspectorGUI();
 
-        EditorGUILayout.BeginVertical();
         EditorGUILayout.Space();
 
         bool ischange = false;
@@ -78,38 +78,44 @@ public class MapDataEditor : Editor
 
 
             EditorGUILayout.Space();
-            EditorGUILayout.Space();
-
-            _tempList.Clear();
-            for (int i=0;i<Constant.Tiles.Length; ++i)
+            EditorGUILayout.BeginVertical();
+            showFoldout = EditorGUILayout.Foldout(showFoldout, "地图块阵列");
+            if (showFoldout)
             {
-                _tempList.Add(i);
-            }
-            var tilescountarray = _tempList.ToArray();
 
-            for (int i = 0; i < mapdata.row; ++i)
-            {
-                EditorGUILayout.BeginHorizontal();
-                for (int j = 0; j < mapdata.column; ++j)
+                _tempList.Clear();
+                for (int i = 0; i < Constant.Tiles.Length; ++i)
                 {
-                    //mapdata.data[i * column + j] = EditorGUILayout.IntField(mapdata.data[i * column + j]);
-
-                    var index = mapdata.data[i * column + j];
-
-                    var selectdata = EditorGUILayout.IntPopup(index, Constant.Tiles, tilescountarray);
-                    var oridata = mapdata.data[i * column + j];
-                    if (selectdata != oridata)
-                    {
-                        mapdata.data[i * column + j] = selectdata;
-                        ischange = true;
-                    }
+                    _tempList.Add(i);
                 }
-                EditorGUILayout.EndHorizontal();
+                var tilescountarray = _tempList.ToArray();
+
+                for (int i = 0; i < mapdata.row; ++i)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    for (int j = 0; j < mapdata.column; ++j)
+                    {
+                        //mapdata.data[i * column + j] = EditorGUILayout.IntField(mapdata.data[i * column + j]);
+
+                        var index = mapdata.data[i * column + j];
+
+                        var selectdata = EditorGUILayout.IntPopup(index, Constant.Tiles, tilescountarray);
+                        var oridata = mapdata.data[i * column + j];
+                        if (selectdata != oridata)
+                        {
+                            mapdata.data[i * column + j] = selectdata;
+                            ischange = true;
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+
             }
 
+            
         }
 
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical(); 
 
         EditorGUILayout.Space();
 
@@ -143,10 +149,16 @@ public class MapDataEditor : Editor
 
                 if(clickMouse && PreviewMapRect.Contains(mouseClickPos))
                 {
-                    index++;
-                    if(index >= tileColorDye.Length)
+                    if (Event.current.button == 0) index++; else index--;   //鼠标右键反向
+                    if (Event.current.button == 2) index = 0;   //鼠标中键使其归0
+
+                    if (index >= tileColorDye.Length)
                     {
                         index = 0;
+                    }
+                    if(index < 0)
+                    {
+                        index = tileColorDye.Length - 1;
                     }
                     mapdata.data[i * mapdata.column + j] = index;
                 }
