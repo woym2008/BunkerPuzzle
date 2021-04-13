@@ -38,7 +38,10 @@ namespace Bunker.Game
         public virtual void OnPrepareMove()
         {          
             state = PREPARE;
-            _moveStep = moveStepMax; 
+            _moveStep = moveStepMax;
+            //此处更新一下当前的格子位置
+            UpdateCurNode();
+            //
             _dir = FindWay();        
         }
 
@@ -95,6 +98,13 @@ namespace Bunker.Game
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var sr = GetComponentInChildren<SpriteRenderer>();
             sr.sortingOrder = _curNode.RowID * 2 + 1;
+        }
+
+        public void UpdateCurNode()
+        {
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var tile = m.Field.FindTileObject(transform.parent.gameObject);
+            SetToGird(tile.ParentGrid);
         }
         //这个非常简单，只需要向目的地靠近就好
         /// <summary>
