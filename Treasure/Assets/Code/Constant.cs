@@ -16,7 +16,13 @@ public static class Constant
         "WedgeRightTile",
         "GemTile",
         "RobotStartTile",
-        "Empty"
+
+        "Empty",
+        //新添加的
+        "PorterStartTile",
+        "DiskTile"
+
+
     };
     public static int[] TilesIndex =
     {

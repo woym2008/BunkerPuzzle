@@ -86,6 +86,16 @@ public class MapTileIconManager
                         texname = "robot_start.png";
                     }
                     break;
+                case "PorterStartTile":
+                    {
+                        texname = "porter_start.png";
+                    }
+                    break;
+                case "DiskTile":
+                    {
+                        texname = "disk_cube.png";
+                    }
+                    break;
             }
             var texture = AssetDatabase.LoadAssetAtPath<Texture>(baseTexPath + texname);
 

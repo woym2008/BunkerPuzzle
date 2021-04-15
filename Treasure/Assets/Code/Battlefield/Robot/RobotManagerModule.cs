@@ -43,6 +43,13 @@ namespace Bunker.Game
                 var robot = CreateRobot<RobotThief>();
                 robot.SetToGird(t.ParentGrid);
             }
+            //加入其他robot的出生点
+            spawn_list = m.Field.FindTileds("Bunker.Game.PorterStartTile");
+            foreach (var t in spawn_list)
+            {
+                var robot = CreateRobot<RobotPorter>();
+                robot.SetToGird(t.ParentGrid);
+            }
 
         }
         public override void OnStop()

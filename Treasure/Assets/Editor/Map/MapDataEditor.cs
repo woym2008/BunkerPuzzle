@@ -26,6 +26,8 @@ public class MapDataEditor : Editor
         Color.magenta,
         Color.red,
         Color.clear,
+        Color.red,  //新添加
+        Color.white,
     };
 
     private void OnEnable()
