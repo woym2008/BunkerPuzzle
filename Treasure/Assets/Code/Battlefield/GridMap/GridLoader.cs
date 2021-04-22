@@ -232,7 +232,10 @@ namespace Bunker.Game
             ModuleManager.getInstance.GetModule<BattleTurnsModule>().InsertTurn(map.boss_type,true);
             //清理一下item工场
             BattleItemFactory.getInstance.Reset();
-
+            //add by wwh 2021-4-19
+            //将有效的list传入robotManager
+            ModuleManager.getInstance.GetModule<RobotManagerModule>().UpdateEnemyTypeList(map.enemy_types);
+            ModuleManager.getInstance.GetModule<RobotManagerModule>().UpdateFriendlyTypeList(map.friendly_types);
             return true;
         }
 

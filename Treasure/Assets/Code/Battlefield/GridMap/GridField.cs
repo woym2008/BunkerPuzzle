@@ -569,13 +569,16 @@ namespace Bunker.Game
             var igo = GetTile(x,y);
             if (igo == null) return false;
             //这里判断是否格子被占据，不一定准确
-            if((igo as BaseTile).Node.transform.childCount > 1) return false;
-            //
-            //if (igo.GetGridType() == "Bunker.Game.NormalTile" ||
-            //    igo.GetGridType() == "Bunker.Game.GemTile" ||
-            //    igo.GetGridType() == "Bunker.Game.RobotStartTile") return true;
-            //return false;
-
+            int walkable_count = 0;
+            for (int i = igo.Node.transform.childCount - 1; i > 0; i--)
+            {
+                var kid = igo.Node.transform.GetChild(i);
+                if (kid.gameObject.name.EndsWith(Constant.CAN_WALK_SUFFIX))
+                {
+                    walkable_count++;
+                }
+            }
+            if (igo.Node.transform.childCount - walkable_count > 1) return false;               
             return igo.CanWalk();
         } 
 

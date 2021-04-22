@@ -35,7 +35,7 @@ namespace Bunker.Game
 
         public int curMissionState = Mission_Unload;
 
-        public event MissionValue OnMissionValueHandler;
+        public MissionValue OnMissionValueHandler;
 
         public void LoadMissionData(MissionData md)
         {

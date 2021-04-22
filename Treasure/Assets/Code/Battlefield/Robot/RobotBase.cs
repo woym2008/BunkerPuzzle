@@ -29,6 +29,11 @@ namespace Bunker.Game
             transform.DOKill();
         }
 
+        public Vector2Int GetGridXY()
+        {
+            return new Vector2Int(_curNode.ColID, _curNode.RowID);
+        }
+
 
         public virtual void OnInit()
         {
@@ -114,6 +119,23 @@ namespace Bunker.Game
         public virtual Vector3Int FindWay()
         {
             return Vector3Int.zero;
+        }
+        //是否可以被其他bot穿透through
+        public bool CanPenetrable()
+        {
+            return gameObject.name.EndsWith(Constant.CAN_WALK_SUFFIX);
+        }
+        public void SetPenetrable(bool b)
+        {
+            if (b == CanPenetrable()) return;
+            if (b)
+            {
+                gameObject.name = gameObject.name + Constant.CAN_WALK_SUFFIX;
+            }
+            else
+            {
+                gameObject.name = gameObject.name.Replace(Constant.CAN_WALK_SUFFIX, "");
+            }
         }
     }
 }

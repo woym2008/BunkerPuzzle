@@ -58,5 +58,16 @@ namespace Bunker.Game
 
             return ret;
         }
+
+        //add by wwh 
+        public static bool Equal(Grid lhs, Grid rhs)
+        {
+            bool status = false;
+            if (lhs.RowID == rhs.RowID && lhs.ColID == rhs.ColID)
+            {
+                status = true;
+            }
+            return status;
+        }
     }
 }

@@ -21,3 +21,5 @@ MonoBehaviour:
     ProtectMissions: []
     MaxSteps: 10
   boss_type: 
+  enemy_types: []
+  friendly_types: []

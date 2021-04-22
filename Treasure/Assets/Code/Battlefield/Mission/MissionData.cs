@@ -8,7 +8,7 @@ public enum MissionCollectionType
     Liquid,
     Electric,
     Wedge,
-    Ghost,
+    Boss,
 }
 
 
@@ -55,7 +55,7 @@ public static class MissionDataHelper
 {
     //Type到names的转换器
     static readonly string[] MissionCollectionTypeNames =
-        new string[] { "Liquid", "Electric", "Wedge", "Ghost" };
+        new string[] { "Liquid", "Electric", "Wedge", "Boss" };
     public static string MCT_2_Names(MissionCollectionType mct)
     {
         return MissionCollectionTypeNames[(int)mct];

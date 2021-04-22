@@ -27,7 +27,7 @@ namespace Bunker.Game
         成功条件：关卡任务完成     
     */
 
-    public class BossTurn : CTurn
+    public class Boss_1_Turn : CTurn
     {
         BattlefieldModule _bfm;
         BattleUIModule _bui;
@@ -65,7 +65,7 @@ namespace Bunker.Game
 
 
 
-        public BossTurn(BattleTurnsModule btm) : base(btm)
+        public Boss_1_Turn(BattleTurnsModule btm) : base(btm)
         {
             _bfm = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _bui = ModuleManager.getInstance.GetModule<BattleUIModule>();

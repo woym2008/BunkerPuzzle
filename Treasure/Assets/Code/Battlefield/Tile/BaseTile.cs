@@ -93,6 +93,13 @@ namespace Bunker.Game
             }
         }
 
+        //add by wwh 2021-4-21
+        public int GetSortingOrder()
+        {
+            UpdateSortingOrder();
+            return Node.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
+        }
+
         //private void SetPos(int x, int y)
         //{
         //    _x = x;

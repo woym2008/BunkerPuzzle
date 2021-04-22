@@ -42,4 +42,36 @@ public static class Constant
 
     public static int MaxRow = 10;
     public static int MaxCol = 10;
+    //
+    public static string CAN_WALK_SUFFIX = "(walkable)";
+    //
+    public static class COLOR_NAME
+    {
+        public const string RED = "red";
+        public const string YELLOW = "yellow";
+        public const string BLUE = "blue";
+        public const string GREEN = "green";
+        public const string CYAN = "cyan";
+        public const string ORANGE = "orange";
+        public const string BLACK = "black";
+    }
+}
+//add by wwh
+public static class CDebug
+{
+    public static string GetMethod()
+    {
+        return new System.Diagnostics.StackFrame(1).GetMethod().ToString();
+    }
+
+    public static string GetFileName()
+    {
+        var fn =  new System.Diagnostics.StackFrame(1,true).GetFileName();
+        return System.IO.Path.GetFileNameWithoutExtension(fn);
+    }
+
+    public static void Log(string str,string color = Constant.COLOR_NAME.BLACK)
+    {
+        Debug.Log(string.Format("<color={1}>{0}</color>",str, color));
+    }
 }

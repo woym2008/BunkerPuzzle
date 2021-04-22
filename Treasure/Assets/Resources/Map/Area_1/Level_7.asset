@@ -22,4 +22,6 @@ MonoBehaviour:
       Value: 4
     ProtectMissions: []
     MaxSteps: 20
-  boss_type: BossTurn
+  boss_type: Boss_1_Turn
+  enemy_types: []
+  friendly_types: []

@@ -45,6 +45,20 @@ namespace Bunker.Game
             }
         }
 
+        public CTurn FindTurn(string turn_type_name)
+        {
+            CTurn turn = null;
+            foreach (var t in _TurnQuene)
+            {
+                if(t.GetType().Name == turn_type_name)
+                {
+                    turn = t;
+                    break;
+                }
+            }
+            return turn;
+        }
+
         public override void OnStop()
         {
             _CurTurn = null;
@@ -154,7 +168,7 @@ namespace Bunker.Game
 
         public override void OnUpdateTurn()
         {
-            base.OnUpdateTurn();
+            //base.OnUpdateTurn();
             if(_robotManagerModule.robotTurn == false)
             {
                 _battleTurnsModule.NextTurn();
