@@ -20,6 +20,14 @@ namespace Bunker.Game
             _enableTimeCount = false;
         }
 
+        public override bool CanWaitInReadyStack
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         override public string ControllerType
         {
             get
@@ -55,9 +63,11 @@ namespace Bunker.Game
 
         }
 
-        public override void Excute(params object[] objs)
+        public override void Excute()
         {
-            base.Excute(objs);
+            var objs = _cacheobjs;
+
+            base.Excute();
 
             _isMoving = true;
 

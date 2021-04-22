@@ -217,14 +217,31 @@ namespace Bunker.Game
             return "";
         }
 
+        /// <summary>
+        /// 可破坏判定 可以被破坏的块，爆炸，锤击等
+        /// </summary>
+        /// <returns><c>true</c>, if break was caned, <c>false</c> otherwise.</returns>
+        virtual public bool CanBreak()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// 可消除判定，消除意味着大于一个的块放到一起可以消除
+        /// </summary>
+        /// <returns><c>true</c>, if elimination was caned, <c>false</c> otherwise.</returns>
         virtual public bool CanElimination()
         {
             return false;
         }
 
-        virtual public void Elimination()
+        /// <summary>
+        /// 消除格子块并用一个新的格子块替换
+        /// </summary>
+        virtual public BaseTile Elimination()
         {
-
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            return newTile;
         }
 
         virtual public void OnEliminationed()
@@ -236,6 +253,20 @@ namespace Bunker.Game
         {
             Debug.LogFormat("相邻的{0}块要消除，我的类型是{1}，判断能否消除", gridtype, GetGridType());
             return (gridtype == GetGridType());
+        }
+        //---------------------------
+        /// <summary>
+        /// 毁掉格子块并用一个新的格子块替换
+        /// </summary>
+        virtual public BaseTile Break()
+        {
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            return newTile;
+        }
+
+        virtual public void OnBreakon()
+        {
+            Debug.LogFormat("我是{0}块，我被毁掉了", GetGridType());
         }
         //-------------------------------------------------------------
         //小人行走相关函数

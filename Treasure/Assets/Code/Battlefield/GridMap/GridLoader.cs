@@ -242,6 +242,7 @@ namespace Bunker.Game
         public static BaseTile CreateTile(string name, Grid grid)
         {
             var type = Type.GetType(string.Format("{0}{1}", Constant.DOMAIN_PREFIX, name));
+            Debug.Log(name);
             var tile = Activator.CreateInstance(type) as BaseTile;
 
             tile.Create(name, GridField.ZeroPos , grid);

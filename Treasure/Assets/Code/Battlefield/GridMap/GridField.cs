@@ -259,7 +259,7 @@ namespace Bunker.Game
 
             return grid.AttachTile;
         }
-        private void SetTile(Grid grid, BaseTile tile)
+        public static void SetTile(Grid grid, BaseTile tile)
         {
             //SetTile(grid.ColID, grid.RowID, tile);
             grid.AttachTile = tile;
@@ -330,7 +330,7 @@ namespace Bunker.Game
         //    }
         //}
 
-        private void RemoveTile(Grid grid)
+        public static void RemoveTile(Grid grid)
         {
             //RemoveTile(grid.ColID, grid.RowID);
             var tile = grid.AttachTile;
@@ -799,17 +799,33 @@ namespace Bunker.Game
             foreach(var g in elimiGrids)
             {
                 Debug.Log("EliminationGrid: " + g.ParentGrid.ColID + "," + g.ParentGrid.RowID);
-                g.Elimination();
+                BaseTile newtile = g.Elimination();
                 var grid = g.ParentGrid;
 
                 g.OnEliminationed();
 
                 RemoveTile(grid);
-                var newg = GridLoader.CreateTile("NormalTile", grid);
-                SetTile(grid, newg);
+                //var newg = GridLoader.CreateTile("NormalTile", grid);
+                SetTile(grid, newtile);
             }
 
             OnElimination?.Invoke(elimiGrids.Count);
+        }
+
+        public void BreakGrids(List<BaseTile> tiles)
+        {
+            foreach (var g in tiles)
+            {
+                Debug.Log("Break Grid: " + g.ParentGrid.ColID + "," + g.ParentGrid.RowID);
+                var newg = g.Break();
+                var grid = g.ParentGrid;
+
+                g.OnBreakon();
+
+                //RemoveTile(grid);
+                //var newg = GridLoader.CreateTile("NormalTile", grid);
+                SetTile(grid, newg);
+            }
         }
 
         //通过检测grids中有没有可消除grid，来判断是否都消除完了

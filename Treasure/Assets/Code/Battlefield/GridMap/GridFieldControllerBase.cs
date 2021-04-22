@@ -7,6 +7,8 @@ namespace Bunker.Game
     {
         protected GridField _gridfield;
 
+        protected object[] _cacheobjs;
+
         public GridFieldControllerBase()
         {
         }
@@ -19,6 +21,15 @@ namespace Bunker.Game
         public void SetGridField(GridField gf)
         {
             _gridfield = gf;
+        }
+
+        /// <summary>
+        /// 这个controller 是不是执行后可以在等待队列中等待(这个操作是不是必须是一个立即执行的操作)
+        /// </summary>
+        /// <returns><c>true</c>, if wait in ready stack was caned, <c>false</c> otherwise.</returns>
+        abstract public bool CanWaitInReadyStack
+        {
+            get;
         }
         /*
         virtual public void Update(float dt)
@@ -36,7 +47,11 @@ namespace Bunker.Game
             return false;
         }*/
         //---------------------------------
-        virtual public void Excute(params object[] objs)
+        virtual public void Init(params object[] objs)
+        {
+            _cacheobjs = objs;
+        }
+        virtual public void Excute()
         {
             ;
         }

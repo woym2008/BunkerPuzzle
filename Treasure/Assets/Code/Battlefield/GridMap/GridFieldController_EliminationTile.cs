@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,14 +6,14 @@ using Bunker.Game;
 
 namespace Bunker.Game
 { 
-    //手动消灭tile的controller，直接毁灭
-    public class GridFieldController_DestroyTile : GridFieldControllerBase
+    //手动消灭tile的controller，用于给道具使用
+    public class GridFieldController_EliminationTile : GridFieldControllerBase
     {
         public override string ControllerType
         {
             get
             {
-                return "DestroyTile";
+                return "ElminationTile";
             }
         }
 
@@ -59,10 +59,12 @@ namespace Bunker.Game
             {
                 tempgrids.Add(g);
             }
-            _gridfield.BreakGrids(tempgrids);
+
+            _gridfield.EliminationGrids(tempgrids);
             yield return new WaitForSeconds(1.5f);
 
             _isWorking = false;           
         }
+
     }
 }

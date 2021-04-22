@@ -20,7 +20,8 @@ public static class Constant
         "Empty",
         //新添加的
         "PorterStartTile",
-        "DiskTile"
+        "DiskTile",
+        "BombTile"
 
 
     };

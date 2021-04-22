@@ -96,6 +96,11 @@ public class MapTileIconManager
                         texname = "disk_cube.png";
                     }
                     break;
+                case "BombTile":
+                    {
+                        texname = "bomb_cube.png";
+                    }
+                    break;
             }
             var texture = AssetDatabase.LoadAssetAtPath<Texture>(baseTexPath + texname);
 

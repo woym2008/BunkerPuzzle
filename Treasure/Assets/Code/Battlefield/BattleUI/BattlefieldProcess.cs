@@ -16,6 +16,8 @@ namespace Bunker.Game
         BattleUIModule  _battleUIModule;
         RobotManagerModule _robotManagerModule;
         BattleTurnsModule _battleTurnsModule;
+
+        BattleControllerModule _controllerModule;
         //add by wwh 2021-4-4
         ShopUIModule _shopUIModule;
 
@@ -66,6 +68,11 @@ namespace Bunker.Game
             if(_battleModule != null)
             {
                 _battleModule.Update(dt);
+            }
+
+            if (_controllerModule != null)
+            {
+                _controllerModule.Update(dt);
             }
 
             if (_robotManagerModule != null)
@@ -172,7 +179,7 @@ namespace Bunker.Game
             _robotManagerModule = ModuleManager.getInstance.GetModule<RobotManagerModule>();
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
             _shopUIModule = ModuleManager.getInstance.GetModule<ShopUIModule>();
-
+            _controllerModule = ModuleManager.getInstance.GetModule<BattleControllerModule>();
             //这里尝试载入一下道具
             SaveLoader.getInstance.LoadPlayerCurItems(area);
 

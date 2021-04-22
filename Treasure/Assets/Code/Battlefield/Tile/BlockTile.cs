@@ -24,7 +24,30 @@ namespace Bunker.Game
             base.UpdateGrid(grid);
         }
 
+        public override BaseTile Elimination()
+        {
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            return newTile;
+        }
+
         public override bool CanElimination()
+        {
+            return true;
+        }
+
+        public override BaseTile Break()
+        {
+            return base.Break();
+        }
+
+        public override void OnBreakon()
+        {
+            base.OnBreakon();
+
+            GridField.RemoveTile(this.ParentGrid);
+        }
+
+        public override bool CanBreak()
         {
             return true;
         }
