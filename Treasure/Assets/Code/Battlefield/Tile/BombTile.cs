@@ -21,11 +21,6 @@ namespace Bunker.Game
             get { return 1; }
         }
 
-        public override bool CanMove()
-        {
-            return true;
-        }
-
         public override bool CanWalk()
         {
             return false;
@@ -114,8 +109,6 @@ namespace Bunker.Game
 
         public override void OnBreakon()
         {
-            base.OnBreakon();
-
             if(!isBroken)
             {
                 Bomb();

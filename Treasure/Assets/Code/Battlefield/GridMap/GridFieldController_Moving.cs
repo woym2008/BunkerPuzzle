@@ -86,24 +86,40 @@ namespace Bunker.Game
                 case MoveDirect.Left:
                     {
                         GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        if(!CheckMove(tiles, dir))
+                        {
+                            return;
+                        }
                         MoveHorizontal_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Right:
                     {
                         GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        if (!CheckMove(tiles, dir))
+                        {
+                            return;
+                        }
                         MoveHorizontal_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Up:
                     {
                         GetVerticalLine(gridx, out BaseTile[] tiles);
+                        if (!CheckMove(tiles, dir))
+                        {
+                            return;
+                        }
                         MoveVertical_Animation(tiles, -offsetValue);
                     }
                     break;
                 case MoveDirect.Down:
                     {
                         GetVerticalLine(gridx, out BaseTile[] tiles);
+                        if (!CheckMove(tiles, dir))
+                        {
+                            return;
+                        }
                         MoveVertical_Animation(tiles, -offsetValue);
                     }
                     break;
@@ -444,6 +460,29 @@ namespace Bunker.Game
                 }
             }
         }
+        //-------------------------------------------------------------------------------------
+        public bool CheckMove(BaseTile[] tiles, MoveDirect dir)
+        {
+            foreach(var tile in tiles)
+            {
+                if(dir == MoveDirect.Down || dir == MoveDirect.Up)
+                {
+                    if (tile.GetLockState() == LockState.LockUPDown || tile.GetLockState() == LockState.LockAll)
+                    {
+                        return false;
+                    }
+                }
 
+                else if (dir == MoveDirect.Left || dir == MoveDirect.Right)
+                {
+                    if (tile.GetLockState() == LockState.LockLeftRight || tile.GetLockState() == LockState.LockAll)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

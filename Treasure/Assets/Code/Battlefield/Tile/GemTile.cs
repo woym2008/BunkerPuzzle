@@ -14,11 +14,6 @@ namespace Bunker.Game
             base.Init();
         }
 
-        public override bool CanMove()
-        {
-            return base.CanMove();
-        }
-
         public override void UpdateGrid(Grid grid)
         {
             base.UpdateGrid(grid);

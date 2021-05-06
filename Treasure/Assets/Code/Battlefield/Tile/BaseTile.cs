@@ -4,6 +4,16 @@ using Bunker.Module;
 
 namespace Bunker.Game
 {
+    /// <summary>
+    /// 格子锁定的状态
+    /// </summary>
+    public enum LockState
+    {
+        None,
+        LockUPDown,
+        LockLeftRight,
+        LockAll
+    }
     abstract public class BaseTile : ITile
     {
         public Grid ParentGrid { get; set; }
@@ -106,9 +116,13 @@ namespace Bunker.Game
         //    _y = y;
         //}
 
-        virtual public bool CanMove()
+        /// <summary>
+        /// 锁定状态
+        /// </summary>
+        /// <returns>The move.</returns>
+        virtual public LockState GetLockState()
         {
-            return true;
+            return LockState.None;
         }
 
         virtual public void MoveTo(int x, int y, float movetime, int direct, bool usecopy = false)
@@ -267,6 +281,8 @@ namespace Bunker.Game
         virtual public void OnBreakon()
         {
             Debug.LogFormat("我是{0}块，我被毁掉了", GetGridType());
+
+            GridField.RemoveTile(this.ParentGrid);
         }
         //-------------------------------------------------------------
         //小人行走相关函数

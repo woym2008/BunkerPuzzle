@@ -14,11 +14,6 @@ namespace Bunker.Game
             base.Init();
         }
 
-        public override bool CanMove()
-        {
-            return base.CanMove();
-        }
-
         public override void UpdateGrid(Grid grid)
         {
             base.UpdateGrid(grid);
@@ -44,7 +39,6 @@ namespace Bunker.Game
         {
             base.OnBreakon();
 
-            GridField.RemoveTile(this.ParentGrid);
         }
 
         public override bool CanBreak()

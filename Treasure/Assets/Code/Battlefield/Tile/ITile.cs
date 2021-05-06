@@ -9,7 +9,7 @@ namespace Bunker.Game
 
 
 
-        bool CanMove();
+        //bool CanMove();
         /// <summary>
         /// 移动到一个格子
         /// </summary>
