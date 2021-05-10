@@ -21,7 +21,9 @@ public static class Constant
         //新添加的
         "PorterStartTile",
         "DiskTile",
-        "BombTile"
+        "BombTile",
+        "ScreeTile",
+        "LockTile"
 
 
     };

@@ -42,6 +42,7 @@ public class MapDataEditor : Editor
     }
 
     List<int> _tempList = new List<int>();
+    int currentSelectID = 0;
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -74,6 +75,7 @@ public class MapDataEditor : Editor
                 mapdata.column = column;
 
                 ischange = true;
+                currentSelectID = 0;
             }
             //mapdata.row = row;
             //mapdata.column = column;
@@ -107,11 +109,27 @@ public class MapDataEditor : Editor
                         {
                             mapdata.data[i * column + j] = selectdata;
                             ischange = true;
+
+                            //currentSelectID = i * column + j;
                         }
                     }
                     EditorGUILayout.EndHorizontal();
                 }
 
+                GUILayout.Space(40);
+                EditorGUILayout.LabelField("当前的块:");
+                //当前选择的
+                var currentoridata = mapdata.data[currentSelectID];
+                var newselectdata = EditorGUILayout.IntPopup(currentoridata, Constant.Tiles, tilescountarray);
+                //var currentoridata = mapdata.data[currentSelectIndex];
+
+                if (newselectdata != currentoridata)
+                {
+                    mapdata.data[currentSelectID] = newselectdata;
+                    ischange = true;
+                }
+                //end
+                GUILayout.Space(20);
             }
 
             
@@ -162,7 +180,10 @@ public class MapDataEditor : Editor
                     {
                         index = tileColorDye.Length - 1;
                     }
+
+                    ischange = true;
                     mapdata.data[i * mapdata.column + j] = index;
+                    currentSelectID = i * mapdata.column + j;
                 }
 
                 var iconIndex = Constant.Tiles[index];
@@ -182,7 +203,7 @@ public class MapDataEditor : Editor
             }
         }
         GUILayout.Space(20);
-
+        
         EditorGUILayout.BeginHorizontal();
         //gs.stretchWidth = false;
         if (GUILayout.Button("重置", GUILayout.Width(150)))

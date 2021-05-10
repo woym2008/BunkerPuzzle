@@ -101,6 +101,16 @@ public class MapTileIconManager
                         texname = "bomb_cube.png";
                     }
                     break;
+                case "ScreeTile":
+                    {
+                        texname = "bomb_cube.png";
+                    }
+                    break;
+                case "LockTile":
+                    {
+                        texname = "bomb_cube.png";
+                    }
+                    break;
             }
             var texture = AssetDatabase.LoadAssetAtPath<Texture>(baseTexPath + texname);
 

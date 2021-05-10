@@ -35,6 +35,11 @@ namespace Bunker.Game
         {
             return LockState.LockAll;
         }
+
+        override public bool CanBreak()
+        {
+            return true;
+        }
     }
 }
 
