@@ -66,16 +66,20 @@ namespace Bunker.Game
                 switch(t)
                 {
                     case StarredComponentTypes.Starred_BaseMovement:
-                    {
-                        starredTurn.AddComponent(null);
-                    }
-                        break;
-
+                        {
+                            starredTurn.AddComponent(new SC_BaseMovement(starredTurn));
+                            break;
+                        }
                     case StarredComponentTypes.Starred_Renderer:
-                    {
-                        starredTurn.AddComponent(null);
-                    }
-                        break;
+                        {
+                            starredTurn.AddComponent(new SC_StarredRenderer(starredTurn));
+                            break;
+                        }
+                    case StarredComponentTypes.Starred_SimpleFindGem:
+                        {
+                            starredTurn.AddComponent(new SC_SimpleFindGem(starredTurn));
+                            break;
+                        }
 
                 }
             }

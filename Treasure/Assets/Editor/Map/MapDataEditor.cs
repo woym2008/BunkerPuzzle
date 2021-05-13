@@ -129,7 +129,7 @@ public class MapDataEditor : Editor
                 EditorGUILayout.LabelField("参数:", GUILayout.Width(64));
                 var curtilestr = Constant.Tiles[newselectdata];
 
-                if(mapdata.additionaldata.Length != mapdata.data.Length)
+                if (mapdata.additionaldata == null || mapdata.additionaldata.Length != mapdata.data.Length)
                 {
                     mapdata.additionaldata = new string[mapdata.row * mapdata.column];
                 }

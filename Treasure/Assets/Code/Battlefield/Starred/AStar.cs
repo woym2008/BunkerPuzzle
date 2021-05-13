@@ -37,21 +37,21 @@ namespace Bunker.Game.PathFinder
                     new Vector2Int(0,1) ,
                     new Vector2Int(0,-1) };
 
-        int[][] board = null;
-        public AStar(int[][] map)
+        int[,] board = null;
+        public AStar(int[,] map)
         {
-            UpdateMap(map);
+            UpdateBoard(map);
         }
 
-        public void UpdateMap(int[][] map)
+        public void UpdateBoard(int[,] map)
         {
             board = map;
         }
 
         public Vector2Int[] FindPath(Vector2Int _start, Vector2Int _destination)
         {
-            var columns = board.Length;
-            var rows = board[0].Length;
+            var columns = board.GetLength(0);
+            var rows = board.GetLength(1);
 
             var start = new Node(_start.x, _start.y, -1, -1, -1, -1);
             var destination = new Node(_destination.x, _destination.y, -1, -1, -1, -1);
@@ -123,7 +123,7 @@ namespace Bunker.Game.PathFinder
                         continue;
                     }
                     // 如果新的节点可以通过，或者新的节点就是目标点
-                    if (board[new_node_x][new_node_y] == 1 
+                    if (board[new_node_x,new_node_y] == 1 
                         || (destination.x == new_node_x && destination.y == new_node_y)) 
                     {
                         //如果这个节点在我们的close列表中，就跳过

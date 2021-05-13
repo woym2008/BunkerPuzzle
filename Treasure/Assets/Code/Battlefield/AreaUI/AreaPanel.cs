@@ -89,8 +89,8 @@ namespace Bunker.Game
                 {
                     btn.image.sprite = sp;
                 }
-                //int level_num = int.Parse(level);
-                int level_num = i;
+                int level_num = int.Parse(level);
+                //int level_num = i;
                 //
                 _levelButtons.Add(btn);
                 btn.transform.SetParent(_areaFrame.transform);

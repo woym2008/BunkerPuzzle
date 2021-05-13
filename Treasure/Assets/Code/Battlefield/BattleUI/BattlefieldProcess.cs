@@ -20,6 +20,8 @@ namespace Bunker.Game
         BattleControllerModule _controllerModule;
         //add by wwh 2021-4-4
         ShopUIModule _shopUIModule;
+        //add by wwh 2021-5-13
+        StarredModule _starredModule;
 
         public override void Create()
         {
@@ -121,6 +123,7 @@ namespace Bunker.Game
             ModuleManager.getInstance.StopModule<RobotManagerModule>();
             ModuleManager.getInstance.StopModule<BattleTurnsModule>();
             ModuleManager.getInstance.StopModule<ShopUIModule>();
+            ModuleManager.getInstance.StopModule<StarredModule>();
 
             //masktile管理
             ModuleManager.getInstance.StopModule<MaskTileModule>();
@@ -172,6 +175,8 @@ namespace Bunker.Game
             //此处载入关卡数据mapdata
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
+           ModuleManager.getInstance.StartModule<StarredModule>();
+
 
 
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
@@ -180,6 +185,7 @@ namespace Bunker.Game
             _battleTurnsModule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
             _shopUIModule = ModuleManager.getInstance.GetModule<ShopUIModule>();
             _controllerModule = ModuleManager.getInstance.GetModule<BattleControllerModule>();
+            _starredModule = ModuleManager.getInstance.GetModule<StarredModule>();
             //这里尝试载入一下道具
             SaveLoader.getInstance.LoadPlayerCurItems(area);
 

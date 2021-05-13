@@ -37,7 +37,7 @@ public static class Constant
         //new Vector2(0.16f,0.16f);
         new Vector2(1f, 1f);
 
-    public static int debug_start_level = 1;
+    public const int debug_start_level = 1;
     //
     public static bool save_items = true;
     //

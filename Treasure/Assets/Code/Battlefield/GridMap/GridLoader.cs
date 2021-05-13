@@ -237,7 +237,10 @@ namespace Bunker.Game
             ModuleManager.getInstance.GetModule<RobotManagerModule>().UpdateEnemyTypeList(map.enemy_types);
             ModuleManager.getInstance.GetModule<RobotManagerModule>().UpdateFriendlyTypeList(map.friendly_types);
             //add by wwh 2021-5-12 读取主角的组件，然后动态生成出主角
-            //ModuleManager.getInstance.GetModule<StarredModule>().CreateStarringRole(map.starredComponents);
+            if(map.starredComponents != null)
+            {
+                ModuleManager.getInstance.GetModule<StarredModule>().CreateStarringRole(map.starredComponents);
+            }
 
             return true;
         }

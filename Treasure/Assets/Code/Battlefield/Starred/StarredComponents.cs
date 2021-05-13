@@ -12,21 +12,22 @@ namespace Bunker.Game
     {
         Starred_Renderer,
         Starred_BaseMovement,
+        Starred_SimpleFindGem,
     }
 
     public abstract class StarredComponent : ITurn
     {
         public bool Enable { set; get; }
-        public StarredTurn starredTurn;
+        public StarredTurn starred;
         public StarringRole starredRole;
         public Transform transform { get { return starredRole.transform; } }
         public StarredComponent(StarredTurn st)
         {
-            starredTurn = st;
+            starred = st;
         }
         public virtual void OnAdd()
         {
-            starredRole = starredTurn.starredRoleObj.GetComponent<StarringRole>();
+            starredRole = starred.starredRoleObj.GetComponent<StarringRole>();
         }
         public virtual void OnRemove()
         {
@@ -87,7 +88,7 @@ namespace Bunker.Game
         }
 
         protected Grid          _curNode;
-        protected Vector2Int    pos { get { return new Vector2Int(_curNode.ColID, _curNode.RowID); } }
+        public Vector2Int    pos { get { return new Vector2Int(_curNode.ColID, _curNode.RowID); } }
 
         public const int IDLE = 0;
         public const int PREPARE = 1;
@@ -97,15 +98,28 @@ namespace Bunker.Game
         public int state = IDLE;
         public Vector3[] _path;
 
-        //
+        public override void OnAdd()
+        {
+            base.OnAdd();
+            //
+        }
+
         public override void OnRemove()
         {
             base.OnRemove();
             transform.DOKill();
         }
-        //
 
+        public override void OnStartTurn()
+        {
+            base.OnStartTurn();
+            UpdateCurNode();
+        }
 
+        /*
+         *      移动相关功能
+         * 
+         */
         public void UpdateCurNode()
         {
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
@@ -125,7 +139,7 @@ namespace Bunker.Game
             starredRole.SetSpriteSortingOrder(_curNode.RowID * 2 + 1);
         }
 
-        public void OnStartMove()
+        public void StartMove()
         {
             if (state == WALK) return;
 
@@ -171,9 +185,62 @@ namespace Bunker.Game
             if (g != null) SetToGird(g);
             state = END;
             _path = null;   //清除一下path
-            starredTurn.OnFinishMovement();
+            starred.OnFinishMovement();
         }
-
     }
 
+    public class SC_SimpleFindGem : StarredComponent
+    {
+        public SC_SimpleFindGem(StarredTurn st) : base(st) { }
+        //
+        PathFinder.AStar astar;
+        //
+        public override void OnAdd()
+        {
+            base.OnAdd();
+            //
+            astar = new PathFinder.AStar(null);
+        }
+
+        public override void OnRemove()
+        {
+            base.OnRemove();
+            //
+            astar = null;
+        }
+        //
+        public override void OnStartTurn()
+        {
+            base.OnStartTurn();
+            //寻找地图中的宝石
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var dest_tile = m.Field.FindTile("Bunker.Game.GemTile");
+            //更新地图
+            var board_map = m.Field.GetWalkMap();
+            //将robot更新到map上
+            var rm = ModuleManager.getInstance.GetModule<RobotManagerModule>();
+            for (int i = 0; i < board_map.GetLength(0); i++)
+            {
+                for (int j = 0; j < board_map.GetLength(1); j++)
+                {
+                    if (rm.GetRobot(i,j) != null)   //没有人占据，就是可走
+                    {
+                        board_map[i, j] = 1;
+                    }
+                }
+            }
+            astar.UpdateBoard(board_map);
+            //
+            var movement = starred.GetComponent<SC_BaseMovement>();
+            Vector2Int start = movement.pos;
+            Vector2Int dest = new Vector2Int(dest_tile.ParentGrid.ColID, dest_tile.ParentGrid.RowID);
+            var path = astar.FindPath(start,dest);
+            //
+            if(path != null && path.Length > 1)
+            {
+                movement.SetPath(path[1]);
+                movement.StartMove();
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace Bunker.Game
     {
         public StarredTurn(BattleTurnsModule btm) : base(btm)
         {
- 
+            Components = new List<StarredComponent>();
         }
 
         public GameObject starredRoleObj;
@@ -25,8 +25,7 @@ namespace Bunker.Game
         {
 
         }
-
-        //
+        #region 回合相关
         public override void OnStartTurn()
         {
             base.OnStartTurn();
@@ -39,10 +38,18 @@ namespace Bunker.Game
         public override void OnUpdateTurn()
         {
             base.OnUpdateTurn();
-            foreach (var c in Components)
+            if(Components.Count == 0)
             {
-                c.OnUpdateTurn();
+                TurnsModule_NextTurn();
             }
+            else
+            {
+                foreach (var c in Components)
+                {
+                    c.OnUpdateTurn();
+                }
+            }
+
         }
 
         public override void OnEndTurn()
@@ -53,6 +60,12 @@ namespace Bunker.Game
                 c.OnEndTurn();
             }
         }
+
+        public void TurnsModule_NextTurn()
+        {
+            _battleTurnsModule.NextTurn();
+        }
+        #endregion
         //
         #region COMPONENT
         public void AddComponent(StarredComponent c)
@@ -78,6 +91,13 @@ namespace Bunker.Game
             }
             return null;
         }
+
+        public T GetComponent<T>() where T : StarredComponent
+        {
+            var c = GetComponent(typeof(T).Name);
+            return c as T;
+        }
+
         public void RemoveComponent(StarredComponent c)
         {
             if (Components.Remove(c))
@@ -95,7 +115,7 @@ namespace Bunker.Game
         #region 回调相关
         public void OnFinishMovement()
         {
-
+            TurnsModule_NextTurn();
         }
         #endregion
     }
