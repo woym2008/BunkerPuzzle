@@ -9,6 +9,8 @@ public class MapData : ScriptableObject
     [SerializeField]
     public int[] data;
     [SerializeField]
+    public string[] additionaldata;
+    [SerializeField]
     public int row;
     [SerializeField]
     public int column;

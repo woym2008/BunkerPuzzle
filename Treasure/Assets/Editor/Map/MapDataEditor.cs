@@ -42,6 +42,7 @@ public class MapDataEditor : Editor
     }
 
     List<int> _tempList = new List<int>();
+    int currentSelectID = 0;
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -70,10 +71,12 @@ public class MapDataEditor : Editor
             if (mapdata.data == null || row != mapdata.row || column != mapdata.column)
             {
                 mapdata.data = new int[row * column];
+                mapdata.additionaldata = new string[row * column];
                 mapdata.row = row;
                 mapdata.column = column;
 
                 ischange = true;
+                currentSelectID = 0;
             }
             //mapdata.row = row;
             //mapdata.column = column;
@@ -107,11 +110,77 @@ public class MapDataEditor : Editor
                         {
                             mapdata.data[i * column + j] = selectdata;
                             ischange = true;
+
+                            //currentSelectID = i * column + j;
                         }
                     }
                     EditorGUILayout.EndHorizontal();
                 }
 
+                GUILayout.Space(40);
+                EditorGUILayout.LabelField("当前的块:");
+                EditorGUILayout.BeginHorizontal();
+                //当前选择的
+                EditorGUILayout.LabelField("类型:", GUILayout.Width(64));
+                var currentoridata = mapdata.data[currentSelectID];
+                var newselectdata = EditorGUILayout.IntPopup(currentoridata, Constant.Tiles, tilescountarray, GUILayout.Width(128));
+                //var currentoridata = mapdata.data[currentSelectIndex];
+                GUILayout.Space(10);
+                EditorGUILayout.LabelField("参数:", GUILayout.Width(64));
+                var curtilestr = Constant.Tiles[newselectdata];
+
+                if(mapdata.additionaldata.Length != mapdata.data.Length)
+                {
+                    mapdata.additionaldata = new string[mapdata.row * mapdata.column];
+                }
+                var curadddata = mapdata.additionaldata[currentSelectID];
+                var newaddselectdata = curadddata;
+                switch (curtilestr)
+                {
+                    case "BombTile":
+                        {
+                            bool istimebomb = false;
+                            int timebombvalue = 0;
+                            if (newaddselectdata != "" && newselectdata == currentoridata)
+                            {
+                                var olddatas = newaddselectdata.Split(';');
+                                istimebomb = bool.Parse(olddatas[0]);
+                                timebombvalue = int.Parse(olddatas[1]);                                
+                            }
+                            EditorGUILayout.LabelField("是否为定时", GUILayout.Width(72));
+                            istimebomb = EditorGUILayout.Toggle(istimebomb, GUILayout.Width(32));
+                            if (istimebomb)
+                            {
+                                EditorGUILayout.LabelField("回合数", GUILayout.Width(48));
+                                timebombvalue = EditorGUILayout.IntField(timebombvalue, GUILayout.Width(32));
+                            }
+                            string datastr = string.Format("{0};{1}", istimebomb.ToString(), timebombvalue.ToString());
+                            newaddselectdata = datastr;
+                            break;
+                        }
+                    default:
+                        {
+                            newaddselectdata = EditorGUILayout.TextField(newaddselectdata, GUILayout.Width(64));
+                        }
+                        break;
+                }
+                
+
+                if (newselectdata != currentoridata)
+                {
+                    mapdata.data[currentSelectID] = newselectdata;
+                    ischange = true;
+                }
+                if (newaddselectdata != curadddata)
+                {
+                    mapdata.additionaldata[currentSelectID] = newaddselectdata;
+                    ischange = true;
+                }
+
+
+                EditorGUILayout.EndHorizontal();
+                //end
+                GUILayout.Space(20);
             }
 
             
@@ -162,7 +231,10 @@ public class MapDataEditor : Editor
                     {
                         index = tileColorDye.Length - 1;
                     }
+
+                    ischange = true;
                     mapdata.data[i * mapdata.column + j] = index;
+                    currentSelectID = i * mapdata.column + j;
                 }
 
                 var iconIndex = Constant.Tiles[index];
@@ -182,7 +254,7 @@ public class MapDataEditor : Editor
             }
         }
         GUILayout.Space(20);
-
+        
         EditorGUILayout.BeginHorizontal();
         //gs.stretchWidth = false;
         if (GUILayout.Button("重置", GUILayout.Width(150)))

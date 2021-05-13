@@ -88,6 +88,7 @@ namespace Bunker.Game
                         GetHorizontalLine(gridy, out BaseTile[] tiles);
                         if(!CheckMove(tiles, dir))
                         {
+                            _isMoving = false;
                             return;
                         }
                         MoveHorizontal_Animation(tiles, -offsetValue);
@@ -98,6 +99,7 @@ namespace Bunker.Game
                         GetHorizontalLine(gridy, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
+                            _isMoving = false;
                             return;
                         }
                         MoveHorizontal_Animation(tiles, -offsetValue);
@@ -108,6 +110,7 @@ namespace Bunker.Game
                         GetVerticalLine(gridx, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
+                            _isMoving = false;
                             return;
                         }
                         MoveVertical_Animation(tiles, -offsetValue);
@@ -118,6 +121,7 @@ namespace Bunker.Game
                         GetVerticalLine(gridx, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
+                            _isMoving = false;
                             return;
                         }
                         MoveVertical_Animation(tiles, -offsetValue);

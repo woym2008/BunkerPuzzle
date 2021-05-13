@@ -61,6 +61,8 @@ namespace Bunker.Game
         //格子数组可能会存空格子点，即和其他格子没有链接关系的点，
         //这主要为了小人行走方便，可能有飞空怪之类的，格子数组作为整个地图，包括地面和天空
         public Grid[,] gridArray;
+        //通行数组
+        int[,] blockMap;
 
         static Transform _zeroPoint;
         static public Vector3 zeroOffset;
@@ -113,7 +115,11 @@ namespace Bunker.Game
             zeroOffset = Vector3.zero;
 
             _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
-            return GridLoader.LoadGrid(_currectArea, _currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
+            var ret = GridLoader.LoadGrid(_currectArea, _currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
+
+            blockMap = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
+
+            return ret;
         }
 
         public void RestartLevel()
@@ -132,6 +138,8 @@ namespace Bunker.Game
 
                 _zeroPoint = GameObject.Find("ZeroPoint")?.transform;
                 GridLoader.LoadGrid(_currectArea,_currectLevel, out rowStartGrids, out colStartGrids, out gridArray);
+
+                blockMap = new int[gridArray.GetLength(0), gridArray.GetLength(1)];
             }
         }
         //---------------------------------------------------------------------
@@ -863,6 +871,29 @@ namespace Bunker.Game
             }
 
             return true;
+        }
+
+        public int[,] GetWalkMap()
+        {
+            for (int i=0;i< gridArray.GetLength(0);++i)
+            {
+                for(int j = 0; j < gridArray.GetLength(1); ++j)
+                {
+                    var grid = gridArray[i, j];
+                    int blockvalue = 0;
+                    if (grid.AttachTile != null)
+                    {
+                        if (grid.AttachTile.CanWalk())
+                        {
+                            blockvalue = 1;
+                        }
+                    }
+                    
+                    blockMap[i, j] = blockvalue;
+                }
+            }
+
+            return blockMap;
         }
     }
 }
