@@ -57,6 +57,7 @@ namespace Bunker.Game
                 }
             }
             //加入其他robot的出生点
+            /*  这个PorterStartTile交给特定主角的诞生地了
             spawn_list = m.Field.FindTileds("Bunker.Game.PorterStartTile");
             foreach (var t in spawn_list)
             {
@@ -71,6 +72,7 @@ namespace Bunker.Game
                     robot.SetToGird(t.ParentGrid);
                 }
             }
+            */
 
         }
         public override void OnStop()

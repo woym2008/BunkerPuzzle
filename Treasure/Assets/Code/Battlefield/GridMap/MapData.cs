@@ -26,7 +26,7 @@ public class MapData : ScriptableObject
     public string boss_type;
     [SerializeField]
     public string[] enemy_types;
-    [SerializeField]
+    [SerializeField][Header("目前废弃了:")]
     public string[] friendly_types;
     [SerializeField]//新添加，用于生成主角的组件 wwh 2021/5/12
     public Bunker.Game.StarredComponentTypes[] starredComponents;

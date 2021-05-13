@@ -18,12 +18,13 @@ namespace Bunker.Game
         public GameObject starredRoleObj;
         public void CreateRole()
         {
-            starredRoleObj = GameObject.Instantiate(Resources.Load("Prefabs/StarringRole")) as GameObject;
+            if(starredRoleObj == null) starredRoleObj = GameObject.Instantiate(Resources.Load("Prefabs/StarringRole/StarringRole")) as GameObject;
+            else starredRoleObj.SetActive(true);
         }
 
         public void RemoveRole()
         {
-
+            if (starredRoleObj != null) starredRoleObj.SetActive(false);
         }
         #region 回合相关
         public override void OnStartTurn()

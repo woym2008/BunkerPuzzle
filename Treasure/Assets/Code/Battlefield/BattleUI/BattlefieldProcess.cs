@@ -175,7 +175,7 @@ namespace Bunker.Game
             //此处载入关卡数据mapdata
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
-           ModuleManager.getInstance.StartModule<StarredModule>();
+            ModuleManager.getInstance.StartModule<StarredModule>();
 
 
 

@@ -48,11 +48,15 @@ namespace Bunker.Game
         {
             base.OnStart(data);
             //这里，我们就不动态向TurnsModule里面添加StarredTurn了，我们直接从TurnsModule查找出保存即可
-            starredTurn = ModuleManager.getInstance.GetModule<BattleTurnsModule>().FindTurn("StarredTurn") as StarredTurn;
         }
         public override void OnStop()
         {
             base.OnStop();
+            if(starredTurn != null) starredTurn.RemoveRole();
+        }
+        public override void Release()
+        {
+            base.Release();
         }
         protected override void OnModuleMessage(string msg, object[] args)
         {
@@ -61,6 +65,12 @@ namespace Bunker.Game
         #endregion
         public void CreateStarringRole(StarredComponentTypes[] sct)
         {
+            if (starredTurn == null)
+            {
+                starredTurn = ModuleManager.getInstance.GetModule<BattleTurnsModule>().FindTurn("StarredTurn") as StarredTurn;
+            }
+            starredTurn.CreateRole();
+            //
             foreach (var t in sct)
             {
                 switch(t)

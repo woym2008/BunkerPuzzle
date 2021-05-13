@@ -208,7 +208,10 @@ namespace Bunker.Game
                 return null;
             }
 
-            return gridArray[row_value,column_value];
+            //这里为什么也是反的？modify by wwh 2021-5-14
+            //return gridArray[row_value,column_value];
+            return gridArray[column_value,row_value];
+
         }
 
         //public BaseTile GetTile(int column_value, int row_value)
@@ -263,7 +266,10 @@ namespace Bunker.Game
                 return null;
             }
 
-            var grid = gridArray[row_value,column_value];
+            //modify by wwh 2021-5-14 这里为什么是反过来的？！？
+            //var grid = gridArray[row_value,column_value];
+            var grid = gridArray[column_value,row_value];
+
 
             return grid.AttachTile;
         }

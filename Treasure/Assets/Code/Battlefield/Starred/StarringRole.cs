@@ -13,7 +13,7 @@ namespace Bunker.Game
      * 
      * 
      * */
-    public class StarringRole : RobotBase
+    public class StarringRole : MonoBehaviour
     {
         public void SetSpriteSortingOrder(int order)
         {

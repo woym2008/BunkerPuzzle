@@ -49,7 +49,7 @@ namespace Bunker.Game
 
     public class SC_StarredRenderer : StarredComponent
     {
-        Animator animator;
+        Animator role_animator;
         Animator dead_effect;
         public SC_StarredRenderer(StarredTurn st) : base(st)
         {
@@ -60,8 +60,8 @@ namespace Bunker.Game
         {
             base.OnAdd();
             //得到控制组件
-            animator = starredRole.transform.Find("PorterSprite").GetComponent<Animator>();
-            dead_effect = starredRole.transform.Find("PorterSprite/dead_effect").GetComponent<Animator>();
+            role_animator = starredRole.transform.Find("Sprite").GetComponent<Animator>();
+            dead_effect = starredRole.transform.Find("Sprite/Dead_effect").GetComponent<Animator>();
             //
         }
         //这里应该是调用各个动画片段的的
@@ -75,7 +75,28 @@ namespace Bunker.Game
         }
         public void DoDead()
         {
-
+            dead_effect.gameObject.SetActive(true);
+            dead_effect.SetTrigger("play");
+            role_animator.SetTrigger("dead");
+            var rac = dead_effect.runtimeAnimatorController;
+            if (rac != null)
+            {
+                foreach (AnimationClip clip in rac.animationClips)
+                {
+                    if (clip.name == "bloody")
+                    {
+                        MonoBehaviourHelper.StartCoroutine(OnDeadEffectFinish(clip.length));
+                        break;
+                    }
+                }
+            }
+            return;
+        }
+        //
+        IEnumerator OnDeadEffectFinish(float len)
+        {
+            yield return new WaitForSeconds(len);
+            ProcessManager.getInstance.Switch<EndMenuProcess>(Bunker.Game.EndMenuProcess.END_GAME_LOSE);
         }
 
     }
@@ -97,11 +118,16 @@ namespace Bunker.Game
 
         public int state = IDLE;
         public Vector3[] _path;
+        public Vector2Int[] _grid_path;
 
         public override void OnAdd()
         {
             base.OnAdd();
-            //
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var tile = m.Field.FindTile("Bunker.Game.PorterStartTile");
+            _curNode = tile.ParentGrid;
+            SetToGird(_curNode);
+
         }
 
         public override void OnRemove()
@@ -114,6 +140,15 @@ namespace Bunker.Game
         {
             base.OnStartTurn();
             UpdateCurNode();
+        }
+
+        public override void OnUpdateTurn()
+        {
+            base.OnUpdateTurn();
+            var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            var g = m.Field.GetGrid(transform.position);
+            starredRole.SetSpriteSortingOrder(g.RowID * 2 + 1);
+
         }
 
         /*
@@ -151,7 +186,6 @@ namespace Bunker.Game
             }
             else
             {
-                //transform.DOMove(transform.position + _dir, unitTime).OnComplete(OnFinishMove);
                 transform.DOPath(_path, _path.Length * 0.2f).OnComplete(OnFinishMove);
             }
         }
@@ -160,7 +194,8 @@ namespace Bunker.Game
         {
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             _path = new Vector3[path.Length];
-            for(int i = 0 ; i<path.Length ; ++i)
+            _grid_path = path;
+            for (int i = 0 ; i < path.Length ; ++i)
             {
                 var t = m.Field.GetTile(path[i].x, path[i].y);
                 //此处得到的t，应该是有tile的，因为路径都是可行走区域，不再做判断了
@@ -172,19 +207,21 @@ namespace Bunker.Game
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
             var t = m.Field.GetTile(next_node.x, next_node.y);
             _path = new Vector3[] { t.Node.transform.position };
-        }
-        public void SetPath(Vector3[] path)
-        {
-            _path = path;
+            _grid_path = new Vector2Int[] { next_node };
         }
         //
         public virtual void OnFinishMove()
         {
             var m = ModuleManager.getInstance.GetModule<BattlefieldModule>();
-            var g = m.Field.GetGrid(transform.position);
-            if (g != null) SetToGird(g);
+            if(_path != null)
+            {
+                var p = _grid_path[_path.Length - 1];
+                var g = m.Field.GetGrid(p.x,p.y);
+                if (g != null) SetToGird(g);
+            }
             state = END;
             _path = null;   //清除一下path
+            _grid_path = null;
             starred.OnFinishMovement();
         }
     }
@@ -194,6 +231,7 @@ namespace Bunker.Game
         public SC_SimpleFindGem(StarredTurn st) : base(st) { }
         //
         PathFinder.AStar astar;
+        Vector2Int[] last_path;
         //
         public override void OnAdd()
         {
@@ -234,13 +272,14 @@ namespace Bunker.Game
             var movement = starred.GetComponent<SC_BaseMovement>();
             Vector2Int start = movement.pos;
             Vector2Int dest = new Vector2Int(dest_tile.ParentGrid.ColID, dest_tile.ParentGrid.RowID);
-            var path = astar.FindPath(start,dest);
+            last_path = astar.FindPath(start,dest);
             //
-            if(path != null && path.Length > 1)
+            if(last_path != null && last_path.Length > 1)
             {
-                movement.SetPath(path[1]);
-                movement.StartMove();
+                //只要下一步的位置
+                movement.SetPath(last_path[1]);
             }
+            movement.StartMove();
         }
     }
 }
