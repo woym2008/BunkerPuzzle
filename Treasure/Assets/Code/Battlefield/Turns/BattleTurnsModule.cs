@@ -26,6 +26,7 @@ namespace Bunker.Game
             _CurTurn = null;
             _TurnQuene = new Queue<CTurn>();
             _TurnQuene.Enqueue(new PlayerTurn(this));
+            _TurnQuene.Enqueue(new StarredTurn(this));
             _TurnQuene.Enqueue(new RobotTurn(this));
         }
 
@@ -95,7 +96,13 @@ namespace Bunker.Game
         }
     }
     //
-    public abstract class CTurn
+    public interface ITurn
+    {
+        void OnStartTurn();
+        void OnUpdateTurn();
+        void OnEndTurn();
+    }
+    public abstract class CTurn : ITurn
     {
         protected BattleTurnsModule _battleTurnsModule;
         public CTurn(BattleTurnsModule btm) {

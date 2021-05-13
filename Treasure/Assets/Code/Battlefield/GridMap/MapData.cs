@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 //地图文件
 [CreateAssetMenu()]
 public class MapData : ScriptableObject
@@ -27,6 +26,8 @@ public class MapData : ScriptableObject
     public string[] enemy_types;
     [SerializeField]
     public string[] friendly_types;
+    [SerializeField]//新添加，用于生成主角的组件 wwh 2021/5/12
+    public Bunker.Game.StarredComponentTypes[] starredComponents;
 
     //提供一个访问接口，可以用二维下标来方便的获取数据
     public int this[int r,int c]
