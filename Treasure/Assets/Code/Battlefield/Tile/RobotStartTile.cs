@@ -11,9 +11,9 @@ namespace Bunker.Game
         override protected int TileSize {
             get { return 1; }
         }
-        public override void Init()
+        public override void Init(string additionalData)
         {
-            base.Init();
+            base.Init(additionalData);
         }
 
         public override void UpdateGrid(Grid grid)

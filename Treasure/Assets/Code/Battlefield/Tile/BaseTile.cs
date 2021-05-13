@@ -49,7 +49,7 @@ namespace Bunker.Game
             //OnDestroy();
         }
 
-        public void Create(string name, Vector3 zeropos, Grid grid)
+        public void Create(string name, Vector3 zeropos, Grid grid, string additionalData)
         {
             _name = name;
 
@@ -65,7 +65,7 @@ namespace Bunker.Game
 
             _maskModule = ModuleManager.getInstance.GetModule<MaskTileModule>();
 
-            Init();
+            Init(additionalData);
         }
 
         public Vector3 GetSelfWorldPos()
@@ -87,7 +87,7 @@ namespace Bunker.Game
             }
         }
 
-        public virtual void Init()
+        public virtual void Init(string additionalData)
         {
             UpdateSortingOrder();
         }
@@ -254,7 +254,7 @@ namespace Bunker.Game
         /// </summary>
         virtual public BaseTile Elimination()
         {
-            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid,"");
             return newTile;
         }
 
@@ -274,7 +274,7 @@ namespace Bunker.Game
         /// </summary>
         virtual public BaseTile Break()
         {
-            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid,"");
             return newTile;
         }
 

@@ -9,9 +9,9 @@ namespace Bunker.Game
             get { return 2; }
         }
 
-        public override void Init()
+        public override void Init(string additionalData)
         {
-            base.Init();
+            base.Init(additionalData);
         }
 
         public override void UpdateGrid(Grid grid)
@@ -21,7 +21,7 @@ namespace Bunker.Game
 
         public override BaseTile Elimination()
         {
-            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid);
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid,"");
             return newTile;
         }
 

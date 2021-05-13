@@ -8,6 +8,7 @@ namespace Bunker.Game
     /// </summary>
     public class ScreeTile : BaseTile
     {
+        string _hideTileName;
         protected override int TileSize
         {
             get
@@ -16,14 +17,32 @@ namespace Bunker.Game
             }
         }
 
+        public override void Init(string additionalData)
+        {
+            base.Init(additionalData);
+
+            _hideTileName = additionalData;
+        }
+
         public override BaseTile Break()
         {
-            return base.Break();
+            if(_hideTileName == "")
+            {
+                return base.Break();
+            }
+
+            var newTile = GridLoader.CreateTile("NormalTile", this.ParentGrid, _hideTileName);
+            return newTile;
         }
 
         public override void OnBreakon()
         {
             base.OnBreakon();
+        }
+
+        public override bool CanBreak()
+        {
+            return true;
         }
 
         public override bool CanWalk()

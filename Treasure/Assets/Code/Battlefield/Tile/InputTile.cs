@@ -22,9 +22,9 @@ namespace Bunker.Game
         Color HighColor = new Color(0.6f, 0.6f, 0.6f, 0);
         Color NormalColor = new Color(0, 0, 0, 0);
 
-        public override void Init()
+        public override void Init(string additionalData)
         {
-            base.Init();
+            base.Init(additionalData);
 
             //get battlemodule
             _battlefield = ModuleManager.getInstance.GetModule<BattleControllerModule>();

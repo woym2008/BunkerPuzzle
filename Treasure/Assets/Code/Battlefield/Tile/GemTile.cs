@@ -9,9 +9,9 @@ namespace Bunker.Game
             get { return 2; }
         }
 
-        public override void Init()
+        public override void Init(string additionalData)
         {
-            base.Init();
+            base.Init(additionalData);
         }
 
         public override void UpdateGrid(Grid grid)

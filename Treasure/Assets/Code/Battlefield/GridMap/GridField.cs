@@ -208,7 +208,7 @@ namespace Bunker.Game
                 return null;
             }
 
-            return gridArray[column_value, row_value];
+            return gridArray[row_value,column_value];
         }
 
         //public BaseTile GetTile(int column_value, int row_value)
@@ -263,7 +263,7 @@ namespace Bunker.Game
                 return null;
             }
 
-            var grid = gridArray[column_value, row_value];
+            var grid = gridArray[row_value,column_value];
 
             return grid.AttachTile;
         }

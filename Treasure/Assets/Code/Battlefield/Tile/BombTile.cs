@@ -10,9 +10,12 @@ namespace Bunker.Game
     {
         bool isBroken = false;
 
-        public override void Init()
+        bool isTimeBomb = false;
+        int _timerValue = 1;
+
+        public override void Init(string additionalData)
         {
-            base.Init();
+            base.Init(additionalData);
             isBroken = false;
         }
 

@@ -158,6 +158,26 @@ public class MapDataEditor : Editor
                             newaddselectdata = datastr;
                             break;
                         }
+                    case "ScreeTile":
+                        {
+                            int oldindex = 0;
+                            if (newaddselectdata != "")
+                            {
+                                for(int i=0;i<Constant.Tiles.Length;++i)
+                                {
+                                    if(newaddselectdata == Constant.Tiles[i])
+                                    {
+                                        oldindex = i;
+                                    }
+                                }                                
+                            }
+                            var hidetiledata = EditorGUILayout.IntPopup(oldindex, Constant.Tiles, tilescountarray, GUILayout.Width(128));
+
+                            string datastr = string.Format("{0}", Constant.Tiles[hidetiledata]);
+                            newaddselectdata = datastr;
+
+                            break;
+                        }
                     default:
                         {
                             newaddselectdata = EditorGUILayout.TextField(newaddselectdata, GUILayout.Width(64));

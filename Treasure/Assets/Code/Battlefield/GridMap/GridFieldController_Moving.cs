@@ -438,7 +438,7 @@ namespace Bunker.Game
                 for (int j = 0; j < _gridfield.gridArray.GetLength(1); ++j)
                 {
                     List<BaseTile> tempGridList = new List<BaseTile>();
-                    var grid = _gridfield.gridArray[j, i];
+                    var grid = _gridfield.gridArray[i, j];
                     if(grid.AttachTile == null)
                     {
                         continue;

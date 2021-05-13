@@ -70,6 +70,7 @@ namespace Bunker.Game
                 for (int j = 0; j < map.column; ++j)
                 {
                     var tiledata = map.data[i * map.row + j];
+                    var additionalData = map.additionaldata[i * map.row + j];
 
                     var resname = Constant.Tiles[tiledata];
 
@@ -85,7 +86,7 @@ namespace Bunker.Game
                     //是否为空墙
                     if (resname != "Empty")
                     {
-                        tile = CreateTile(resname, grid);
+                        tile = CreateTile(resname, grid, additionalData);
 
                         grid.AttachTile = tile;
                         tile.ParentGrid = grid;
@@ -245,13 +246,13 @@ namespace Bunker.Game
             return true;
         }
 
-        public static BaseTile CreateTile(string name, Grid grid)
+        public static BaseTile CreateTile(string name, Grid grid, string additionalData)
         {
             var type = Type.GetType(string.Format("{0}{1}", Constant.DOMAIN_PREFIX, name));
             Debug.Log(name);
             var tile = Activator.CreateInstance(type) as BaseTile;
 
-            tile.Create(name, GridField.ZeroPos , grid);
+            tile.Create(name, GridField.ZeroPos , grid, additionalData);
             tile.Node.transform.parent = _rootNode;
             return tile;
         }
