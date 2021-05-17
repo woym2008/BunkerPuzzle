@@ -7,10 +7,17 @@ using Bunker.Process;
 
 namespace Bunker.Game
 {
+    /*
+       add by wwh 2021-5-18 加一个 准备开始下一回合的通知回调       
+         
+    */
+    public delegate void TurnsNotification(CTurn turn);
+
     public class BattleTurnsModule : LogicModule
     {
         Queue<CTurn> _TurnQuene;
         CTurn _CurTurn = null;
+        public TurnsNotification Notifications { set; get; }
 
         public BattleTurnsModule() : base(typeof(BattleTurnsModule).ToString())
         {
@@ -88,6 +95,7 @@ namespace Bunker.Game
                 _TurnQuene.Enqueue(_CurTurn);
             }
             _CurTurn = _TurnQuene.Dequeue();
+            Notifications?.Invoke(_CurTurn);
             _CurTurn.OnStartTurn();
         }
         public bool IsPlayerTurn()
