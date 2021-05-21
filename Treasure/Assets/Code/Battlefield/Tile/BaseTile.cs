@@ -26,10 +26,8 @@ namespace Bunker.Game
         protected MaskTile _maskobject_ori;
         protected MaskTile _maskobject_copy;
 
-        public GameObject Node
-        {
-            get
-            {
+        public GameObject Node {
+            get {
                 return _object;
             }
         }
@@ -37,8 +35,8 @@ namespace Bunker.Game
         protected abstract int TileSize {
             get;
         }
-        
-        string _name;
+
+        protected string _name;
 
         private bool _isUpdated = false;
 
@@ -55,8 +53,9 @@ namespace Bunker.Game
 
             ParentGrid = grid;
 
-            var prefab = Resources.Load("Prefabs/Tiles/" + name) as GameObject;
-            _object = GameObject.Instantiate(prefab);
+            OnLoadRes();
+
+            Init(additionalData);
 
             _zeropos = zeropos;
             var selfpos = GetSelfWorldPos();
@@ -65,7 +64,7 @@ namespace Bunker.Game
 
             _maskModule = ModuleManager.getInstance.GetModule<MaskTileModule>();
 
-            Init(additionalData);
+            UpdateSortingOrder();
         }
 
         public Vector3 GetSelfWorldPos()
@@ -80,19 +79,25 @@ namespace Bunker.Game
 
         public virtual void OnDestroy()
         {
-            if(_object != null)
+            if (_object != null)
             {
                 GameObject.Destroy(_object);
                 _object = null;
             }
         }
 
-        public virtual void Init(string additionalData)
+        protected virtual void OnLoadRes()
         {
-            UpdateSortingOrder();
+            var prefab = Resources.Load("Prefabs/Tiles/" + _name) as GameObject;
+            _object = GameObject.Instantiate(prefab);
         }
 
-        public void UpdateSortingOrder()
+        public virtual void Init(string additionalData)
+        {
+            
+        }
+
+        public virtual void UpdateSortingOrder()
         {
             //add by wwh
             if (_object!= null && _object.transform.childCount > 0)

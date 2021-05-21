@@ -13,10 +13,107 @@ namespace Bunker.Game
         bool isTimeBomb = false;
         int _timerValue = 1;
 
+        SpriteRenderer _timeBoard;
+
+        protected override void OnLoadRes()
+        {
+            base.OnLoadRes();
+        }
+
         public override void Init(string additionalData)
         {
             base.Init(additionalData);
             isBroken = false;
+
+            if(additionalData != null && additionalData != "")
+            {
+                Debug.LogError(additionalData);
+                var datas = additionalData.Split(';');
+
+                if (datas != null && datas.Length == 2)
+                {
+                    isTimeBomb = bool.Parse(datas[0]);
+                    _timerValue = int.Parse(datas[1]);
+                }
+
+                var turnmodule = ModuleManager.getInstance.GetModule<BattleTurnsModule>();
+                turnmodule.Notifications += OnNextTurn;
+
+
+                if (isTimeBomb)
+                {
+                    var timeBoardobj = _object.transform.Find("TimeBoard").gameObject;
+
+                    _timeBoard = timeBoardobj.GetComponent<SpriteRenderer>();
+
+                    ShowTimeValue(_timerValue);
+                }
+            }
+            
+        }
+
+        void OnNextTurn(CTurn turn)
+        {
+            if(turn.GetType() == typeof(PlayerTurn))
+            {
+                PassTurn();
+            }
+        }
+
+        void PassTurn()
+        {
+            if(!isBroken && isTimeBomb)
+            {
+                _timerValue--;
+                if(_timerValue <= 0)
+                {
+                    Bomb();
+                }
+                else
+                {
+                    ShowTimeValue(_timerValue);
+                }
+            }
+        }
+
+        void ShowTimeValue(int value)
+        {
+            Debug.Log("Texture/Tile/BombTile/bombtime_" + _timerValue);
+            //var tex = Resources.Load<Texture2D>("Texture/Tile/BombTile/bombtime_" + _timerValue);
+            //Sprite sp = Sprite.Create(tex, _timeBoard.sprite.textureRect, new Vector2(0.5f, 0.5f));
+            //var obj = Resources.LoadAll("Texture/Tile/BombTile/bombtime_" + _timerValue);
+            var sps = Resources.LoadAll<Sprite>("Texture/Tile/BombTile/bombtime");
+            try
+            {
+                var name = "bombtime_" + _timerValue;
+                foreach (var sp in sps)
+                {
+                    Debug.Log(sp.name);
+                    if (sp.name == name)
+                    {
+                        Debug.Log(_timeBoard.sprite);
+                        _timeBoard.sprite = GameObject.Instantiate(sp) as Sprite;
+                        break;
+                    }
+                }
+                //Sprite sp = GameObject.Instantiate(obj) as Sprite;
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        public override void UpdateSortingOrder()
+        {
+            //add by wwh
+            if (_timeBoard != null)
+            {
+                var kid = _object.transform.GetChild(0);
+                var sr = kid.GetComponent<SpriteRenderer>();
+                _timeBoard.sortingOrder = sr.sortingOrder + 1;
+            }
         }
 
         protected override int TileSize
