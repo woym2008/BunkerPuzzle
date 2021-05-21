@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1738724848607019197}
   - component: {fileID: 2979454813248801831}
   m_Layer: 0
-  m_Name: scree
+  m_Name: lock_cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4ede200db51cf9e4da567b8beb9d5d74, type: 3}
+  m_Sprite: {fileID: -6454145518866517991, guid: 9ad29d47c1daded428da6dc76e813129,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,7 +94,7 @@ Animator:
   m_GameObject: {fileID: 1753096987070897541}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e130b4beb7e41cc449ff0cb573e9011c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 089a190f308db9843ae420aa58503d35, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
