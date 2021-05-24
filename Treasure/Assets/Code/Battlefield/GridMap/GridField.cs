@@ -191,6 +191,127 @@ namespace Bunker.Game
             ;
         }
         //---------------------------------------------------------------------
+
+        public void GetAroundGrids(int column_value, int row_value, out BaseTile[] datas)
+        {
+            var centerTile = GetTile(column_value, row_value);
+
+            if (centerTile == null)
+            {
+                datas = null;
+                return;
+            }
+
+            List<BaseTile> selects = new List<BaseTile>();
+            var up = GetTile(column_value, row_value - 1);
+            var down = GetTile(column_value, row_value + 1);
+            var left = GetTile(column_value - 1, row_value);
+            var right = GetTile(column_value + 1, row_value);
+            if (up != null)
+            {
+                selects.Add(up);
+            }
+            if (down != null)
+            {
+                selects.Add(down);
+            }
+            if (left != null)
+            {
+                selects.Add(left);
+            }
+            if (right != null)
+            {
+                selects.Add(right);
+            }
+            datas = selects.ToArray();
+        }
+
+        public bool GetVerticalLine(int number, out BaseTile[] datas)
+        {
+            if (number >= colStartGrids.Length || number < 0)
+            {
+                datas = null;
+                return false;
+            }
+
+            var firstnode = colStartGrids[number];
+            var curnode = firstnode;
+            List<BaseTile> gs = new List<BaseTile>();
+            if (firstnode != null)
+            {
+                if (firstnode.AttachTile != null)
+                {
+                    gs.Add(firstnode.AttachTile);
+                }
+
+                curnode = firstnode.Down;
+                while (curnode != firstnode)
+                {
+                    if (curnode.AttachTile != null)
+                    {
+                        gs.Add(curnode.AttachTile);
+                    }
+                    curnode = curnode.Down;
+                }
+            }
+            datas = gs.ToArray();
+
+            return true;
+        }
+
+        public bool GetHorizontalLine(int number, out BaseTile[] datas)
+        {
+            if (number >= rowStartGrids.Length || number < 0)
+            {
+                datas = null;
+                return false;
+            }
+
+            var firstnode = rowStartGrids[number];
+            var curnode = firstnode;
+            List<BaseTile> gs = new List<BaseTile>();
+            if (firstnode != null)
+            {
+                if (firstnode.AttachTile != null)
+                {
+                    gs.Add(firstnode.AttachTile);
+                }
+
+                curnode = firstnode.Right;
+                while (curnode != firstnode)
+                {
+                    if (curnode.AttachTile != null)
+                    {
+                        gs.Add(curnode.AttachTile);
+                    }
+                    curnode = curnode.Right;
+                }
+            }
+            datas = gs.ToArray();
+
+            return true;
+        }
+
+        public Grid GetHorizontalStartGrid(int col)
+        {
+            if (colStartGrids != null && col < colStartGrids.Length && col >= 0)
+            {
+                return colStartGrids[col];
+            }
+
+            return null;
+        }
+
+        public Grid GetVerticalLineStartGrid(int row)
+        {
+            if (rowStartGrids != null && row < rowStartGrids.Length && row >= 0)
+            {
+                return rowStartGrids[row];
+            }
+
+            return null;
+        }
+        //---------------------------------------------------------------------
         //add by wwh / Oh no!Just Test!
         public Grid GetGrid(Vector3 pos)
         {

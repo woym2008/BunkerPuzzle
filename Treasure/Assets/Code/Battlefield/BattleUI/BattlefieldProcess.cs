@@ -168,7 +168,6 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattleTurnsModule>();
             ModuleManager.getInstance.StartModule<ShopUIModule>();
 
-
             //masktile管理
             ModuleManager.getInstance.StartModule<MaskTileModule>();
 
@@ -176,8 +175,6 @@ namespace Bunker.Game
             ModuleManager.getInstance.StartModule<BattlefieldModule>();
             ModuleManager.getInstance.StartModule<RobotManagerModule>();
             ModuleManager.getInstance.StartModule<StarredModule>();
-
-
 
             _battleUIModule = ModuleManager.getInstance.GetModule<BattleUIModule>();
             _battleInputModule = ModuleManager.getInstance.GetModule<BattlefieldInputModule>();

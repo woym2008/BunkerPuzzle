@@ -15,6 +15,9 @@ namespace Bunker.Game
 
         SpriteRenderer _timeBoard;
 
+        string bombEffectStr = "ExplosionEffect";
+
+        float counttime = 0.35f;
         protected override void OnLoadRes()
         {
             base.OnLoadRes();
@@ -164,6 +167,9 @@ namespace Bunker.Game
             isBroken = true;
 
             var collettiles = CollectBombTile();
+
+            var currentpos = this.GetSelfWorldPos();
+            var sortorder = this.GetSortingOrder();
             //1 消失
             var bcm = ModuleManager.getInstance.GetModule<BattleControllerModule>();
 
@@ -172,6 +178,9 @@ namespace Bunker.Game
 
             //2 爆炸
             //VFXManager.getInstance.VFX_RedSPR(GetSelfWorldPos(), dest);
+            var effect = ModuleManager.getInstance.GetModule<EffectModule>().CreateEffect(bombEffectStr, currentpos, Quaternion.identity);
+            effect.SetAutoRelease(counttime);
+            effect.renderer.sortingOrder = sortorder + 10;
         }
 
         void AddToList(Bunker.Game.Grid g, ref List<BaseTile> tiles)

@@ -60,6 +60,10 @@ namespace Bunker.Game
             base.OnStart();
 
             _field = new GridField();
+
+            var battlecontroller = ModuleManager.getInstance.GetModule<BattleControllerModule>();
+            battlecontroller.Field = _field;
+
             var areastr = string.Format("Area_{0}",_areaIndex);
             var levelstr = string.Format("Level_{0}", _curLevel);
 
@@ -71,8 +75,6 @@ namespace Bunker.Game
             //_field.Load(areastr, levelstr);
             //_field.OnElimination = OnElimination;
 
-            var battlecontroller = ModuleManager.getInstance.GetModule<BattleControllerModule>();
-            battlecontroller.Field = _field;
         }
 
         public override void OnStop()

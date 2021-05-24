@@ -91,10 +91,15 @@ namespace Bunker.Game
             var prefab = Resources.Load("Prefabs/Tiles/" + _name) as GameObject;
             _object = GameObject.Instantiate(prefab);
         }
-
+        //初始化块，当块被生成的一刹那
         public virtual void Init(string additionalData)
         {
             
+        }
+        //初始化快，当所有的块都已经生成了，初始化块
+        public virtual void OnStart()
+        {
+
         }
 
         public virtual void UpdateSortingOrder()

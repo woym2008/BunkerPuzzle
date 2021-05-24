@@ -85,7 +85,7 @@ namespace Bunker.Game
             {
                 case MoveDirect.Left:
                     {
-                        GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        _gridfield.GetHorizontalLine(gridy, out BaseTile[] tiles);
                         if(!CheckMove(tiles, dir))
                         {
                             _isMoving = false;
@@ -96,7 +96,7 @@ namespace Bunker.Game
                     break;
                 case MoveDirect.Right:
                     {
-                        GetHorizontalLine(gridy, out BaseTile[] tiles);
+                        _gridfield.GetHorizontalLine(gridy, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
                             _isMoving = false;
@@ -107,7 +107,7 @@ namespace Bunker.Game
                     break;
                 case MoveDirect.Up:
                     {
-                        GetVerticalLine(gridx, out BaseTile[] tiles);
+                        _gridfield.GetVerticalLine(gridx, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
                             _isMoving = false;
@@ -118,7 +118,7 @@ namespace Bunker.Game
                     break;
                 case MoveDirect.Down:
                     {
-                        GetVerticalLine(gridx, out BaseTile[] tiles);
+                        _gridfield.GetVerticalLine(gridx, out BaseTile[] tiles);
                         if (!CheckMove(tiles, dir))
                         {
                             _isMoving = false;
@@ -309,125 +309,125 @@ namespace Bunker.Game
         //    }
         //}
 
-        private void GetAroundGrids(int column_value, int row_value, out BaseTile[] datas)
-        {
-            var centerTile = _gridfield.GetTile(column_value, row_value);
+        //private void GetAroundGrids(int column_value, int row_value, out BaseTile[] datas)
+        //{
+        //    var centerTile = _gridfield.GetTile(column_value, row_value);
 
-            if(centerTile == null)
-            {
-                datas = null;
-                return;
-            }
+        //    if(centerTile == null)
+        //    {
+        //        datas = null;
+        //        return;
+        //    }
 
-            List<BaseTile> selects = new List<BaseTile>();
-            var up = _gridfield.GetTile(column_value, row_value - 1);
-            var down = _gridfield.GetTile(column_value, row_value + 1);
-            var left = _gridfield.GetTile(column_value - 1, row_value);
-            var right = _gridfield.GetTile(column_value + 1, row_value);
-            if (up != null)
-            {
-                selects.Add(up);
-            }
-            if (down != null)
-            {
-                selects.Add(down);
-            }
-            if (left != null)
-            {
-                selects.Add(left);
-            }
-            if (right != null)
-            {
-                selects.Add(right);
-            }
-            datas = selects.ToArray();
-        }
+        //    List<BaseTile> selects = new List<BaseTile>();
+        //    var up = _gridfield.GetTile(column_value, row_value - 1);
+        //    var down = _gridfield.GetTile(column_value, row_value + 1);
+        //    var left = _gridfield.GetTile(column_value - 1, row_value);
+        //    var right = _gridfield.GetTile(column_value + 1, row_value);
+        //    if (up != null)
+        //    {
+        //        selects.Add(up);
+        //    }
+        //    if (down != null)
+        //    {
+        //        selects.Add(down);
+        //    }
+        //    if (left != null)
+        //    {
+        //        selects.Add(left);
+        //    }
+        //    if (right != null)
+        //    {
+        //        selects.Add(right);
+        //    }
+        //    datas = selects.ToArray();
+        //}
 
-        private bool GetVerticalLine(int number, out BaseTile[] datas)
-        {
-            if (number >= _gridfield.colStartGrids.Length || number < 0)
-            {
-                datas = null;
-                return false;
-            }
+        //private bool GetVerticalLine(int number, out BaseTile[] datas)
+        //{
+        //    if (number >= _gridfield.colStartGrids.Length || number < 0)
+        //    {
+        //        datas = null;
+        //        return false;
+        //    }
 
-            var firstnode = _gridfield.colStartGrids[number];
-            var curnode = firstnode;
-            List<BaseTile> gs = new List<BaseTile>();
-            if(firstnode != null)
-            {
-                if(firstnode.AttachTile != null)
-                {
-                    gs.Add(firstnode.AttachTile);
-                }                
+        //    var firstnode = _gridfield.colStartGrids[number];
+        //    var curnode = firstnode;
+        //    List<BaseTile> gs = new List<BaseTile>();
+        //    if(firstnode != null)
+        //    {
+        //        if(firstnode.AttachTile != null)
+        //        {
+        //            gs.Add(firstnode.AttachTile);
+        //        }                
 
-                curnode = firstnode.Down;
-                while(curnode != firstnode)
-                {
-                    if (curnode.AttachTile != null)
-                    {
-                        gs.Add(curnode.AttachTile);
-                    }
-                    curnode = curnode.Down;
-                }
-            }
-            datas = gs.ToArray();
+        //        curnode = firstnode.Down;
+        //        while(curnode != firstnode)
+        //        {
+        //            if (curnode.AttachTile != null)
+        //            {
+        //                gs.Add(curnode.AttachTile);
+        //            }
+        //            curnode = curnode.Down;
+        //        }
+        //    }
+        //    datas = gs.ToArray();
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        private bool GetHorizontalLine(int number, out BaseTile[] datas)
-        {
-            if (number >= _gridfield.rowStartGrids.Length || number < 0)
-            {
-                datas = null;
-                return false;
-            }
+        //private bool GetHorizontalLine(int number, out BaseTile[] datas)
+        //{
+        //    if (number >= _gridfield.rowStartGrids.Length || number < 0)
+        //    {
+        //        datas = null;
+        //        return false;
+        //    }
 
-            var firstnode = _gridfield.rowStartGrids[number];
-            var curnode = firstnode;
-            List<BaseTile> gs = new List<BaseTile>();
-            if (firstnode != null)
-            {
-                if (firstnode.AttachTile != null)
-                {
-                    gs.Add(firstnode.AttachTile);
-                }
+        //    var firstnode = _gridfield.rowStartGrids[number];
+        //    var curnode = firstnode;
+        //    List<BaseTile> gs = new List<BaseTile>();
+        //    if (firstnode != null)
+        //    {
+        //        if (firstnode.AttachTile != null)
+        //        {
+        //            gs.Add(firstnode.AttachTile);
+        //        }
 
-                curnode = firstnode.Right;
-                while (curnode != firstnode)
-                {
-                    if (curnode.AttachTile != null)
-                    {
-                        gs.Add(curnode.AttachTile);
-                    }
-                    curnode = curnode.Right;
-                }
-            }
-            datas = gs.ToArray();
+        //        curnode = firstnode.Right;
+        //        while (curnode != firstnode)
+        //        {
+        //            if (curnode.AttachTile != null)
+        //            {
+        //                gs.Add(curnode.AttachTile);
+        //            }
+        //            curnode = curnode.Right;
+        //        }
+        //    }
+        //    datas = gs.ToArray();
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        private Grid GetHorizontalStartGrid(int col)
-        {
-            if(_gridfield.colStartGrids != null && col < _gridfield.colStartGrids.Length && col >= 0)
-            {
-                return _gridfield.colStartGrids[col];
-            }
+        //private Grid GetHorizontalStartGrid(int col)
+        //{
+        //    if(_gridfield.colStartGrids != null && col < _gridfield.colStartGrids.Length && col >= 0)
+        //    {
+        //        return _gridfield.colStartGrids[col];
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        private Grid GetVerticalLineStartGrid(int row)
-        {
-            if (_gridfield.rowStartGrids != null && row < _gridfield.rowStartGrids.Length && row >= 0)
-            {
-                return _gridfield.rowStartGrids[row];
-            }
+        //private Grid GetVerticalLineStartGrid(int row)
+        //{
+        //    if (_gridfield.rowStartGrids != null && row < _gridfield.rowStartGrids.Length && row >= 0)
+        //    {
+        //        return _gridfield.rowStartGrids[row];
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
         //-------------------------------------------------------------------------------------
         public void EliminationUpdate()
         {

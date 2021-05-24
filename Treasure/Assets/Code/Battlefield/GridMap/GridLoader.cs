@@ -176,6 +176,17 @@ namespace Bunker.Game
                 }
             }
 
+            for (int i = 0; i < map.row; ++i)
+            {
+                for (int j = 0; j < map.column; ++j)
+                {
+                    if(grids[j, i] != null && grids[j, i].AttachTile != null)
+                    {
+                        grids[j, i].AttachTile.OnStart();
+                    }
+                }
+            }
+
             //create mask
             //var mask = GameObject.Instantiate( Resources.Load("Prefabs/Tiles/TileMask")) as GameObject;
             //if(mask != null)
