@@ -103,12 +103,12 @@ public class MapTileIconManager
                     break;
                 case "ScreeTile":
                     {
-                        texname = "bomb_cube.png";
+                        texname = "bomb_screen.png";
                     }
                     break;
                 case "LockTile":
                     {
-                        texname = "bomb_cube.png";
+                        texname = "lock_cube.png";
                     }
                     break;
             }
