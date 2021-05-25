@@ -37,6 +37,7 @@ public class Entrance : MonoBehaviour
         ModuleManager.getInstance.CreateModule<BattleControllerModule>();
         ModuleManager.getInstance.CreateModule<StarredModule>();//add by wwh 2021-5-13
 
+        ModuleManager.getInstance.CreateModule<EffectModule>();
 
         TableModule.getInstance.Start();
         VFXManager.getInstance.Init();
