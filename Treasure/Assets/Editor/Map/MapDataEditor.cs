@@ -43,6 +43,8 @@ public class MapDataEditor : Editor
 
     List<int> _tempList = new List<int>();
     int currentSelectID = 0;
+
+    bool ischange = false;
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -50,7 +52,7 @@ public class MapDataEditor : Editor
 
         EditorGUILayout.Space();
 
-        bool ischange = false;
+        //ischange = false;
         //addmaptile = EditorGUILayout.Toggle("AddMapTile",addmaptile);
         //if(addmaptile)
         {
@@ -87,7 +89,6 @@ public class MapDataEditor : Editor
             showFoldout = EditorGUILayout.Foldout(showFoldout, "地图块阵列");
             if (showFoldout)
             {
-
                 _tempList.Clear();
                 for (int i = 0; i < Constant.Tiles.Length; ++i)
                 {
@@ -144,8 +145,16 @@ public class MapDataEditor : Editor
                             if (newaddselectdata != "" && newselectdata == currentoridata)
                             {
                                 var olddatas = newaddselectdata.Split(';');
-                                istimebomb = bool.Parse(olddatas[0]);
-                                timebombvalue = int.Parse(olddatas[1]);                                
+                                if (bool.TryParse(olddatas[0], out istimebomb))
+                                {
+                                    timebombvalue = int.Parse(olddatas[1]);
+                                }
+                                else
+                                {
+                                    istimebomb = false;
+                                    timebombvalue = 0;
+                                }
+                              
                             }
                             EditorGUILayout.LabelField("是否为定时", GUILayout.Width(72));
                             istimebomb = EditorGUILayout.Toggle(istimebomb, GUILayout.Width(32));
@@ -174,6 +183,30 @@ public class MapDataEditor : Editor
                             var hidetiledata = EditorGUILayout.IntPopup(oldindex, Constant.Tiles, tilescountarray, GUILayout.Width(128));
 
                             string datastr = string.Format("{0}", Constant.Tiles[hidetiledata]);
+                            newaddselectdata = datastr;
+
+                            break;
+                        }
+                    case "LaserTile":
+                        {
+                            string[] direct = { "up", "down", "left", "right", "all" };
+                            int[] directid = { 0, 1, 2, 3, 4 };
+
+                            int oldindex = 0;
+                            if (newaddselectdata != "")
+                            {
+                                for (int i = 0; i < direct.Length; ++i)
+                                {
+                                    if (newaddselectdata == direct[i])
+                                    {
+                                        oldindex = i;
+                                    }
+                                }
+                            }
+
+                            var directdata = EditorGUILayout.IntPopup(oldindex, direct, directid, GUILayout.Width(128));
+
+                            string datastr = string.Format("{0}", direct[directdata]);
                             newaddselectdata = datastr;
 
                             break;
@@ -228,6 +261,10 @@ public class MapDataEditor : Editor
 
             clickMouse = true;
         }
+        //else if(Event.current.type == EventType.ContextClick)
+        //{
+            
+        //}
 
         for (int i = 0; i < mapdata.row; ++i)
         {
@@ -237,42 +274,48 @@ public class MapDataEditor : Editor
 
                 PreviewMapRect.x = r.x + j * 20;
                 PreviewMapRect.y = r.y + i * 20;
-
-                if(clickMouse && PreviewMapRect.Contains(mouseClickPos))
+                
+                //鼠标
+                if (clickMouse)
                 {
-                    if (Event.current.button == 0) index++; else index--;   //鼠标右键反向
-                    if (Event.current.button == 2) index = 0;   //鼠标中键使其归0
-
-                    if (index >= tileColorDye.Length)
+                    if (PreviewMapRect.Contains(mouseClickPos))
                     {
-                        index = 0;
-                    }
-                    if(index < 0)
-                    {
-                        index = tileColorDye.Length - 1;
-                    }
+                        //左键 选择tile
+                        if (Event.current.button == 0)
+                        {
+                            currentSelectID = i * mapdata.column + j;
+                            ischange = true;
+                        }
+                        //右键 呼叫菜单 改变tile
+                        else if (Event.current.button == 1)
+                        {
+                            currentSelectID = i * mapdata.column + j;
+                            //--------------------------------------------------------
+                            GenericMenu menu = new GenericMenu();
 
-                    ischange = true;
-                    mapdata.data[i * mapdata.column + j] = index;
-                    currentSelectID = i * mapdata.column + j;
-                }
+                            foreach (var tile in Constant.Tiles)
+                            {
+                                menu.AddItem(new GUIContent(tile), false, OnChangeTile, tile);
+                            }
 
+                            menu.ShowAsContext();
+                            Event.current.Use();
+                        }
+                    }
+                }                
+
+                //渲染
                 var iconIndex = Constant.Tiles[index];
-                if(MapTileIconManager.getInstance.textures.ContainsKey(iconIndex))
+                if (MapTileIconManager.getInstance.textures.ContainsKey(iconIndex))
                 {
                     var tex = MapTileIconManager.getInstance.textures[iconIndex];
-                    if(tex != null)
+                    if (tex != null)
                         EditorGUI.DrawTextureTransparent(PreviewMapRect, tex);
-
                 }
-                //var tex = MapTileIconManager.getInstance.textures[iconIndex];
-                //EditorGUI.DrawRect(PreviewMapRect, tileColorDye[index]);
-
-                //Debug.Log(PreviewMapRect);
-
 
             }
         }
+
         GUILayout.Space(20);
         
         EditorGUILayout.BeginHorizontal();
@@ -311,9 +354,28 @@ public class MapDataEditor : Editor
         if (ischange)
         {
             EditorUtility.SetDirty(this.target);
+            ischange = false;
         }
 
         serializedObject.ApplyModifiedProperties();
 
+    }
+
+    void OnChangeTile(object tiletype)
+    {
+        Debug.Log(tiletype);
+
+        ischange = true;
+
+        var tilestr = tiletype.ToString();
+
+        for (int i=0; i<Constant.Tiles.Length; ++i)
+        {
+            if(tilestr == Constant.Tiles[i])
+            {
+                mapdata.data[currentSelectID] = i;
+            }
+        }
+        
     }
 }

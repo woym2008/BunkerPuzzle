@@ -752,7 +752,13 @@ namespace Bunker.Game
 
             return null;
         }
+        //---------------------------------------------------------------------
+        public Vector3 GetWorldPos(int gridx, int gridy)
+        {
+            var targetpos = ZeroPos + new Vector3(gridx * Constant.TileSize.x, -gridy * Constant.TileSize.y, 0);
 
+            return targetpos;
+        }
         //---------------------------------------------------------------------
 
         public enum CheckEliminationType

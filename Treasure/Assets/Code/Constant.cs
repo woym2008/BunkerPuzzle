@@ -23,7 +23,8 @@ public static class Constant
         "DiskTile",
         "BombTile",
         "ScreeTile",
-        "LockTile"
+        "LockTile",
+        "LaserTile"
 
 
     };

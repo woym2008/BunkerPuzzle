@@ -111,6 +111,11 @@ public class MapTileIconManager
                         texname = "lock_cube.png";
                     }
                     break;
+                case "LaserTile":
+                    {
+                        texname = "laser_cube.png";
+                    }
+                    break;
             }
             var texture = AssetDatabase.LoadAssetAtPath<Texture>(baseTexPath + texname);
 
