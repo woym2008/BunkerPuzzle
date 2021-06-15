@@ -124,6 +124,8 @@ namespace Bunker.Game
             {
                 battleInputModule.Rest();
             }
+            var battleModule = ModuleManager.getInstance.GetModule<BattlefieldModule>();
+            battleModule._field.ClearLevel();
 
             ProcessManager.getInstance.Switch<BattlefieldProcess>(LevelManager.getInstance.CurLevel, LevelManager.getInstance.CurArea);
 

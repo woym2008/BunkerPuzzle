@@ -122,15 +122,29 @@ namespace Bunker.Game
             return ret;
         }
 
+        public void ClearLevel()
+        {
+            if (gridArray != null)
+            {
+                for (var i = 0; i < gridArray.GetLength(0); ++i)
+                {
+                    for (var j = 0; j < gridArray.GetLength(0); ++j)
+                    {
+                        if (gridArray[i, j] != null)
+                            gridArray[i, j].AttachTile?.Delete();
+                    }
+                }
+            }
+        }
         public void RestartLevel()
         {
             if(_currectLevel != null && _currectArea != null)
             {
-                if(rowStartGrids != null)
+                for(var i = 0; i< gridArray.GetLength(0); ++i)
                 {
-                    for(int i = 0; i < rowStartGrids.Length; ++i)
+                    for (var j = 0; j < gridArray.GetLength(0); ++j)
                     {
-                        rowStartGrids[i].AttachTile?.Delete();
+                        gridArray[i, j].AttachTile?.Delete();
                     }
                 }
 

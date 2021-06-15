@@ -5,11 +5,19 @@ using Bunker.Module;
 using Bunker.Process;
 using UnityEngine;
 
+public class GameDebug
+{
+    public static bool EnableDebug = false;
+}
+
 public class Entrance : MonoBehaviour
 {
+    public bool debugcontroller = false;
     // Start is called before the first frame update
     void Start()
     {
+        GameDebug.EnableDebug = debugcontroller;
+
         Init();
     }
 

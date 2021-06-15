@@ -65,6 +65,12 @@ namespace Bunker.Game
             _maskModule = ModuleManager.getInstance.GetModule<MaskTileModule>();
 
             UpdateSortingOrder();
+
+            if(GameDebug.EnableDebug)
+            {
+                var tgdc = _object.AddComponent<TileGridDebugController>();
+                tgdc.GridNumber = new Vector2Int(ParentGrid.ColID, ParentGrid.RowID);
+            }
         }
 
         public Vector3 GetSelfWorldPos()

@@ -4,14 +4,15 @@ using Bunker.Game;
 using Bunker.Module;
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 
 public class LaserEmitter : MonoBehaviour
 {
     //基本数据
-    const float LazerSpeed = 1000f;
+    const float LazerSpeed = 100f;
     const float Bias = .5f;
     //释放lazer
-    const float maxlength = 1000;
+    const float maxlength = 10;
     //------------------------------------------
     Bunker.Game.Grid _destGrid;
     //------------------------------------------
@@ -21,7 +22,7 @@ public class LaserEmitter : MonoBehaviour
     public Action<float> OnUpdate;
     public Action OnFinish;
 
-    Type[] blockTileTypes;
+    List<Type> blockTileTypes;
     //------------------------------------------
     public SpriteRenderer _laserSprite;
     //------------------------------------------
@@ -35,10 +36,18 @@ public class LaserEmitter : MonoBehaviour
             _laserSprite = this.gameObject.GetComponent<SpriteRenderer>();
         }
 
-        blockTileTypes = new Type[1];
-        blockTileTypes[0] = typeof(BlockTile);
+       //blockTileTypes = new Type[1];
+        //blockTileTypes[0] = typeof(BlockTile);
 
         _laserSprite.sortingOrder = 100;
+    }
+    public void AddBlockTileType(Type type)
+    {
+        if(blockTileTypes == null)
+        {
+            blockTileTypes = new List<Type>();
+        }
+        blockTileTypes.Add(type);
     }
     public void Emit(Vector3 strartpos, Bunker.Game.Grid destGrid, Vector2Int dir)
     {
@@ -51,22 +60,9 @@ public class LaserEmitter : MonoBehaviour
 
             var grid = destGrid;
 
-            if(dir.y == 1)
-            {
-                _laserSprite.transform.localEulerAngles = new Vector3(0,0,0);
-            }
-            else
-            {
-
-            }
-
-            Vector3 endpos = strartpos + maxlength * new Vector3(0, 1);
             _destGrid = null;
             while (grid != null)
             {
-                gridY += dir.y;
-
-                grid = _bfm.Field.GetGrid(gridX, gridY);
                 if(grid != null && grid.AttachTile != null)
                 {
                     var tile = grid.AttachTile;
@@ -79,6 +75,10 @@ public class LaserEmitter : MonoBehaviour
 
                         break;
                     }
+
+                    gridY += dir.y;
+
+                    grid = _bfm.Field.GetGrid(gridX, gridY);
                 }
             }
         }
@@ -89,36 +89,64 @@ public class LaserEmitter : MonoBehaviour
 
             var grid = destGrid;
 
-            Vector3 endpos = strartpos + maxlength * new Vector3((float)dir.x, (float)dir.y);
             _destGrid = null;
             while (grid != null)
             {
-                gridX += dir.x;
-
-                grid = _bfm.Field.GetGrid(gridX, gridY);
                 if (grid != null && grid.AttachTile != null)
                 {
                     var tile = grid.AttachTile;
 
                     if (CanBlockLazer(tile))
                     {
-                        endpos = tile.Node.transform.position;
-                        dist = Mathf.Abs(endpos.x -
+                        dist = Mathf.Abs(tile.Node.transform.position.x -
                         strartpos.x) + Bias;
                         _destGrid = grid;
 
                         break;
                     }
                 }
+                gridX += dir.x;
+
+                grid = _bfm.Field.GetGrid(gridX, gridY);
             }
         }
         var dist_time = dist / LazerSpeed;
-
+        Debug.Log("dist_time: " + dist_time);
         Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(DOTween.To(CB_Lazer_HeightUpdate, 1.5f, dist, dist_time))
-            .AppendInterval(.5f).AppendCallback(CB_Lazer_Shoot_Finish);
+        mySequence.Append(DOTween.To(CB_GetHeightUpdate, CB_Lazer_HeightUpdate, dist, dist_time))
+           .AppendInterval(.5f).AppendCallback(CB_Lazer_Shoot_Finish);
+
+        //DOTween.To(CB_GetHeightUpdate, CB_Lazer_HeightUpdate, dist, dist_time);
+
+        //StartCoroutine(StepDist(CB_Lazer_HeightUpdate, 0, dist, dist_time, CB_Lazer_Shoot_Finish));
     }
 
+    IEnumerator StepDist(Action<float> heightupdate, float startheight,float dist, float time, Action onfinish)
+    {
+        yield return 0;
+        float currentdist = startheight;
+
+        float dt_dist = dist / time;
+
+        while (currentdist < dist)
+        {
+            currentdist += dt_dist;
+
+            heightupdate.Invoke(currentdist);
+
+            Debug.LogWarning(currentdist + "/" + dist);
+
+            yield return 0;
+        }
+
+        heightupdate.Invoke(dist);
+
+        onfinish.Invoke();
+    }
+    private void Update()
+    {
+
+    }
 
     public void Emit(Bunker.Game.Grid startGrid, Bunker.Game.Grid destGrid)
     {
@@ -155,15 +183,21 @@ public class LaserEmitter : MonoBehaviour
 
     }
     //--------------------------------------------------------------------------
+    public float CB_GetHeightUpdate()
+    {
+        return _laserSprite.size.y; 
+    }
     public void CB_Lazer_HeightUpdate(float h)
     {
+        Debug.LogWarning("CB_Lazer_HeightUpdate: " + h);
+
         _laserSprite.size = new Vector2(1, h);
 
-        OnUpdate.Invoke(h);
+        OnUpdate?.Invoke(h);
     }
     public void CB_Lazer_Shoot_Finish()
     {
-        OnFinish.Invoke();
+        OnFinish?.Invoke();
 
         if(_destGrid == null)
         {
